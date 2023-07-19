@@ -28,7 +28,7 @@ class CuidadoresAPI{
   String cell, cpf, genero,
   String especializacao,
   String tempoEsper) async {
-    var res = await SqlConn.writeData("");
+    var res = await SqlConn.writeData("insert Cuidador values('$nome','$email','$datanasce','$cell','$cpf','$genero','$senha','$especializacao',''$tempoEsper)");
   }
 
   int atualizarCadCuidador(){
