@@ -28,11 +28,11 @@ class CuidadoresAPI{
   String cell, cpf, genero,
   String especializacao,
   String tempoEsper) async {
-    var res = await SqlConn.writeData("insert Cuidador values('$nome','$email','$datanasce','$cell','$cpf','$genero','$senha','$especializacao',''$tempoEsper)");
+    var res = await SqlConn.writeData("exec usp_cadCuidador '$nome','$email','$datanasce','$cell','$cpf','$genero','$senha','$especializacao','$tempoEsper'");
   }
 
-  int atualizarCadCuidador(){
-
+  Future<int> atualizarCadCuidador() async {
+    var res = await SqlConn.writeData();
   }
 
   int deletarCadCuidador(){
