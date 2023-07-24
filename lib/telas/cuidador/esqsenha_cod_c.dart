@@ -3,14 +3,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/repetidos/background.dart';
 
-class EsqueciSenhaEmail2 extends StatefulWidget {
-  const EsqueciSenhaEmail2({super.key});
+class EsqSenhaCodRecC extends StatefulWidget {
+  const EsqSenhaCodRecC({super.key});
 
   @override
-  State<EsqueciSenhaEmail2> createState() => _EsqueciSenhaEmail2State();
+  State<EsqSenhaCodRecC> createState() => _EsqSenhaCodRecCState();
 }
 
-class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
+class _EsqSenhaCodRecCState extends State<EsqSenhaCodRecC> {
   String email = "";
 
   @override
@@ -27,7 +27,7 @@ class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Esqueci Minha',
+                    'Código de',
                     style: TextStyle(
                         color: const Color.fromRGBO(219, 114, 38, 1),
                         decoration: TextDecoration.none,
@@ -35,7 +35,7 @@ class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
                         fontSize: MediaQuery.of(context).size.height * 0.04),
                   ),
                   Text(
-                    'Senha',
+                    'Recuperação',
                     style: TextStyle(
                         color: const Color.fromRGBO(219, 114, 38, 1),
                         decoration: TextDecoration.none,
@@ -69,7 +69,7 @@ class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.height * 0.03)),
                   const Text(
-                    'Digite o e-mail cadastrado para que\n possamos enviar as informações\n necessárias para recuperar sua conta.',
+                    'Mandamos um código de segurança para\n o email inserido anteriormente.\n Verifique-o e insira o código na caixa de texto\n abaixo, para que possamos confirmar\n sua identidade!',
                     textAlign: TextAlign.center,
                   ),
                   Padding(
@@ -83,11 +83,27 @@ class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
                           onChanged: (Text) {
                             Text = email;
                           },
+                          keyboardType: TextInputType.number,
                           autocorrect: false,
                           decoration: const InputDecoration(
-                              hintText: 'ememplo@gmail.com',
+                              hintText: '127654',
                               border: OutlineInputBorder())),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pushReplacementNamed('/esqsenha_email_c'),
+                        child: Text(
+                          'Reenviar código',
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.13)),
+                    ],
                   ),
                   Padding(
                       padding: EdgeInsets.all(
@@ -107,7 +123,7 @@ class _EsqueciSenhaEmail2State extends State<EsqueciSenhaEmail2> {
                               side: const BorderSide(
                                   color: Color.fromRGBO(219, 114, 38, 1)))),
                       child: const Text(
-                        'Enviar',
+                        'Confirmar',
                         style: TextStyle(
                             fontSize: 19, color: Color.fromRGBO(219, 114, 38, 1)),
                       ),
