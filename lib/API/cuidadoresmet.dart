@@ -14,8 +14,8 @@ class CuidadoresAPI{
   static const String tempoEsperB = "tempo_exper";
 
 
-  Future<Map> buscarCuidadores(String nome, String tipopet) async {
-    var res = await SqlConn.readData("exec usp_buscaCuidador '$nome','%$tipopet%'");
+  Future<Map> buscarCuidadores(String nome, String tipopet, String tiposerv) async {
+    var res = await SqlConn.readData("exec usp_buscaCuidador '$tiposerv', '$nome','%$tipopet%'");
     return res;
   }
 

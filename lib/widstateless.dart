@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/telas/cuidador/alterarsenha_c.dart';
 import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
+import 'package:prjpetcare/telas/cuidador/esqsenha_cod_c.dart';
 import 'package:prjpetcare/telas/cuidador/login_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
+import 'package:prjpetcare/telas/tutor/esqsenha_cod_t.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_email_t.dart';
 import 'package:prjpetcare/telas/tutor/alterarsenha_t.dart';
 import 'package:prjpetcare/telas/cuidador/esqsenha_email_c.dart';
@@ -19,7 +21,7 @@ class WidStateless extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/alterarsenha_c',
+      initialRoute: '/codseguranca_c',
       routes: {
       '/inicio': (context) => const WidInicio(),
       '/entrarcuidador': (context) => const WidEntrarCuidador(),
@@ -32,6 +34,8 @@ class WidStateless extends StatelessWidget{
       '/esqsenha_email_c':(context) => const EsqueciSenhaEmail2(),
       '/alterarsenha_t':(context) => const EsqueceuSenha_Alterar(),
       '/alterarsenha_c':(context) => const EsqueceuSenhaY_Alterar(),
+      '/codseguranca_c':(context) => const EsqSenhaCodRecC(),
+      '/codseguranca_t':(context) => const EsqSenhaCodRecT(),
     }
     );
     
