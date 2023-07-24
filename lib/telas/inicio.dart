@@ -15,7 +15,7 @@ class WidInicioState extends State<WidInicio> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDataBase();
+    //getDataBase();
   }
   Widget _botaoEntrar() {
     return SizedBox(

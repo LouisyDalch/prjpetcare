@@ -2,7 +2,7 @@ import 'package:sql_conn/sql_conn.dart';
 
 class TutorAPI{
 
-  Future<Map> loginTutores (String usuario, String senha) async {
+  Future<int> loginTutores (String usuario, String senha) async {
     var res = await SqlConn.readData("exec usp_loginTutores '$usuario','$senha'");
     return res;
   }

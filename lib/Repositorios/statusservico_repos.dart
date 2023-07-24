@@ -1,0 +1,3 @@
+class Status_ServicoRopository{
+  
+}

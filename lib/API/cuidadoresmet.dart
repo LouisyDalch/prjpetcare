@@ -19,8 +19,8 @@ class CuidadoresAPI{
     return res;
   }
 
-  Future<int> loginCuidadores(String servico, String usuario, String senha) async {
-    var log = await SqlConn.readData("exec usp_loginCuidador '$servico','$usuario','$senha'");
+  Future<int> loginCuidadores(String usuario, String senha) async {
+    var log = await SqlConn.readData("exec usp_loginCuidador '$usuario','$senha'");
     return log;
   }
 

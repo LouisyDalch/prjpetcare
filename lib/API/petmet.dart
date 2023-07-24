@@ -7,12 +7,12 @@ class PetsAPI{
   static const idPet = "id_pet";
 
   Future<Map> trazerMeusPets(int id_dono) async {
-    var res = await SqlConn.readData("select * from Pet where $idDono = $id_dono");
+    var res = await SqlConn.readData("select * from $tblPet where $idDono = $id_dono");
     return res;
   }
 
   Future<Map> trazerPetSelecionado(int id_pet) async {
-    var res = await SqlConn.readData("select * from Pet where $idPet = $id_pet");
+    var res = await SqlConn.readData("select * from $tblPet where $idPet = $id_pet");
     return res;
   }
 
