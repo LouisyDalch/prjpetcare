@@ -9,9 +9,16 @@ class ServicosAPI{
     return res;
   }
 
-  Future<int> cadServicoGeral() async {
-    var res = await SqlConn.readData("");
+  Future<int> novoServ(String dataini, String datafin, int idTutor, int idCuidador) async {
+    var res = await SqlConn.readData("exec usp_novoServ '$dataini','$datafin',$idTutor,$idCuidador");
     return res;
   }
+
+  Future<int> cancelarServ(int idServ) async {
+    var res = await SqlConn.readData("exec usp_cancelarServ $idServ");
+    return res;
+  }
+
+
 
 }
