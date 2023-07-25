@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:prjpetcare/repetidos/background.dart';
-import 'package:prjpetcare/repetidos/design.dart';
+import 'package:prjpetcare/Elementos_design/background.dart';
+import 'package:prjpetcare/Elementos_design/design.dart';
 
 class EsqueceuSenha_Alterar extends StatefulWidget {
   const EsqueceuSenha_Alterar({super.key});

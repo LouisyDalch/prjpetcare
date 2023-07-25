@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../repetidos/background.dart';
+import '../../Elementos_design/background.dart';
 
 class CriarConta extends StatefulWidget {
   const CriarConta({super.key});

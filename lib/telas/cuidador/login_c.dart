@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:prjpetcare/API/cuidadoresmet.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
-import '../../repetidos/background.dart';
+import '../../Elementos_design/background.dart';
 
 class WidEntrarCuidador extends StatefulWidget {
   const WidEntrarCuidador({super.key});
@@ -14,14 +16,21 @@ class WidEntrarCuidador extends StatefulWidget {
 class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
   String emailusu = '';
   String senha = '';
+  CuidadorRepository cuidadorRepository = CuidadorRepository();
 
   Widget _btnEntrar() {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.45,
       height: MediaQuery.of(context).size.height * 0.057,
       child: ElevatedButton(
-        onPressed: () {
-          //programação
+        onPressed: () async {
+          LoginResult result = await cuidadorRepository.loginCuidadores(emailusu, senha);
+          if(result.success) {
+            CuidadorRepository.token = result.token;
+            Navigator.pushNamed(context, "/logadotutor");
+          }else {
+            //mensagem de erro
+          }
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),

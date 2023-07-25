@@ -1,44 +1,38 @@
-import 'package:sql_conn/sql_conn.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class CuidadoresAPI{
+  Future<LoginResult> loginCuidadores(String usuario, String senha) async {
+    final response = await http
+      .get(Uri.parse('http://192.168.0.17/LoginFW.aspx?username=' + usuario + "&password=" + senha));
 
-  static const String tblCuidadores = 'Cuidador';
-  static const String nomeB ="nome";
-  static const String emailB ="email_cuidador";
-  static const String senhaB ="senha";
-  static const String datanasceB = "data_nasc";
-  static const String cellB = "telefone";
-  static const String cpfB ="cpf";
-  static const String generoB = "genero";
-  static const String especializacaoB = "especializacao";
-  static const String tempoEsperB = "tempo_exper";
-
-
-  Future<Map> buscarCuidadores(String nome, String tipopet, String tiposerv) async {
-    var res = await SqlConn.readData("exec usp_buscaCuidador '$tiposerv', '$nome','%$tipopet%'");
-    return res;
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List<String> responseArray = response.body.split("\n");
+    return LoginResult.fromJson(jsonDecode(responseArray[0]));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
   }
-
-  Future<int> loginCuidadores(String usuario, String senha) async {
-    var log = await SqlConn.readData("exec usp_loginCuidador '$usuario','$senha'");
-    return log;
   }
+}
 
-  Future<int> salvarCadCuidadores(
-  String nome, email,
-  String senha, datanasce, //converter data p date
-  String cell, cpf, genero,
-  String especializacao,
-  String tempoEsper) async {
-    var res = await SqlConn.writeData("exec usp_cadCuidador '$nome','$email','$datanasce','$cell','$cpf','$genero','$senha','$especializacao','$tempoEsper'");
-    return res;
+class LoginResult {
+  final bool success;
+  final String? token;
+
+  const LoginResult({
+    required this.success,
+    this.token,
+  });
+
+  factory LoginResult.fromJson(Map<String, dynamic> json) {
+    return LoginResult(
+      success: json['success'],
+      token: json['token'],
+    );
   }
-
-  Future<int> atualizarDadosCuidador(int id_Cuidador, String email, String cell, String especializacao, String tempoEsper) async {
-    var res = await SqlConn.writeData("exec usp_editarDadosCuidador '$id_Cuidador','$email','$cell','$especializacao','$tempoEsper'");
-    return res;
-  }
-
-  //int deletarCadCuidador(){} 
-
 }

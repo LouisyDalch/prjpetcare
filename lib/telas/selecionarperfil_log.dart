@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prjpetcare/repetidos/background.dart';
+import 'package:prjpetcare/Elementos_design/background.dart';
 
 class EscolherPerfil extends StatefulWidget {
   const EscolherPerfil({super.key});

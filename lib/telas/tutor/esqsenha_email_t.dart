@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:prjpetcare/repetidos/background.dart';
+import 'package:prjpetcare/Elementos_design/background.dart';
 
 class EsqueciSenhaEmail extends StatefulWidget {
   const EsqueciSenhaEmail({super.key});
