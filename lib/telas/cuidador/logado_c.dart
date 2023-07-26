@@ -21,30 +21,51 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: Stack(
-      children:[
+        body: Stack(
+      children: <Widget>[
         WidBackground(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        ListView(
           children: [
-            ListView(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    color: Colors.amber,
-                  
-                  )
-                ],
-      ),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Agenda', 
+                        style: TextStyle( fontFamily: 'LilitaOne', fontSize: MediaQuery.of(context).size.width * 0.07),),
+                        Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.01)),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.005,
+                          color: Color.fromRGBO(219, 114, 38, 1),
+                        )
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.01)),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(0)
+                      ),
+                      child: ListView.builder(itemCount: lst.length ,itemBuilder: (context,Index) ),
+                    ),
+                  ],
+                ),
               ],
-            ),
+            )
           ],
-        ),]
-    ),
-    );
+        )
+      ],
+    ));
   }
 }

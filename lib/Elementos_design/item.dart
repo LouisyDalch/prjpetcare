@@ -13,10 +13,14 @@ class ItemList extends StatefulWidget {
 class _ItemListState extends State<ItemList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(padding: EdgeInsets.all(5.0),
+    child: Container(
       height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.8,
-      color: Colors.black,
-    );
+      width: MediaQuery.of(context).size.width * 0.1,
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),);
   }
 }
