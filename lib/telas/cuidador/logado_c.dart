@@ -3,7 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:prjpetcare/Elementos_design/item.dart';
+import 'package:prjpetcare/Elementos_design/item_agenda.dart';
+
 
 class LogadoCuidador extends StatefulWidget {
   const LogadoCuidador({super.key});

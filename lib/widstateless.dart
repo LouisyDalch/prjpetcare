@@ -4,6 +4,7 @@ import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
 import 'package:prjpetcare/telas/cuidador/esqsenha_cod_c.dart';
 import 'package:prjpetcare/telas/cuidador/logado_c.dart';
 import 'package:prjpetcare/telas/cuidador/login_c.dart';
+import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_cod_t.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_email_t.dart';
@@ -22,22 +23,38 @@ class WidStateless extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/inicio',
+      initialRoute: '/serv_solic_c',
       routes: {
       '/inicio': (context) => const WidInicio(),
+
+      //telas de login ------------------------------------------------
+
       '/entrarcuidador': (context) => const WidEntrarCuidador(),
       '/entrartutor':(context) => const WidEntrarTutor(),
+
+      //crie sua conta cuidador! --------------------------------------
       '/criarcontacuidador':(context) => const CriarConta(),
+
+      //telas de seleção de perfil ------------------------------------
+
       '/escolherperfil': (context) => const EscolherPerfil(),
       '/escolherperfilcad': (context) => const EscolherPerfilCad(),
+
+      //telas pós login -----------------------------------------------
+
       '/logadotutor':(context) => const LogadoTutor(),
       '/logadocuidador':(context) => const LogadoCuidador(),
+
+      //esqueceu senha ------------------------------------------------
+
       '/esqsenha_email_t':(context) => const EsqueciSenhaEmail(),
       '/esqsenha_email_c':(context) => const EsqueciSenhaEmail2(),
       '/alterarsenha_t':(context) => const EsqueceuSenha_Alterar(),
       '/alterarsenha_c':(context) => const EsqueceuSenhaY_Alterar(),
       '/codseguranca_c':(context) => const EsqSenhaCodRecC(),
       '/codseguranca_t':(context) => const EsqSenhaCodRecT(),
+
+      '/serv_solic_c':(context) => const ServSolic_C(),
     }
     );
     
