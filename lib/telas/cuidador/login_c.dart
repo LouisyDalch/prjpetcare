@@ -27,7 +27,7 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
           LoginResult result = await cuidadorRepository.loginCuidadores(emailusu, senha);
           if(result.success) {
             CuidadorRepository.token = result.token;
-            Navigator.pushNamed(context, "/logadotutor");
+            Navigator.pushNamed(context, '/logadocuidador');
           }else {
             //mensagem de erro
           }
