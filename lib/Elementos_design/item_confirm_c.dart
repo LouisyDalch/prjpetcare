@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ItemSolicC extends StatefulWidget {
-  const ItemSolicC({super.key});
+class ItemConfirmC extends StatefulWidget {
+  const ItemConfirmC({super.key});
 
   @override
-  State<ItemSolicC> createState() => _ItemSolicCState();
+  State<ItemConfirmC> createState() => _ItemConfirmCState();
 }
 
-class _ItemSolicCState extends State<ItemSolicC> {
+class _ItemConfirmCState extends State<ItemConfirmC> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,16 +46,27 @@ class _ItemSolicCState extends State<ItemSolicC> {
                 height: MediaQuery.of(context).size.height * 0.16,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('Tipo_Serv',
+                  children: [
+                    const Text('Tipo_Serv',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Nome_Tutor',
+                    const Text('Nome_Tutor',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Data/hra ini',
+                    const Text('Nome_Pet',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),),
+                    Padding(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.height * 0.004)),
+                    const Text('Data de término:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),),
+                    const Text('Data/hra fin',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),

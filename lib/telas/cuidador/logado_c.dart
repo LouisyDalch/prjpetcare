@@ -100,7 +100,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
-                            //programação
+                            Navigator.pushNamed(context, '/serv_solic_c');
                           },
                           child: Center(
                             child: Text(
@@ -123,7 +123,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
-                            //programação
+                            Navigator.pushNamed(context, '/serv_confirm_c');
                           },
                           child: Center(
                             child: Text(
@@ -146,7 +146,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
-                            //programação
+                            Navigator.pushNamed(context, '/serv_final_c');
                           },
                           child: Center(
                             child: Text(

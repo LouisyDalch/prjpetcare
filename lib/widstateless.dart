@@ -4,6 +4,8 @@ import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
 import 'package:prjpetcare/telas/cuidador/esqsenha_cod_c.dart';
 import 'package:prjpetcare/telas/cuidador/logado_c.dart';
 import 'package:prjpetcare/telas/cuidador/login_c.dart';
+import 'package:prjpetcare/telas/cuidador/serv_confirm_c.dart';
+import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_cod_t.dart';
@@ -23,7 +25,7 @@ class WidStateless extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/serv_solic_c',
+      initialRoute: '/serv_confirm_c',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -54,7 +56,11 @@ class WidStateless extends StatelessWidget{
       '/codseguranca_c':(context) => const EsqSenhaCodRecC(),
       '/codseguranca_t':(context) => const EsqSenhaCodRecT(),
 
+      //serviços
+
       '/serv_solic_c':(context) => const ServSolic_C(),
+      '/serv_final_c':(context) => const ServFinal_C(),
+      '/serv_confirm_c':(context) => const ServConfirm_C(),
     }
     );
     

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ItemSolicC extends StatefulWidget {
-  const ItemSolicC({super.key});
+class ItemFinalC extends StatefulWidget {
+  const ItemFinalC({super.key});
 
   @override
-  State<ItemSolicC> createState() => _ItemSolicCState();
+  State<ItemFinalC> createState() => _ItemFinalCState();
 }
 
-class _ItemSolicCState extends State<ItemSolicC> {
+class _ItemFinalCState extends State<ItemFinalC> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,7 +55,7 @@ class _ItemSolicCState extends State<ItemSolicC> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Data/hra ini',
+                    Text('Data/hra fin',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),

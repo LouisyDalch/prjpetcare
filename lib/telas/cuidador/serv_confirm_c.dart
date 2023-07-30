@@ -4,16 +4,17 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
+import '../../Elementos_design/item_confirm_c.dart';
 import '../../Elementos_design/item_solic_c.dart';
 
-class ServSolic_C extends StatefulWidget {
-  const ServSolic_C({super.key});
+class ServConfirm_C extends StatefulWidget {
+  const ServConfirm_C({super.key});
 
   @override
-  State<ServSolic_C> createState() => _ServSolic_CState();
+  State<ServConfirm_C> createState() => _ServConfirm_CState();
 }
 
-class _ServSolic_CState extends State<ServSolic_C> {
+class _ServConfirm_CState extends State<ServConfirm_C> {
   final List lst = [
     'um',
     'dois',
@@ -42,7 +43,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
                     Row(
                       children: [
                         Text(
-                          'Solicitações',
+                          'Confirmados',
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.08,
                             fontFamily: 'LilitaOne',
@@ -57,7 +58,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
                       child: ListView.builder(
                           itemCount: lst.length,
                           itemBuilder: (context, Index) {
-                            return ItemSolicC();
+                            return ItemConfirmC();
                           }),
                     ),
                     Padding(
