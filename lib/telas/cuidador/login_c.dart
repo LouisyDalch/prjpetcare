@@ -26,10 +26,13 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
         onPressed: () async {
           LoginResult result = await cuidadorRepository.loginCuidadores(emailusu, senha);
           if(result.success) {
+
             CuidadorRepository.token = result.token;
-            Navigator.pushNamed(context, '/logadocuidador');
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacementNamed(context, '/logadocuidador');
+            print('hmm');
           }else {
-            //mensagem de erro
+            print("aaaaaaaa");
           }
         },
         style: ElevatedButton.styleFrom(
