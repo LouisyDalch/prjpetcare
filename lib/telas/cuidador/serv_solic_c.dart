@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 import '../../Elementos_design/item_solic_c.dart';
 
@@ -14,16 +16,35 @@ class ServSolic_C extends StatefulWidget {
 }
 
 class _ServSolic_CState extends State<ServSolic_C> {
-  final List lst = [
-    'um',
-    'dois',
-    'três',
-    'quatro',
-    'cinco',
-    'seis',
-    'sete',
-    'oito'
-  ];
+  CuidadorRepository cuidadorRepository = new CuidadorRepository();
+  List<Servico> lst = [];
+
+  Future<ListResult> getServicos() async {
+    return await cuidadorRepository.puxarServicos();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadServicos();
+  }
+
+  void loadServicos() async {
+    ListResult servicos = await getServicos();
+    setState(() {
+      lst = [];
+      for (var element in servicos.resultados) {
+        lst.add(Servico(
+            idServ: element['idServ'],
+            dataIni: DateTime.tryParse(element['dataIni']),
+            dataFin: DateTime.tryParse(element['dataFin']),
+            idDono: element['idDono'],
+            idCuidador: element['idCuidador'],
+            donoNome: element['donoNome'],
+            idStatus: element['idStatus']));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +77,11 @@ class _ServSolic_CState extends State<ServSolic_C> {
                       //color: Color.fromARGB(255, 124, 170, 248),
                       child: ListView.builder(
                           itemCount: lst.length,
-                          itemBuilder: (context, Index) {
-                            return ItemSolicC();
+                          itemBuilder: (context, index) {
+                            Servico current = lst[index];
+                            return ItemSolicC(
+                              servico: current,
+                            );
                           }),
                     ),
                     Padding(

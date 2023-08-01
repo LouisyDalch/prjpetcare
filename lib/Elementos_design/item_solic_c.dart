@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 class ItemSolicC extends StatefulWidget {
-  const ItemSolicC({super.key});
+  final Servico servico;
+
+  const ItemSolicC({
+    super.key,
+    required this.servico,
+  });
 
   @override
-  State<ItemSolicC> createState() => _ItemSolicCState();
+  State<ItemSolicC> createState() => _ItemSolicCState(servico: servico);
 }
 
 class _ItemSolicCState extends State<ItemSolicC> {
+  Servico servico;
+
+    _ItemSolicCState({
+      required this.servico,
+    }) : super();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,17 +58,13 @@ class _ItemSolicCState extends State<ItemSolicC> {
                 height: MediaQuery.of(context).size.height * 0.16,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('Tipo_Serv',
-                    style: TextStyle(
+                  children: [
+                    Text(servico.dataIni != null ? servico.dataIni!.toIso8601String() : 'Data inválida',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Nome_Tutor',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),),
-                    Text('Data/hra ini',
-                    style: TextStyle(
+                    Text(servico.donoNome,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
                   ],

@@ -26,7 +26,7 @@ class WidStateless extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/perfil_c',
+      initialRoute: '/entrarcuidador',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
