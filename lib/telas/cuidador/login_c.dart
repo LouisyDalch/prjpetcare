@@ -28,7 +28,7 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
           if(result.success) {
 
             CuidadorRepository.token = result.token;
-            // ignore: use_build_context_synchronously
+          
             Navigator.pushReplacementNamed(context, '/logadocuidador');
             print('hmm');
           }else {

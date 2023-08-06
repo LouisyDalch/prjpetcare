@@ -1,20 +1,57 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:sql_conn/sql_conn.dart';
 
 class TutorAPI{
 
-  Future<int> loginTutores (String usuario, String senha) async {
-    var res = await SqlConn.readData("exec usp_loginTutores '$usuario','$senha'");
-    return res;
+  Future<LoginResult> loginTutor(String usuario,String senha) async {
+    final response = await http.get(Uri.parse("http://192.168.0.17/LoginTutorFW.aspx?username=$usuario&password=$senha"));
+
+
+    if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    List<String> responseArray = response.body.split("\n");
+    return LoginResult.fromJson(jsonDecode(responseArray[0]));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
+  }
   }
 
-  Future<int> atualizarDadosTutor(int id_Tutor, String email, String cell) async {
-    var res = await SqlConn.writeData("exec usp_editarDadorTutor $id_Tutor,'$email','$cell'");
-    return res;
-  }
+}
 
-  Future<int> cadTutor(String nome, String email, String datanasce, String cell, String cpf, String genero, String senha) async {
-    var res = await SqlConn.writeData("exec usp_cadTutor '$nome','$email','$datanasce','$cell','$cpf','$genero','$senha'");
-    return res;
-  }
 
+
+
+class ServiceResult {
+  final bool success;
+
+  ServiceResult({
+    required this.success,
+  });
+
+  factory ServiceResult.fromJson(Map<String, dynamic> json) {
+    return ServiceResult(
+      success: json['success']
+    );
+  }
+}
+
+class LoginResult extends ServiceResult {
+  final String? token;
+
+  LoginResult({
+    required bool success,
+    this.token,
+  }) : super(success: success);
+
+  factory LoginResult.fromJson(Map<String, dynamic> json) {
+    return LoginResult(
+      success: json['success'],
+      token: json['token']
+    );
+  }
 }

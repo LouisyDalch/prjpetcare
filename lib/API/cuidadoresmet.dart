@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 
 class CuidadoresAPI{
   Future<LoginResult> loginCuidadores(String usuario, String senha) async {
-    usuario = "Pedro Alves";
-    senha = "Psilva80*";
     final response = await http.get(Uri.parse("http://192.168.0.17/LoginFW.aspx?username=$usuario&password=$senha"));
     //lembrete: em caso de erro, verifique o ip ;)
+
+    
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

@@ -28,35 +28,47 @@ class MenuHorCuidador extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-                onPressed: () {
-                  //programação
-                },
-                icon: Image.asset('defora/imagens/home.png')),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: IconButton(
+                  onPressed: () {
+                    //programação
+                  },
+                  icon: Image.asset('defora/imagens/home.png',)),
+            ),
             Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            IconButton(
-                onPressed: () {
-                  //programação
-                },
-                icon: Image.asset('defora/imagens/carrinho.png')),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: IconButton(
+                  onPressed: () {
+                    //programação
+                  },
+                  icon: Image.asset('defora/imagens/carrinho.png')),
+            ),
             Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            IconButton(
-                onPressed: () {
-                  //programação
-                },
-                icon: Image.asset('defora/imagens/chats.png')),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: IconButton(
+                  onPressed: () {
+                    //programação
+                  },
+                  icon: Image.asset('defora/imagens/chats.png')),
+            ),
             Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            IconButton(
-                onPressed: () {
-                  //programação
-                },
-                icon: Image.asset('defora/imagens/perfiltutor.png'))
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: IconButton(
+                  onPressed: () {
+                    //programação
+                  },
+                  icon: Image.asset('defora/imagens/perfiltutor.png')),
+            )
           ],
         ));
   }
