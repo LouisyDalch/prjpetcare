@@ -37,7 +37,7 @@ dependencies:
   extended_text_field: ^11.0.1
   http: ^0.13.6
   sql_conn: ^0.0.3
-  fluttertoast: ^8.0.8
+  intl: ^0.18.1
 
 dev_dependencies:
    

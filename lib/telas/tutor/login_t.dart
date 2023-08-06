@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prjpetcare/Elementos_design/toast.dart';
 import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 import '../../API/tutoresmet.dart';
 import '../../Elementos_design/background.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class WidEntrarTutor extends StatefulWidget {
   const WidEntrarTutor({super.key});
@@ -27,16 +25,26 @@ class WidEntrarTutorState extends State<WidEntrarTutor> {
         onPressed: () async {
           LoginResult result = await tutorRopository.loginTutor(usuario, senha);
           if (usuario == "" || senha == "") {
-            MostrarToast("Preencha todos os campos!");
+            var snackBar = const SnackBar(content: Text(
+              "Preencha todos os campos!",style: TextStyle(fontSize: 15),
+            ));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else {
             if (senha.length > 10) {
-              MostrarToast("A senha pode conter até 10 caracteres.");
+              var snackBar = const SnackBar(content: Text(
+                "A senha pode conter apenas até 10 caracteres.",
+                style: TextStyle(fontSize: 15),
+              ));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else {
               if (result.success) {
                 TutorRopository.token = result.token;
                 Navigator.pushReplacementNamed(context, '/logadotutor');
               } else {
-                MostrarToast("Login ou senha incorretos.");
+                var snackBar = const SnackBar(content: Text(
+                  "Email ou senha incorretos.",style: TextStyle(fontSize: 15),
+                ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }
           }

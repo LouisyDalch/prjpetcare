@@ -41,7 +41,8 @@ class _ServSolic_CState extends State<ServSolic_C> {
             idDono: element['idDono'],
             idCuidador: element['idCuidador'],
             donoNome: element['donoNome'],
-            idStatus: element['idStatus']));
+            idStatus: element['idStatus'],
+            tipoServ: element['tipoServ']));
       }
     });
   }

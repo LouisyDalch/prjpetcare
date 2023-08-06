@@ -21,6 +21,7 @@ class Servico {
   int idCuidador;
   int idStatus;
   String donoNome;
+  String tipoServ;
 
   Servico({
     required this.idServ,
@@ -30,5 +31,6 @@ class Servico {
     required this.idCuidador,
     required this.idStatus,
     required this.donoNome,
+    required this.tipoServ
   });
 }

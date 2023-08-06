@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:intl/intl.dart';
 
 class ItemSolicC extends StatefulWidget {
   final Servico servico;
@@ -59,11 +60,19 @@ class _ItemSolicCState extends State<ItemSolicC> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(servico.dataIni != null ? servico.dataIni!.toIso8601String() : 'Data inválida',
+                    Text(servico.tipoServ,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
+                    
                     Text(servico.donoNome,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),),
+
+                    Text(servico.dataIni != null ?
+                    DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                    : 'Data inválida',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),),

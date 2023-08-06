@@ -3,7 +3,6 @@ import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 import '../../Elementos_design/background.dart';
-import '../../Elementos_design/toast.dart';
 
 class WidEntrarCuidador extends StatefulWidget {
   const WidEntrarCuidador({super.key});
@@ -29,16 +28,26 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
               await cuidadorRepository.loginCuidadores(emailusu, senha);
 
           if (emailusu == "" || senha == "") {
-            MostrarToast("Preencha todos os campos!");
+            var snackBar = const SnackBar(content: Text(
+              "Preencha todos os campos!",style: TextStyle(fontSize: 15),
+            ));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else {
             if (senha.length > 10) {
-              MostrarToast("A senha pode conter até 10 caracteres.");
+              var snackBar = const SnackBar(content: Text(
+                "A senha pode conter apenas até 10 caracteres.",
+                style: TextStyle(fontSize: 15),
+              ));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else {
               if (result.success) {
                 CuidadorRepository.token = result.token;
                 Navigator.pushReplacementNamed(context, '/logadocuidador');
               } else {
-                MostrarToast("Login ou senha incorretos.");
+                var snackBar = const SnackBar(content: Text(
+                  "Email ou senha incorretos.",style: TextStyle(fontSize: 15),
+                ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }
           }
