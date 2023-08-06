@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prjpetcare/Elementos_design/toast.dart';
 import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 import '../../API/tutoresmet.dart';
 import '../../Elementos_design/background.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class WidEntrarTutor extends StatefulWidget {
   const WidEntrarTutor({super.key});
@@ -24,15 +26,20 @@ class WidEntrarTutorState extends State<WidEntrarTutor> {
       child: ElevatedButton(
         onPressed: () async {
           LoginResult result = await tutorRopository.loginTutor(usuario, senha);
-          if(result.success){
-            TutorRopository.token = result.token;
-            Navigator.pushReplacementNamed(context, '/logadotutor');
-          }else{
-            
+          if (usuario == "" || senha == "") {
+            MostrarToast("Preencha todos os campos!");
+          } else {
+            if (senha.length > 10) {
+              MostrarToast("A senha pode conter até 10 caracteres.");
+            } else {
+              if (result.success) {
+                TutorRopository.token = result.token;
+                Navigator.pushReplacementNamed(context, '/logadotutor');
+              } else {
+                MostrarToast("Login ou senha incorretos.");
+              }
+            }
           }
-
-
-          
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -41,8 +48,7 @@ class WidEntrarTutorState extends State<WidEntrarTutor> {
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
           'Entrar',
-          style:
-              TextStyle(fontSize: 19, color: Color.fromRGBO(7, 88, 20, 1)),
+          style: TextStyle(fontSize: 19, color: Color.fromRGBO(7, 88, 20, 1)),
         ),
       ),
     );

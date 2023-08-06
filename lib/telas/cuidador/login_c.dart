@@ -3,6 +3,7 @@ import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 import '../../Elementos_design/background.dart';
+import '../../Elementos_design/toast.dart';
 
 class WidEntrarCuidador extends StatefulWidget {
   const WidEntrarCuidador({super.key});
@@ -24,21 +25,30 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
       height: MediaQuery.of(context).size.height * 0.057,
       child: ElevatedButton(
         onPressed: () async {
-          LoginResult result = await cuidadorRepository.loginCuidadores(emailusu, senha);
-          if(result.success) {
+          LoginResult result =
+              await cuidadorRepository.loginCuidadores(emailusu, senha);
 
-            CuidadorRepository.token = result.token;
-          
-            Navigator.pushReplacementNamed(context, '/logadocuidador');
-          }else {
-            //msg deve ser add
+          if (emailusu == "" || senha == "") {
+            MostrarToast("Preencha todos os campos!");
+          } else {
+            if (senha.length > 10) {
+              MostrarToast("A senha pode conter até 10 caracteres.");
+            } else {
+              if (result.success) {
+                CuidadorRepository.token = result.token;
+                Navigator.pushReplacementNamed(context, '/logadocuidador');
+              } else {
+                MostrarToast("Login ou senha incorretos.");
+              }
+            }
           }
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: const BorderSide(color: Color.fromRGBO(219, 114, 38, 1)))),
+                side:
+                    const BorderSide(color: Color.fromRGBO(219, 114, 38, 1)))),
         child: const Text(
           'Entrar',
           style:
