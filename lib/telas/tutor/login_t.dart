@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
+import '../../API/tutoresmet.dart';
 import '../../Elementos_design/background.dart';
 
 class WidEntrarTutor extends StatefulWidget {
@@ -12,17 +13,23 @@ class WidEntrarTutor extends StatefulWidget {
 }
 
 class WidEntrarTutorState extends State<WidEntrarTutor> {
-  String emailusu = '';
+  String usuario = '';
   String senha = '';
+  TutorRopository tutorRopository = TutorRopository();
 
   Widget _btnEntrar() {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.45,
       height: MediaQuery.of(context).size.height * 0.057,
       child: ElevatedButton(
-        onPressed: () {
-          
-          
+        onPressed: () async {
+          LoginResult result = await tutorRopository.loginTutor(usuario, senha);
+          if(result.success){
+            TutorRopository.token = result.token;
+            Navigator.pushReplacementNamed(context, '/logadotutor');
+          }else{
+            
+          }
 
 
           
@@ -110,7 +117,7 @@ class WidEntrarTutorState extends State<WidEntrarTutor> {
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: TextField(
                               onChanged: (Text) {
-                                emailusu = Text;
+                                usuario = Text;
                               },
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(

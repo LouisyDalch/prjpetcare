@@ -30,9 +30,8 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
             CuidadorRepository.token = result.token;
           
             Navigator.pushReplacementNamed(context, '/logadocuidador');
-            print('hmm');
           }else {
-            print("aaaaaaaa");
+            //msg deve ser add
           }
         },
         style: ElevatedButton.styleFrom(
