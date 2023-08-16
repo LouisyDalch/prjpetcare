@@ -53,8 +53,8 @@ class _Perfil_CState extends State<Perfil_C> {
                     padding: EdgeInsets.all(
                         MediaQuery.of(context).size.height * 0.015)),
                 GestureDetector(
-                  onTap: () => print("uiiii"), //programação
-                  child: Container(
+                  onTap: () => Navigator.of(context).pushNamed('/editar_perfil_c'), //programação
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: Row(children: [
