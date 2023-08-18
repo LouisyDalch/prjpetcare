@@ -193,29 +193,26 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     )
                   ],
                 ),
-                Container(height: MediaQuery.of(context).size.height * 0.04,),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  //programação
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(
-                                          219, 114, 38, 1)
-                                ),
-                                child: Text(
-                                  'Salvar Alterações',
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.05,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ),
-                            ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      //programação
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(219, 114, 38, 1)),
+                    child: Text(
+                      'Salvar Alterações',
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ),
+                ),
               ],
             )
           ],
