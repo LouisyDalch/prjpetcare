@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/telas/cuidador/alterarsenha_c.dart';
 import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
+import 'package:prjpetcare/telas/cuidador/editar_agenda_c.dart';
 import 'package:prjpetcare/telas/cuidador/editarperfil_c.dart';
 import 'package:prjpetcare/telas/cuidador/esqsenha_cod_c.dart';
 import 'package:prjpetcare/telas/cuidador/logado_c.dart';
@@ -27,7 +28,7 @@ class WidStateless extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/editar_perfil_c',
+      initialRoute: '/editar_agenda_c',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -67,6 +68,7 @@ class WidStateless extends StatelessWidget{
       //Perfil ---------------------------------------------------------
       '/perfil_c':(context) => const Perfil_C(),
       '/editar_perfil_c':(context) => const EditarPerfilC(),
+      '/editar_agenda_c':(context) => const EditarAgenda_C(),
 
 
     }
