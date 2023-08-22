@@ -28,24 +28,31 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
               await cuidadorRepository.loginCuidadores(emailusu, senha);
 
           if (emailusu == "" || senha == "") {
-            var snackBar = const SnackBar(content: Text(
-              "Preencha todos os campos!",style: TextStyle(fontSize: 15),
+            var snackBar = const SnackBar(
+                content: Text(
+              "Preencha todos os campos!",
+              style: TextStyle(fontSize: 15),
             ));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else {
             if (senha.length > 10) {
-              var snackBar = const SnackBar(content: Text(
+              var snackBar = const SnackBar(
+                  content: Text(
                 "A senha pode conter apenas até 10 caracteres.",
                 style: TextStyle(fontSize: 15),
               ));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else {
               if (result.success) {
+                print("uiiiiiiiiiiiiiii");
                 CuidadorRepository.token = result.token;
+                print("mdsssssssssssss");
                 Navigator.pushReplacementNamed(context, '/logadocuidador');
               } else {
-                var snackBar = const SnackBar(content: Text(
-                  "Email ou senha incorretos.",style: TextStyle(fontSize: 15),
+                var snackBar = const SnackBar(
+                    content: Text(
+                  "Email ou senha incorretos.",
+                  style: TextStyle(fontSize: 15),
                 ));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
