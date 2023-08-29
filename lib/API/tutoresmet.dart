@@ -5,7 +5,7 @@ import 'package:sql_conn/sql_conn.dart';
 class TutorAPI{
 
   Future<LoginResult> loginTutor(String usuario,String senha) async {
-    final response = await http.get(Uri.parse("http://192.168.252.89/LoginTutorFW.aspx?username=$usuario&password=$senha"));
+    final response = await http.get(Uri.parse("http://10.244.171.33/LoginTutorFW.aspx?username=$usuario&password=$senha"));
 
 
     if (response.statusCode == 200) {

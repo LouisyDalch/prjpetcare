@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class CuidadoresAPI{
   Future<LoginResult> loginCuidadores(String usuario, String senha) async {
-    final response = await http.get(Uri.parse("http://192.168.252.89/LoginFW.aspx?username=$usuario&password=$senha"));
+    final response = await http.get(Uri.parse("http://10.244.171.33/LoginFW.aspx?username=$usuario&password=$senha"));
     //lembrete: em caso de erro, verifique o ip ;)
 
     
@@ -28,7 +28,7 @@ class CuidadoresAPI{
     print(token);
 
     final response = await http.get(
-      Uri.parse("http://192.168.252.89/Cuidadores/Servicos/Puxar.aspx"),
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/Puxar.aspx"),
       headers: <String, String>{
       'Authorization': token,
       }, 
