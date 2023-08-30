@@ -37,7 +37,7 @@ class _MeusPets_TState extends State<MeusPets_T> {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget> [
               Text("Meus Pets", style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: MediaQuery.of(context).size.width * 0.07
@@ -57,7 +57,7 @@ class _MeusPets_TState extends State<MeusPets_T> {
                   decoration: BoxDecoration(
                     color: Color.fromRGBO(202, 202, 202, 1)
                   ),
-                  child: Row(children: [
+                  child: Row(children: <Widget> [
                     Icon(Icons.add, size: MediaQuery.of(context).size.width * 0.1,),
                     Text("Adicionar Pet", style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.05,
@@ -70,17 +70,21 @@ class _MeusPets_TState extends State<MeusPets_T> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.height * 0.65,
-                color: Colors.deepPurple,
-                child: ListView.builder(
-                  itemCount: lst.length,
-                  itemBuilder: (context, Index){
-                    return ItemPet_T();
-                  }),
-              ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0),
+                  //color: Colors.green
+                  ),
+                  child: ListView.builder(
+                    itemCount: lst.length,
+                    itemBuilder: (context, Index){
+                      return ItemPet_T();
+                    }),
+                ),
+              
               Container(height: MediaQuery.of(context).size.height * 0.02,),
               MenuHorTutor()
             ],),
-          ],
+          ],                                                                                                                                                               
         )
       ]),
     );
