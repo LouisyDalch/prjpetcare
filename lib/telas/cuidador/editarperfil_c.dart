@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:flutter/src/rendering/box.dart';
 
 class EditarPerfilC extends StatefulWidget {
   const EditarPerfilC({super.key});
@@ -117,7 +114,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                             decoration: DesignEntradaTxt.decorarcaixa(
                                 hintText: "exemplo@gmail.com",
                                 labelText: "Novo email",
-                                border: OutlineInputBorder()),
+                                border: const OutlineInputBorder()),
                           ),
                         ],
                       )),
@@ -140,7 +137,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                             decoration: DesignEntradaTxt.decorarcaixa(
                                 hintText: "exemplo@gmail.com",
                                 labelText: "Confirmação de email",
-                                border: OutlineInputBorder()),
+                                border: const OutlineInputBorder()),
                           ),
                         ],
                       )),
@@ -151,7 +148,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.78,
                       height: MediaQuery.of(context).size.height * 0.002,
-                      color: Color.fromARGB(255, 0, 0, 0),
+                      color: const Color.fromARGB(255, 0, 0, 0),
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.02,
@@ -288,7 +285,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",
                                                 labelText: "Complemento",
-                                                border: OutlineInputBorder()),
+                                                border: const OutlineInputBorder()),
                                       ),
                                     ],
                                   )),
@@ -316,7 +313,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",
                                                 labelText: "Número",
-                                                border: OutlineInputBorder()),
+                                                border: const OutlineInputBorder()),
                                         keyboardType: TextInputType.number,
                                       ),
                                     ],
@@ -408,7 +405,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.05,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
+                                      color: const Color.fromARGB(255, 0, 0, 0)),
                                 ),
                               ),
                             ),

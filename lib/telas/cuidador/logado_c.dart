@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Elementos_design/item_agenda.dart';
@@ -21,7 +19,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
     return Scaffold(
         body: Stack(
       children: <Widget>[
-        WidBackground(),
+        const WidBackground(),
         ListView(
           children: [
             Row(
@@ -46,7 +44,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           height: MediaQuery.of(context).size.height * 0.005,
-                          color: Color.fromRGBO(183, 183, 183, 1),
+                          color: const Color.fromRGBO(183, 183, 183, 1),
                         )
                       ],
                     ),
@@ -57,13 +55,13 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                       height: MediaQuery.of(context).size.height * 0.34,
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 192, 191, 191)
+                          color: const Color.fromARGB(255, 192, 191, 191)
                               .withOpacity(0.45),
                           borderRadius: BorderRadius.circular(0)),
                       child: ListView.builder(
                           itemCount: lst.length,
                           itemBuilder: (context, Index) {
-                            return ItemList();
+                            return const ItemList();
                           }),
                     ),
                     Padding(
@@ -85,7 +83,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.3,
                           height: MediaQuery.of(context).size.height * 0.005,
-                          color: Color.fromRGBO(183, 183, 183, 1),
+                          color: const Color.fromRGBO(183, 183, 183, 1),
                         )
                       ],
                     ),
@@ -96,7 +94,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                       height: MediaQuery.of(context).size.height * 0.065,
                       width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(219, 114, 38, 1),
+                          color: const Color.fromRGBO(219, 114, 38, 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
@@ -119,7 +117,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                       height: MediaQuery.of(context).size.height * 0.065,
                       width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(219, 114, 38, 1),
+                          color: const Color.fromRGBO(219, 114, 38, 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
@@ -142,7 +140,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                       height: MediaQuery.of(context).size.height * 0.065,
                       width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(219, 114, 38, 1),
+                          color: const Color.fromRGBO(219, 114, 38, 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                           onPressed: () {
@@ -161,7 +159,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                     Padding(
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.height * 0.04)),
-                    MenuHorCuidador()
+                    const MenuHorCuidador()
                   ],
                 ),
               ],

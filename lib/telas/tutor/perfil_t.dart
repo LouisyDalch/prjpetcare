@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
@@ -16,7 +14,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        WidBackground(),
+        const WidBackground(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -133,7 +131,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
                             left: MediaQuery.of(context).size.height * 0.3)),
                     GestureDetector(
                       onTap: () => print("uiiii"), //programação
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.2,
                         height: MediaQuery.of(context).size.height * 0.04,
                         child: Row(children: [
@@ -155,7 +153,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
                     ),
                   ],
                 ),
-                MenuHorTutor()
+                const MenuHorTutor()
               ],
             ),
           ],
@@ -166,7 +164,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width * 0.95,
                   child: Column(

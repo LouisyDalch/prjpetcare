@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
@@ -20,7 +18,7 @@ class _EsqueceuSenhaY_AlterarState extends State<EsqueceuSenhaY_Alterar> {
     return Scaffold(
       body: Stack(
         children: [
-          WidBackground(),
+          const WidBackground(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -79,7 +77,7 @@ class _EsqueceuSenhaY_AlterarState extends State<EsqueceuSenhaY_Alterar> {
                       decoration: DesignEntradaTxt.decorarcaixa(
                           hintText: '********',
                           labelText: 'Nova Senha',
-                          border: OutlineInputBorder())),
+                          border: const OutlineInputBorder())),
                 ),
               ),
               Padding(
@@ -98,7 +96,7 @@ class _EsqueceuSenhaY_AlterarState extends State<EsqueceuSenhaY_Alterar> {
                       decoration: DesignEntradaTxt.decorarcaixa(
                           hintText: '********',
                           labelText: 'Confirme a Senha',
-                          border: OutlineInputBorder())),
+                          border: const OutlineInputBorder())),
                 ),
               ),
               Padding(

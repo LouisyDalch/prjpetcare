@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Elementos_design/item_pet_t.dart';
@@ -31,7 +27,7 @@ class _MeusPets_TState extends State<MeusPets_T> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children:<Widget> [
-        WidBackground(),
+        const WidBackground(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -54,7 +50,7 @@ class _MeusPets_TState extends State<MeusPets_T> {
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.07,
                   width: MediaQuery.of(context).size.width * 0.85,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color.fromRGBO(202, 202, 202, 1)
                   ),
                   child: Row(children: <Widget> [
@@ -77,12 +73,12 @@ class _MeusPets_TState extends State<MeusPets_T> {
                   child: ListView.builder(
                     itemCount: lst.length,
                     itemBuilder: (context, Index){
-                      return ItemPet_T();
+                      return const ItemPet_T();
                     }),
                 ),
               
               Container(height: MediaQuery.of(context).size.height * 0.02,),
-              MenuHorTutor()
+              const MenuHorTutor()
             ],),
           ],                                                                                                                                                               
         )

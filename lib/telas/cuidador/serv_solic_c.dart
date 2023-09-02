@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
@@ -52,11 +50,11 @@ class _ServSolic_CState extends State<ServSolic_C> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          WidBackground(),
+          const WidBackground(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +70,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
                         ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: MediaQuery.of(context).size.height * 0.75,
                       //color: Color.fromARGB(255, 124, 170, 248),
@@ -88,7 +86,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
                     Padding(
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.height * 0.01)),
-                    MenuHorCuidador()
+                    const MenuHorCuidador()
                   ],
                 ),
               ),

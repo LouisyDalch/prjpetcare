@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 
 class EsqSenhaCodRecC extends StatefulWidget {
@@ -16,12 +14,12 @@ class _EsqSenhaCodRecCState extends State<EsqSenhaCodRecC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Stack(
           children: [
-            WidBackground(),
+            const WidBackground(),
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +93,7 @@ class _EsqSenhaCodRecCState extends State<EsqSenhaCodRecC> {
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.of(context).pushReplacementNamed('/esqsenha_email_c'),
-                        child: Text(
+                        child: const Text(
                           'Reenviar código',
                           textAlign: TextAlign.end,
                         ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ItemConfirmC extends StatefulWidget {
   const ItemConfirmC({super.key});
@@ -13,12 +11,12 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10, top: 10),
+      padding: const EdgeInsets.only(bottom: 10, top: 10),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.16,
         width: MediaQuery.of(context).size.width * 0.1,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+          color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -41,7 +39,7 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
           ),
           Column(
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.height * 0.16,
                 child: Column(
