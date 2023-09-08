@@ -11,6 +11,7 @@ import 'package:prjpetcare/telas/cuidador/serv_confirm_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
+import 'package:prjpetcare/telas/tutor/editar_perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_cod_t.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_email_t.dart';
 import 'package:prjpetcare/telas/tutor/alterarsenha_t.dart';
@@ -24,14 +25,15 @@ import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
 
 class WidStateless extends StatelessWidget{
-  const WidStateless({super.key});
+  const WidStateless(MaterialApp materialApp, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/perfil_pet_t',
+      initialRoute: '/editar_perfil_pet_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -78,7 +80,8 @@ class WidStateless extends StatelessWidget{
 
 
       //Funções --------------------------------------------------------
-      '/perfil_pet_t':(context) => const PerfilPet_T()
+      '/perfil_pet_t':(context) => const PerfilPet_T(),
+      '/editar_perfil_pet_t':(context) => EditarPerfPet_T()
 
 
     }
