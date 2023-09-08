@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.6
   sql_conn: ^0.0.3
   intl: ^0.18.1
+  #auto_size_text: ^2.1.0
 
 dev_dependencies:
    
@@ -81,6 +82,7 @@ flutter:
    - defora/imagens/fundoperfilC.png
    - defora/imagens/fundoeditarcuid.png
    - defora/imagens/fundoperfilT.png
+   - defora/imagens/fundoperfpet.png
    
     #fontes
   
