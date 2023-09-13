@@ -11,6 +11,10 @@ class CuidadorRepository {
   Future<ListResult> puxarServicos() async {
     return cuidadoresAPI.puxarServicos(token);
   }
+
+  Future<ListResult> puxarServConf() async {
+    return cuidadoresAPI.puxarServConf(token);
+  }
 }
 
 class Servico {
@@ -22,6 +26,7 @@ class Servico {
   int idStatus;
   String donoNome;
   String tipoServ;
+  String nomePet;
 
   Servico({
     required this.idServ,
@@ -31,6 +36,7 @@ class Servico {
     required this.idCuidador,
     required this.idStatus,
     required this.donoNome,
-    required this.tipoServ
+    required this.tipoServ,
+    required this.nomePet
   });
 }

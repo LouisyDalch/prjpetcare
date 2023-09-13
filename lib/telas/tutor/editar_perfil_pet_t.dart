@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/services.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../Elementos_design/design.dart';
+
+//programar p trazer os dados já cadastrados :)
 
 class EditarPerfPet_T extends StatefulWidget {
   const EditarPerfPet_T({super.key});
@@ -38,6 +38,7 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
   String especie = "";
   double peso = 0.0;
   int vac = 3;
+  String descr = "";
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +56,58 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.height * 0.17,
-                      decoration: BoxDecoration(
-                          color: Colors.cyan,
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage(
-                                  "defora/imagens/fundoperfpet_edt.png"),
-                              fit: BoxFit.cover)),
+                    Stack(
+                      children: [Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: MediaQuery.of(context).size.height * 0.17,
+                        decoration: BoxDecoration(
+                            color: Colors.cyan,
+                            borderRadius: BorderRadius.circular(10),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                    "defora/imagens/fundoperfpet_edt.png"),
+                                fit: BoxFit.cover)),
+                      ),
+                      Row(
+            
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.018,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        decoration: BoxDecoration(
+                            color: Colors.cyanAccent,
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                      GestureDetector(
+                        onTap: () => print("aaa"),
+                        child: Text(
+                          "Adicionar Foto",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.06,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          )
+                      ]
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
@@ -335,8 +378,7 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                           TextFormField(
                             maxLines: 3,
                             onChanged: (Text) {
-                              var amz = double.tryParse(Text);
-                              amz = peso;
+                              descr = Text;
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
@@ -355,8 +397,7 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed('/criarcontacuidador');
+                          //programação
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(60, 115, 56, 1),
@@ -379,43 +420,7 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
               ],
             ),
           ),
-          Row(
-            
-            children: [
-              Column(
-                
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.055,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height * 0.13,
-                        decoration: BoxDecoration(
-                            color: Colors.cyanAccent,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.16,
-                      ),
-                      GestureDetector(
-                        onTap: () => print("aaa"),
-                        child: Text(
-                          "Adicionar Foto",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.06,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          )
+          
         ],
       ),
     );

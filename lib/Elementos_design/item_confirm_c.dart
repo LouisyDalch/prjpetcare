@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../Repositorios/cuidador_repos.dart';
+
 class ItemConfirmC extends StatefulWidget {
-  const ItemConfirmC({super.key});
+  final Servico servico;
+
+  const ItemConfirmC({super.key,
+  required this.servico,});
 
   @override
-  State<ItemConfirmC> createState() => _ItemConfirmCState();
+  State<ItemConfirmC> createState() => _ItemConfirmCState(servico: servico);
 }
 
 class _ItemConfirmCState extends State<ItemConfirmC> {
+  Servico servico;
+
+
+  _ItemConfirmCState({
+      required this.servico,
+    }) : super();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,15 +57,15 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Tipo_Serv',
+                    Text(servico.tipoServ,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    const Text('Nome_Tutor',
+                     Text(servico.donoNome,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    const Text('Nome_Pet',
+                    Text(servico.nomePet,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),

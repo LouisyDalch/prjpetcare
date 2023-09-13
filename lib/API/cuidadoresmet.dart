@@ -7,8 +7,6 @@ class CuidadoresAPI{
     final response = await http.get(Uri.parse("http://10.244.171.33/LoginFW.aspx?username=$usuario&password=$senha"));
     //lembrete: em caso de erro, verifique o ip ;)
 
-    
-
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -33,11 +31,36 @@ class CuidadoresAPI{
       'Authorization': token,
       }, 
     );
-    //lembrete: em caso de erro, verifique o ip ;)
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+
+    List<String> responseArray = response.body.split("\n");
+    return ListResult.fromJson(jsonDecode(responseArray[0]));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
+  }
+  }
+
+  Future<ListResult> puxarServConf(String? token) async {
+    if(token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarConf.aspx"),
+      headers: <String, String>{
+      'Authorization': token,
+      }, 
+    );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+
     List<String> responseArray = response.body.split("\n");
     return ListResult.fromJson(jsonDecode(responseArray[0]));
   } else {
@@ -47,6 +70,8 @@ class CuidadoresAPI{
   }
   }
 }
+
+
 
 class ServiceResult {
   final bool success;
@@ -69,8 +94,9 @@ class ListResult extends ServiceResult {
     required bool success,
     required this.resultados,
   }) : super(success: success);
-
+//minha msg de erro funciona kkkk
   factory ListResult.fromJson(Map<String, dynamic> json) {
+    print("aqqqqqqq");
     print(json);
     return ListResult(
       success: json['success'],
