@@ -12,6 +12,7 @@ import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
 import 'package:prjpetcare/telas/tutor/adicionar_pet_t.dart';
+import 'package:prjpetcare/telas/tutor/cadastro_t.dart';
 import 'package:prjpetcare/telas/tutor/editar_perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/editarperfil_t.dart';
 import 'package:prjpetcare/telas/tutor/esqsenha_cod_t.dart';
@@ -37,7 +38,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/meuhist_t',
+      initialRoute: '/cadastro_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -78,11 +79,12 @@ class WidStateless extends StatelessWidget{
       '/perfil_c':(context) => const Perfil_C(),
       '/editar_perfil_c':(context) => const EditarPerfilC(),
       '/editar_agenda_c':(context) => const EditarAgenda_C(),
-
+      
+      '/cadastro_t':(context) => const Cadastro_T(),
       '/perfil_t':(context) => const PerfilTutor(),
       '/editar_perfil_t':(context) => const EditarPerfil_T(),
       '/meuspet_t':(context) => const MeusPets_T(),
-      '/meuhist_t':(context) => const MeuHist_T(),
+      '/meuhist_t':(context) => const MeuHist_T(), //terminar esse aq
 
 
       //Funções --------------------------------------------------------
