@@ -22,6 +22,7 @@ import 'package:prjpetcare/telas/inicio.dart';
 import 'package:prjpetcare/telas/selecionarperfil_log.dart';
 import 'package:prjpetcare/telas/tutor/logado_t.dart';
 import 'package:prjpetcare/telas/tutor/login_t.dart';
+import 'package:prjpetcare/telas/tutor/meuhistorico_t.dart';
 import 'package:prjpetcare/telas/tutor/meuspets_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
@@ -36,7 +37,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/editar_perfil_t',
+      initialRoute: '/meuhist_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -81,6 +82,7 @@ class WidStateless extends StatelessWidget{
       '/perfil_t':(context) => const PerfilTutor(),
       '/editar_perfil_t':(context) => const EditarPerfil_T(),
       '/meuspet_t':(context) => const MeusPets_T(),
+      '/meuhist_t':(context) => const MeuHist_T(),
 
 
       //Funções --------------------------------------------------------

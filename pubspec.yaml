@@ -43,18 +43,18 @@ dependencies:
   flutter_launcher_icons: ^0.9.1
 
 flutter_native_splash:
-  color: "#e6b30e"
-  image: "defora/icone/petcare_base.png"
+  color: "#ffcc01"
+  image: "defora/icone/logopetcare.png"
   android: true
   ios: true
 
 flutter_icons:
-  image_path: "defora/icone/petcare_base.png"
+  image_path: "defora/icone/logopetcare.png"
   ios: true
   remove_alpha_ios: true
   android: launcher_icon
   adaptive_icon_background: "#dbdbd9"
-  adaptive_icon_foreground: "defora/icone/petcare_base.png"
+  adaptive_icon_foreground: "defora/icone/logopetcare.png"
 
 dev_dependencies:
    
@@ -100,6 +100,7 @@ flutter:
    - defora/imagens/fundoperfilT.png
    - defora/imagens/fundoperfpet.png
    - defora/imagens/fundoperfpet_edt.png
+   - defora/imagens/fundoeditartutor.png
    
     #fontes
   
