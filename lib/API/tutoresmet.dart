@@ -55,3 +55,4 @@ class LoginResult extends ServiceResult {
     );
   }
 }
+

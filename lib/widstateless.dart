@@ -47,8 +47,9 @@ class WidStateless extends StatelessWidget{
       '/entrarcuidador': (context) => const WidEntrarCuidador(),
       '/entrartutor':(context) => const WidEntrarTutor(),
 
-      //crie sua conta cuidador! --------------------------------------
+      //crie sua conta! --------------------------------------
       '/criarcontacuidador':(context) => const CriarConta(),
+      '/cadastro_t':(context) => const Cadastro_T(),
 
       //telas de seleção de perfil ------------------------------------
 
@@ -80,7 +81,6 @@ class WidStateless extends StatelessWidget{
       '/editar_perfil_c':(context) => const EditarPerfilC(),
       '/editar_agenda_c':(context) => const EditarAgenda_C(),
       
-      '/cadastro_t':(context) => const Cadastro_T(),
       '/perfil_t':(context) => const PerfilTutor(),
       '/editar_perfil_t':(context) => const EditarPerfil_T(),
       '/meuspet_t':(context) => const MeusPets_T(),

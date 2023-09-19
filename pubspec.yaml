@@ -27,9 +27,15 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  
+
   
 
   # The following adds the Cupertino Icons font to your application.
@@ -38,9 +44,10 @@ dependencies:
   extended_text_field: ^11.0.1
   http: ^0.13.6
   sql_conn: ^0.0.3
-  intl: ^0.18.1
+  intl: ^0.17.0
   flutter_native_splash: ^1.2.0
   flutter_launcher_icons: ^0.9.1
+  mask_text_input_formatter: ^2.5.0
 
 flutter_native_splash:
   color: "#ffcc01"
@@ -73,7 +80,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

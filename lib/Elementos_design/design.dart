@@ -7,7 +7,7 @@ class DesignEntradaTxt {
     required OutlineInputBorder border,
   }) {
     return InputDecoration(
-        hintText: hintText, labelText: labelText, border: OutlineInputBorder());
+        hintText: hintText, labelText: labelText, border: OutlineInputBorder(), counterText: "");
   }
 }
 
