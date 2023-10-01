@@ -38,7 +38,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/cadastro_t',
+      initialRoute: '/inicio',
       routes: {
       '/inicio': (context) => const WidInicio(),
 

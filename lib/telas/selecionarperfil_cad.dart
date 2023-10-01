@@ -29,7 +29,7 @@ class _EscolherPerfilCadState extends State<EscolherPerfilCad> {
                     height: MediaQuery.of(context).size.height * 0.06,
                     child: ElevatedButton(
                       onPressed: () {
-                        //programação
+                        Navigator.of(context).pushNamed('/cadastro_t');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
