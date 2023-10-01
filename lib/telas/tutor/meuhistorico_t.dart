@@ -11,6 +11,52 @@ class MeuHist_T extends StatefulWidget {
 }
 
 class _MeuHist_TState extends State<MeuHist_T> {
+  Widget _btnAndamento() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: ElevatedButton(
+        onPressed: () {
+          
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(7, 88, 20, 1),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
+        child: const Text(
+          'Em andamento',
+          style: TextStyle(
+            fontSize: 19, color: Color.fromRGBO(17, 57, 2, 1)),
+        ),
+      ),
+    );
+  }
+
+  Widget _btnConfirmados() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: ElevatedButton(
+        onPressed: () {
+          
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromRGBO(7, 88, 20, 1),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
+        child: const Text(
+          'Em andamento',
+          style: TextStyle(
+            fontSize: 19, color: Color.fromRGBO(0, 0, 0, 1)
+            ),
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +89,7 @@ class _MeuHist_TState extends State<MeuHist_T> {
                  )
                ],
              ),
-             
+             _btnAndamento()
             ],),
           ],
         )

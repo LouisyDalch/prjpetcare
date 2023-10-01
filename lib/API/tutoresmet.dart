@@ -21,6 +21,26 @@ class TutorAPI{
   }
   }
 
+  Future<ServiceResult> cadastroTutor(
+    String nome,String email,String datanasce, String cell, String cpf,
+    String genero, String senha, String cidade, String bairro, String uf,
+    String cep, String complemento, int numero) async {
+    final response = await http.get(Uri.parse(
+      "http://10.244.171.33/CadastrarTutor.aspx?nome=$nome&email=$email&datanasce=$datanasce&cell=$cell&cpf=$cpf&genero=$genero&senha=$senha&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&numero=$numero"));
+
+
+    if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    return ServiceResult(success: true);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
+  }
+  }
+
 }
 
 

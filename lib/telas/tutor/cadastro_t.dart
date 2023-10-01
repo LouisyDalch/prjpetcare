@@ -1,13 +1,16 @@
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
+import 'package:prjpetcare/API/tutoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 
 import '../../Elementos_design/design.dart';
 
@@ -15,12 +18,32 @@ class Cadastro_T extends StatefulWidget {
   const Cadastro_T({super.key});
 
   @override
-  State<Cadastro_T> createState() => _Cadastro_TState();
+  State<Cadastro_T> createState() => _Cadastro_TState(0);
 }
 
 class _Cadastro_TState extends State<Cadastro_T> {
-  _Cadastro_TState() {
+  TutorRopository tutorRopository = new TutorRopository();
+  String nome = "";
+  String email1 = "";
+  String email2 = "";
+  String senha1 = "";
+  String senha2 = "";
+  String dataNasce = "";
+  DateTime data = DateTime.now();
+  String datta = "";
+  String cpf = "";
+  String num = "";
+  //endereço
+  String cidade = "";
+  String bairro = "";
+  String uf = "";
+  String cep = "";
+  String complemento = "";
+  int numero;
+
+  _Cadastro_TState(this.numero) {
     _genSelect = genero[0];
+    
   }
   TextEditingController ufControl = TextEditingController();
 
@@ -35,22 +58,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
   final genero = ["Feminino", "Masculino", "Outro"];
   String? _genSelect = "";
 
-  String nome = "";
-  String email1 = "";
-  String email2 = "";
-  String senha1 = "";
-  String senha2 = "";
-  String dataNasce = "";
-  DateTime data = DateTime.now();
-  String cpf = "";
-  String num = "";
-  //endereço
-  String cidade = "";
-  String bairro = "";
-  String uf = "";
-  String cep = "";
-  String complemento = "";
-  int? numero = null;
+  
 
   bool concordo = false;
 
@@ -126,7 +134,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                     child: Form(
                       child: TextFormField(
                           onChanged: (Text) {
-                            Text = nome;
+                            
+                            setState(() {
+                              nome = Text;
+                            });
                           },
                           autocorrect: false,
                           decoration: DesignEntradaTxt.decorarcaixa(
@@ -144,7 +155,8 @@ class _Cadastro_TState extends State<Cadastro_T> {
                     child: Form(
                       child: TextFormField(
                           onChanged: (Text) {
-                            Text = email1;
+                            
+                            email1 = Text;
                           },
                           autocorrect: false,
                           decoration: DesignEntradaTxt.decorarcaixa(
@@ -162,7 +174,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                     child: Form(
                       child: TextFormField(
                           onChanged: (Text) {
-                            Text = email2;
+                            setState(() {
+                              email2 = Text;
+                            });
+                            
                           },
                           autocorrect: false,
                           decoration: DesignEntradaTxt.decorarcaixa(
@@ -180,7 +195,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                     child: Form(
                       child: TextFormField(
                           onChanged: (Text) {
-                            Text = senha1;
+                            
+                            setState(() {
+                              senha1 = Text;
+                            });
                           },
                           obscureText: true,
                           autocorrect: false,
@@ -199,7 +217,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                     child: Form(
                       child: TextFormField(
                           onChanged: (Text) {
-                            Text = senha2;
+                            
+                            setState(() {
+                              senha2 = Text;
+                            });
                           },
                           obscureText: true,
                           autocorrect: false,
@@ -277,7 +298,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                       child: TextFormField(
                           inputFormatters: [maskCpf],
                           onChanged: (Text) {
-                            Text = cpf;
+                            
+                            setState(() {
+                              cpf = Text;
+                            });
                           },
                           maxLength: 14,
                           keyboardType: TextInputType.number,
@@ -298,7 +322,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                       child: TextFormField(
                           inputFormatters: [maskNum],
                           onChanged: (Text) {
-                            Text = num;
+                            setState(() {
+                              num = Text;
+                            });
+                            
                           },
                           maxLength: 15,
                           keyboardType: TextInputType.number,
@@ -326,7 +353,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
                       }).toList(),
                       onChanged: (val) {
                         setState(() {
-                          _genSelect = val as String;
+                          _genSelect = val.toString();
                         });
                       },
                       icon: const Icon(
@@ -394,7 +421,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         child: Form(
                           child: TextFormField(
                               onChanged: (Text) {
-                                bairro = Text;
+                                setState(() {
+                                  bairro = Text;
+                                });
+                                
                               },
                               autocorrect: false,
                               decoration: DesignEntradaTxt.decorarcaixa(
@@ -417,11 +447,11 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         child: Form(
                           child: TextFormField(
                               onChanged: (value) {
-                                //uf = Text;
-                                ufControl.value = TextEditingValue(
-                                    text: value.toUpperCase(),
-                                    selection: ufControl.selection);
-                                value = uf;
+                                
+                                setState(() {
+                                  String a = value.toUpperCase();
+                                  uf = a;
+                                });
                               },
                               controller: ufControl,
                               maxLength: 2,
@@ -442,7 +472,10 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         child: Form(
                           child: TextFormField(
                               onChanged: (Text) {
-                                bairro = Text;
+                                
+                                setState(() {
+                                  cep = Text;
+                                });
                               },
                               inputFormatters: [maskCep],
                               maxLength: 9,
@@ -468,7 +501,14 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         child: Form(
                           child: TextFormField(
                               onChanged: (text) {
-                                text = complemento;
+                                
+                                setState(() {
+                                  complemento = text;
+                                  if(complemento.isEmpty){
+                                    complemento = "--";
+                                  }
+
+                                });
                               },
                               autocorrect: false,
                               decoration: DesignEntradaTxt.decorarcaixa(
@@ -487,7 +527,11 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         child: Form(
                           child: TextFormField(
                               onChanged: (Text) {
-                                bairro = Text;
+                                
+                                setState(() {
+                                  String a = Text;
+                                numero = int.parse(a);
+                                });
                               },
                               keyboardType: TextInputType.number,
                               autocorrect: false,
@@ -568,7 +612,9 @@ class _Cadastro_TState extends State<Cadastro_T> {
         lastDate: DateTime.now());
     if (pickedDate != null && pickedDate != data) {
       setState(() {
-        data = pickedDate;
+        var format = DateFormat("dd/MM/yyyy");
+        datta = format.format(pickedDate);
+      print("data: $datta");
       });
     }
   }
@@ -578,8 +624,21 @@ class _Cadastro_TState extends State<Cadastro_T> {
       width: MediaQuery.of(context).size.width * 0.6,
       height: MediaQuery.of(context).size.height * 0.065,
       child: ElevatedButton(
-        onPressed: () {
-          if (nome != null &&
+        onPressed: () async {
+          print("nome:$nome");
+          print("email:$email1");
+          print("senha:$senha1");
+          print("cpf:$cpf");
+          print("num:$num");
+          print("cidade:$cidade");
+          print("comple:$complemento");
+          print("numero:$numero");
+          print("bairro:$bairro");
+
+          Future<ServiceResult> cadastro = tutorRopository.cadTutor
+          (nome, email1, datta,num, cpf, _genSelect.toString(), senha1, cidade, bairro, uf, cep, complemento, numero);
+          /*
+          if (nome != "" &&
               email1 != "" &&
               senha1 != "" &&
               cpf != "" &&
@@ -588,20 +647,16 @@ class _Cadastro_TState extends State<Cadastro_T> {
               bairro != "" &&
               uf != "" &&
               cep != "" &&
-              complemento != "" &&
-              numero != "") {
+              complemento != "" 
+              ) {
             if (email1 == email2) {
               if (senha1 == senha2) {
                 final agr = DateTime.now();
                 final agr18 = DateTime.utc(agr.year - 18, agr.month, agr.day);
                 if (data.isAfter(agr18)) {
                   if (concordo == true) {
-                    //PROGRAMAÇÃO
-
-
-
-
-                    
+                    Future<ServiceResult> cadastro = tutorRopository.cadTutor(nome, email1, dataNasce, cep, cpf, genero as String, senha1, cidade, bairro, uf, cep, complemento, numero);
+ 
                     
                   } else {
                     var snackBar = const SnackBar(
@@ -642,7 +697,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
               style: TextStyle(fontSize: 15),
             ));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
+          }*/
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
