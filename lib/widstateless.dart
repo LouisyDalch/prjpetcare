@@ -10,6 +10,7 @@ import 'package:prjpetcare/telas/cuidador/perfil_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_confirm_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
+import 'package:prjpetcare/telas/cuidador/visual_pet_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
 import 'package:prjpetcare/telas/tutor/adicionar_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/cadastro_t.dart';
@@ -38,7 +39,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/inicio',
+      initialRoute: '/adicionar_pet_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -91,6 +92,11 @@ class WidStateless extends StatelessWidget{
       '/perfil_pet_t':(context) => const PerfilPet_T(),
       '/editar_perfil_pet_t':(context) => const EditarPerfPet_T(),
       '/adicionar_pet_t':(context) => const AdicionarPet_T(),
+
+
+
+      //Visualizações -----------------------------------------------------
+      '/visualizacao_pet_c':(context) => const VisualizacaoPet_T(),
 
 
     }

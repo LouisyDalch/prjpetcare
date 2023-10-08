@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:flutter/cupertino.dart';
 import '../../Elementos_design/design.dart';
@@ -16,6 +19,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     _portSelect = portes[0];
     _vacSelect = vacinacao[3];
   }
+  XFile? foto;
+
   final generos = ["Feminino", "Masculino", "Desconhecido"];
   String? _genSelect = "";
 
@@ -36,6 +41,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
   double peso = 0.0;
   int vac = 3;
   String descr = "";
+  DateTime data = DateTime.now();
+  String datta = "";
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +64,19 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                       children: [Container(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.height * 0.17,
+                        
                         decoration: BoxDecoration(
                             color: Colors.cyan,
                             borderRadius: BorderRadius.circular(10),
+                            
                             image: const DecorationImage(
+                              
                                 image: AssetImage(
                                     "defora/imagens/fundoperfpet_edt.png"),
                                 fit: BoxFit.cover)),
                       ),
-                      Row(
+                      
+                      /*Row(
             
             children: [
               Column(
@@ -89,7 +100,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         width: MediaQuery.of(context).size.width * 0.1,
                       ),
                       GestureDetector(
-                        onTap: () => print("aaa"),
+                        onTap: () => selecionarFoto,
+                        
                         child: Text(
                           "Adicionar Foto",
                           style: TextStyle(
@@ -103,7 +115,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                 ],
               ),
             ],
-          )
+          )*/
                       ]
                     ),
                     Container(
@@ -149,39 +161,22 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.01,
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        use24hFormat: true,
-                        initialDateTime: DateTime.now(),
-                        maximumDate: DateTime.now(),
-                        backgroundColor: Color.fromARGB(255, 235, 234, 234),
-                        onDateTimeChanged: (DateTime value) {
-                          String dia = "";
-                          String mess = "";
-                          final day = value.day;
-                          final mes = value.month;
-                          final ano = value.year;
-                          if (day < 10) {
-                            dia = "0$day";
-                          } else {
-                            dia = "$day";
-                          }
-                          if (mes < 10) {
-                            mess = "0$mes";
-                          } else {
-                            mess = "$mes";
-                          }
-                          dataNasce = "$dia/$mess/$ano";
-                          print(dataNasce);
-                          // Do something
-                        },
+                    SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromRGBO(7, 125, 27, 1),
+                      ),
+                      child: Text(
+                        DateFormat("dd/MM/yyyy").format(data),
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.06,
+                            color: Color.fromARGB(255, 3, 65, 9)),
                       ),
                     ),
+                  ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
@@ -421,5 +416,37 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
         ],
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: Color.fromRGBO(7, 125, 27, 1), // <-- SEE HERE
+                onPrimary: Color.fromARGB(255, 3, 65, 9), // <-- SEE HERE
+                onSurface: Color.fromARGB(255, 3, 65, 9),
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                    //primary: Colors.red, // button text color
+                    ),
+              ),
+            ),
+            child: child!,
+          );
+        },
+        context: context,
+        initialDate: data,
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now());
+    if (pickedDate != null && pickedDate != data) {
+      setState(() {
+        var format = DateFormat("dd/MM/yyyy");
+        datta = format.format(pickedDate);
+        data = pickedDate;
+      });
+    }
   }
 }
