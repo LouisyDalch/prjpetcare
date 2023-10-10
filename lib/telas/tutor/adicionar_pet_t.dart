@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prjpetcare/Elementos_design/opc_img.dart';
 import '../../Elementos_design/design.dart';
 
 class AdicionarPet_T extends StatefulWidget {
@@ -19,7 +21,21 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     _portSelect = portes[0];
     _vacSelect = vacinacao[3];
   }
-  XFile? foto;
+
+  final imagemPicker = ImagePicker();
+  File? imgFile;
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagemPicker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      if (this.mounted) {
+        setState(() {
+          imgFile = File(pickedFile!.path);
+        });
+      }
+    }
+  }
 
   final generos = ["Feminino", "Masculino", "Desconhecido"];
   String? _genSelect = "";
@@ -60,64 +76,88 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
-                    Stack(
-                      children: [Container(
+                    Stack(children: [
+                      Container(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.height * 0.17,
-                        
                         decoration: BoxDecoration(
                             color: Colors.cyan,
                             borderRadius: BorderRadius.circular(10),
-                            
                             image: const DecorationImage(
-                              
                                 image: AssetImage(
                                     "defora/imagens/fundoperfpet_edt.png"),
                                 fit: BoxFit.cover)),
                       ),
-                      
-                      /*Row(
-            
-            children: [
-              Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.018,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height * 0.13,
-                        decoration: BoxDecoration(
-                            color: Colors.cyanAccent,
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.1,
-                      ),
-                      GestureDetector(
-                        onTap: () => selecionarFoto,
-                        
-                        child: Text(
-                          "Adicionar Foto",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.06,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          )*/
-                      ]
-                    ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.018,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.05,
+                                  ),
+                                  CircleAvatar(
+                                    radius: MediaQuery.of(context).size.width *
+                                        0.13,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 62, 170, 172),
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 96, 219, 168),
+                                      backgroundImage: imgFile != null
+                                          ? FileImage(imgFile!)
+                                          : null,
+                                      radius:
+                                          MediaQuery.of(context).size.width *
+                                              0.11,
+                                    ),
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.1,
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.06,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: ((context) =>
+                                                opcoesImg()));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 62, 170, 172),
+                                      ),
+                                      child: Text(
+                                        'Adicionar Foto',
+                                        style: TextStyle(
+                                            fontFamily: 'LilitaOne',
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ]),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
@@ -162,21 +202,22 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                       height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.75,
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(7, 125, 27, 1),
-                      ),
-                      child: Text(
-                        DateFormat("dd/MM/yyyy").format(data),
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.06,
-                            color: Color.fromARGB(255, 3, 65, 9)),
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      child: ElevatedButton(
+                        onPressed: () => _selectDate(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromRGBO(7, 125, 27, 1),
+                        ),
+                        child: Text(
+                          DateFormat("dd/MM/yyyy").format(data),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.06,
+                              color: Color.fromARGB(255, 3, 65, 9)),
+                        ),
                       ),
                     ),
-                  ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
@@ -412,7 +453,6 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               ],
             ),
           ),
-          
         ],
       ),
     );
@@ -448,5 +488,76 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
         data = pickedDate;
       });
     }
+  }
+
+  Widget opcoesImg() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.25,
+      child: Column(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_library,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Galeria',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              // Buscar imagem da galeria
+              pick(ImageSource.gallery);
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_camera_back_rounded,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Câmera',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              // Buscar imagem da galeria
+              pick(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.no_photography_outlined,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Remover Foto',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () {
+              setState(() {
+                imgFile = null;
+              });
+              
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
