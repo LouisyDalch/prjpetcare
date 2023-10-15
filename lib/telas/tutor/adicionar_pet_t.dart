@@ -1,12 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:prjpetcare/Elementos_design/opc_img.dart';
+import 'package:prjpetcare/Repositorios/pet_repos.dart';
 import '../../Elementos_design/design.dart';
+import 'package:prjpetcare/API/petmet.dart' as petsAPI;
 
 class AdicionarPet_T extends StatefulWidget {
   const AdicionarPet_T({super.key});
@@ -21,6 +21,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     _portSelect = portes[0];
     _vacSelect = vacinacao[3];
   }
+  PetRopository petRopository = PetRopository();
 
   final imagemPicker = ImagePicker();
   File? imgFile;
@@ -31,7 +32,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     if (pickedFile != null) {
       if (this.mounted) {
         setState(() {
-          imgFile = File(pickedFile!.path);
+          imgFile = File(pickedFile.path);
         });
       }
     }
@@ -54,11 +55,12 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
   String nome = "";
   String dataNasce = "";
   String especie = "";
-  double peso = 0.0;
+  String peso = "";
   int vac = 3;
   String descr = "";
   DateTime data = DateTime.now();
   String datta = "";
+  String foto ="";
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +172,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              Text = nome;
+                              
+                              setState(() {
+                                nome=Text;
+                              });
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
@@ -230,7 +235,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              Text = especie;
+                              
+                              setState(() {
+                                Text = especie;
+                              });
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
@@ -253,8 +261,9 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              var amz = double.tryParse(Text);
-                              amz = peso;
+                              setState(() {
+                                peso = Text;
+                              });
                             },
                             autocorrect: false,
                             keyboardType: TextInputType.number,
@@ -308,7 +317,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                             }).toList(),
                             onChanged: (val) {
                               setState(() {
-                                _genSelect = val as String;
+                                _genSelect = val.toString();
                               });
                             },
                             icon: const Icon(
@@ -333,7 +342,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                             }).toList(),
                             onChanged: (val) {
                               setState(() {
-                                _portSelect = val as String;
+                                _portSelect = val.toString();
                               });
                             },
                             icon: const Icon(
@@ -411,7 +420,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                           TextFormField(
                             maxLines: 3,
                             onChanged: (Text) {
-                              descr = Text;
+                              
+                              setState(() {
+                                descr = Text;
+                              });
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
@@ -430,7 +442,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: ElevatedButton(
                         onPressed: () {
-                          //programação
+                          //ATENÇÃO
+                          Future<petsAPI.ServiceResult> novoPet = petRopository.cadPet(
+                            nome, datta, especie, _genSelect.toString(), peso, _portSelect.toString(), _vacSelect.toString(), descr, foto);
+
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(60, 115, 56, 1),
@@ -509,10 +524,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               'Galeria',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            onTap: () {
+            onTap: () async{
               Navigator.of(context).pop();
-              // Buscar imagem da galeria
               pick(ImageSource.gallery);
+              foto = base64Encode(await imgFile!.readAsBytes());
             },
           ),
           ListTile(
@@ -529,10 +544,10 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               'Câmera',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            onTap: () {
+            onTap: () async{
               Navigator.of(context).pop();
-              // Buscar imagem da galeria
               pick(ImageSource.camera);
+              foto = base64Encode(await imgFile!.readAsBytes());
             },
           ),
           ListTile(
@@ -550,8 +565,9 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             onTap: () {
-              setState(() {
+              setState(() async {
                 imgFile = null;
+                foto = base64Encode(await imgFile!.readAsBytes());
               });
               
             },

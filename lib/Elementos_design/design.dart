@@ -1,5 +1,34 @@
 import 'package:flutter/material.dart';
 
+/*class BottonNav {
+  static int nav = 0;
+  static BottomNavigationBar(){
+    currentIndex: nav;
+      backgroundColor: Color.fromRGBO(226, 225, 225, 1);
+      fixedColor: Color.fromRGBO(219, 114, 38, 1);
+      unselectedItemColor: Color.fromRGBO(117, 116, 116, 1);
+      onTap: (opcao) {
+        print("obs: $opcao");
+        
+        setState (() => nav = opcao);};
+      items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+              
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Perfil"
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag_rounded),
+              label:"Loja"
+          ),
+      ];
+  }
+}*/
+
 class DesignEntradaTxt {
   static InputDecoration decorarcaixa({
     required String hintText,
