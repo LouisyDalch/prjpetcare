@@ -306,6 +306,7 @@ class _VisualServConfState extends State<VisualServConf> {
                             ),
                           ],
                         ),
+                        
                         Container(
                           height: MediaQuery.of(context).size.height * 0.03,
                         ),
@@ -313,7 +314,11 @@ class _VisualServConfState extends State<VisualServConf> {
                     ),
                   ),
                   Container(
-                          height: MediaQuery.of(context).size.height * 0.1,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                            child: Text("O serviço não pode ser cancelado 24 horas antes de seu início")
+                          ),
+                  Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
                         ),
                   MenuHorCuidador()
                 ],
