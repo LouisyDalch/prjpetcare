@@ -84,3 +84,5 @@ class _ItemSolicCState extends State<ItemSolicC> {
     );
   }
 }
+
+

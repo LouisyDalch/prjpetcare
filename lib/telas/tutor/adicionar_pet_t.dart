@@ -25,6 +25,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
 
   final imagemPicker = ImagePicker();
   File? imgFile;
+  
 
   pick(ImageSource source) async {
     final pickedFile = await imagemPicker.pickImage(source: source);
@@ -527,7 +528,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
             onTap: () async{
               Navigator.of(context).pop();
               pick(ImageSource.gallery);
-              foto = base64Encode(await imgFile!.readAsBytes());
+              //foto = utility.base64String(await imgFile.readAsBytes());
             },
           ),
           ListTile(
