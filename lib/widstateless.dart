@@ -12,6 +12,7 @@ import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_pet_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_servconf_c.dart';
+import 'package:prjpetcare/telas/cuidador/visual_servfinal_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_servsolic_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_tutor_c.dart';
 import 'package:prjpetcare/telas/selecionarperfil_cad.dart';
@@ -31,6 +32,9 @@ import 'package:prjpetcare/telas/tutor/meuhistorico_t.dart';
 import 'package:prjpetcare/telas/tutor/meuspets_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
+import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';
+import 'package:prjpetcare/telas/tutor/serv_finalizado_t.dart';
+import 'package:prjpetcare/telas/tutor/serv_solic_t.dart';
 
 class WidStateless extends StatelessWidget{
   const WidStateless(MaterialApp materialApp, {super.key});
@@ -44,7 +48,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/visualizacao_servconf_c',
+      initialRoute: '/serv_solic_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -82,6 +86,10 @@ class WidStateless extends StatelessWidget{
       '/serv_final_c':(context) => const ServFinal_C(),
       '/serv_confirm_c':(context) => const ServConfirm_C(),
 
+      '/serv_confirm_t':(context) => const ServConf_T(),
+      '/serv_final_t':(context) => const ServFinal_T(),
+      '/serv_solic_t':(context) => const ServSolic_T(),
+
       //Perfil ---------------------------------------------------------
       '/perfil_c':(context) => const Perfil_C(),
       '/editar_perfil_c':(context) => const EditarPerfilC(),
@@ -102,9 +110,10 @@ class WidStateless extends StatelessWidget{
 
       //Visualizações -----------------------------------------------------
       '/visualizacao_pet_c':(context) => Container(child: VisualizacaoPet_T(text: descr)),
-      '/visualizacao_tutor_c':(context) => Container(child: VisualTutor_C()),
-      '/visualizacao_servsolic_c':(context) => Container(child: VisualServSolic()),
-      '/visualizacao_servconf_c':(context) => Container(child: VisualServConf()),
+      '/visualizacao_tutor_c':(context) => const VisualTutor_C(),
+      '/visualizacao_servsolic_c':(context) => const VisualServSolic(),
+      '/visualizacao_servconf_c':(context) => const VisualServConf(),
+      '/visualizacao_servfinal_c':(context) => const VisualServFinal(),
 
 
     }

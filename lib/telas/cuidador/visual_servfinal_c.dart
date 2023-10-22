@@ -4,36 +4,48 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
-class VisualServConf extends StatefulWidget {
-  const VisualServConf({super.key});
+class VisualServFinal extends StatefulWidget {
+  const VisualServFinal({super.key});
 
   @override
-  State<VisualServConf> createState() => _VisualServConfState();
+  State<VisualServFinal> createState() => _VisualServFinalState();
 }
 
-class _VisualServConfState extends State<VisualServConf> {
-  bool abra = false;
+class _VisualServFinalState extends State<VisualServFinal> {
+  int _rating = 0;
 
+  void _handleRating(int rating) {
+    setState(() {
+      _rating = rating;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async{ 
-        if(!abra){
-          final conf = await showConfDialog();
-          print(conf);
-          return conf ?? false;
-        }
-        return true;
-       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            WidBackground(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
+    List<Widget> stars = [];
+
+    for (int i = 1; i <= 5; i++) {
+      IconData starIcon = _rating >= i ? Icons.star : Icons.star_border;
+      stars.add(
+        GestureDetector(
+          //quando c for programar, tira o gesture detector e coloca o valor ali no _rating
+          onTap: () {
+            _handleRating(i);
+          },
+          child: Icon(starIcon, color: Colors.amber, size: 40),
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          WidBackground(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -42,7 +54,7 @@ class _VisualServConfState extends State<VisualServConf> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Text(
-                        "Serviço Confirmado",
+                        "Serviço Finalizado",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.06),
@@ -69,7 +81,8 @@ class _VisualServConfState extends State<VisualServConf> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize:
-                                        MediaQuery.of(context).size.width * 0.05),
+                                        MediaQuery.of(context).size.width *
+                                            0.05),
                               )),
                           Row(
                             children: [
@@ -78,7 +91,8 @@ class _VisualServConfState extends State<VisualServConf> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.15,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
                                 decoration: BoxDecoration(
                                     color: Color.fromRGBO(219, 114, 38, 1),
                                     shape: BoxShape.circle),
@@ -89,12 +103,12 @@ class _VisualServConfState extends State<VisualServConf> {
                               Column(
                                 children: [
                                   Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.47,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
                                     child: Text(
                                       "Maria Eduarda Expedita Oliveira Canto",
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   Container(
@@ -109,12 +123,13 @@ class _VisualServConfState extends State<VisualServConf> {
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
                                       child: GestureDetector(
-                                        onTap: () => Navigator.of(context).pushNamed('/visualizacao_tutor_c'),
+                                        onTap: () => Navigator.of(context)
+                                            .pushNamed('/visualizacao_tutor_c'),
                                         child: Text(
                                           "Saber mais",
                                           style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(219, 114, 38, 1),
+                                              color: Color.fromRGBO(
+                                                  219, 114, 38, 1),
                                               fontWeight: FontWeight.bold,
                                               fontSize: MediaQuery.of(context)
                                                       .size
@@ -153,7 +168,8 @@ class _VisualServConfState extends State<VisualServConf> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.25,
-                                height: MediaQuery.of(context).size.height * 0.12,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
                                 decoration: BoxDecoration(
                                     color: Color.fromRGBO(219, 114, 38, 1),
                                     borderRadius: BorderRadius.circular(10)),
@@ -176,15 +192,17 @@ class _VisualServConfState extends State<VisualServConf> {
                                           0.47,
                                       child: Text("Idade")),
                                   GestureDetector(
-                                    onTap: () => Navigator.of(context).pushNamed('/visualizacao_pet_c'),
+                                    onTap: () => Navigator.of(context)
+                                        .pushNamed('/visualizacao_pet_c'),
                                     child: Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.47,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.47,
                                         child: Text(
                                           "Saber mais",
                                           style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(219, 114, 38, 1),
+                                              color: Color.fromRGBO(
+                                                  219, 114, 38, 1),
                                               fontWeight: FontWeight.bold,
                                               fontSize: MediaQuery.of(context)
                                                       .size
@@ -243,122 +261,71 @@ class _VisualServConfState extends State<VisualServConf> {
                                   color: Colors.black.withOpacity(0.5),
                                 ),
                               )),
-                              Container(
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.004,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                          Container(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                            Container(
+                          Container(
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: Text(
-                                "Precificação total: R\$ 23,00",
+                                "Feedback",
                                 style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05),
                               )),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.03,
+                              Container(
+                            height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.06,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    //Programação
-                                    //if antes do tempo final, desabilita
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 0, 157, 16),
-                                  ),
-                                  child: Text(
-                                    'Finalizar',
-                                    style: TextStyle(
-                                        fontFamily: 'LilitaOne',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        color:
-                                            Color.fromARGB(255, 231, 231, 231)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.19,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.06,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    abra = true;
-                                    showConfDialog();
-                                    /*final conf = await showConfDialog();
-                                    print(conf);*/
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 157, 0, 0),
-                                  ),
-                                  child: Text(
-                                    'Cancelar',
-                                    style: TextStyle(
-                                        fontFamily: 'LilitaOne',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        color:
-                                            Color.fromARGB(255, 231, 231, 231)),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: stars,
                           ),
-                          
                           Container(
                             height: MediaQuery.of(context).size.height * 0.03,
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: Text(
+                                "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width * 0.05,
+                                        color: Colors.black.withOpacity(0.5)),
+                              )),
+                              Container(
+                            height: MediaQuery.of(context).size.height * 0.02,
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                              child: Text("O serviço não pode ser cancelado 24 horas antes de seu início")
-                            ),
-                    Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                          ),
-                    MenuHorCuidador()
+                      height: MediaQuery.of(context).size.height * 0.15,
+                    ),
+                    
                   ],
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.88,
+              ),
+              MenuHorCuidador()
+            ],
+          )
+        ],
       ),
     );
   }
-
-  Future<bool?> showConfDialog(){
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: Text("Deseja realmente cancelar o serviço?"),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context,false), 
-          child: Text("Não")),
-           TextButton(onPressed: () => Navigator.pop(context,true), 
-          child: Text("Sim"))
-        ],
-      );
-    });
-  }
-
 }
-
-
