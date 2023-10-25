@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 
+import '../../Elementos_design/design.dart';
+
 class MeuHist_T extends StatefulWidget {
   const MeuHist_T({super.key});
 
@@ -20,18 +22,41 @@ class _MeuHist_TState extends State<MeuHist_T> {
           
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(7, 88, 20, 1),
+            backgroundColor: Color.fromARGB(255, 15, 96, 8),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
           'Em andamento',
           style: TextStyle(
-            fontSize: 19, color: Color.fromRGBO(17, 57, 2, 1)),
+            fontSize: 19, color: Color.fromRGBO(20, 20, 20, 1)),
         ),
       ),
     );
   }
+
+  Widget _btnFinalizado() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: ElevatedButton(
+        onPressed: () {
+          
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 3, 112, 23),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
+        child: const Text(
+          'Finalizados',
+          style: TextStyle(
+            fontSize: 19, color: Color.fromRGBO(20, 20, 20, 1)),
+        ),
+      ),
+    );
+  }
+
 
   Widget _btnConfirmados() {
     return SizedBox(
@@ -47,9 +72,9 @@ class _MeuHist_TState extends State<MeuHist_T> {
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
-          'Em andamento',
+          'Confirmados',
           style: TextStyle(
-            fontSize: 19, color: Color.fromRGBO(0, 0, 0, 1)
+            fontSize: 19, color: Color.fromRGBO(20, 20, 20, 1)
             ),
         ),
       ),
@@ -77,8 +102,23 @@ class _MeuHist_TState extends State<MeuHist_T> {
              Container(
               height: MediaQuery.of(context).size.height * 0.08,
              ),
-             Row(
+             Container(
+              
+              decoration: BoxDecoration(
+                color: Color.fromARGB(131, 66, 151, 53),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: 
+             
+             Column(children: [
+              Container(
+              height: MediaQuery.of(context).size.height * 0.02,
+             ),
+              Row(
                children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.05,
+                 ),
                  Text("Serviços", 
                  style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.055,
@@ -89,7 +129,27 @@ class _MeuHist_TState extends State<MeuHist_T> {
                  )
                ],
              ),
-             _btnAndamento()
+             Container(
+              height: MediaQuery.of(context).size.height * 0.04,
+             ),
+             _btnAndamento(),
+             Container(
+              height: MediaQuery.of(context).size.height * 0.04,
+             ),
+             _btnConfirmados(),
+             Container(
+              height: MediaQuery.of(context).size.height * 0.04,
+             ),
+             _btnFinalizado(),
+             Container(
+              height: MediaQuery.of(context).size.height * 0.04,
+             ),
+             ],),),
+             
+             Container(
+              height: MediaQuery.of(context).size.height * 0.17,
+             ),
+            MenuHorTutor()
             ],),
           ],
         )
