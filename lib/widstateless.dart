@@ -35,6 +35,7 @@ import 'package:prjpetcare/telas/tutor/perfil_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_finalizado_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_solic_t.dart';
+import 'package:prjpetcare/telas/tutor/visual_cuidador_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servconf_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servfinal_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servsolic_t.dart';
@@ -51,7 +52,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/visualizacao_servfinal_t',
+      initialRoute: '/visualizacao_cuidador_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -121,6 +122,7 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_servconf_t':(context) => const VisualServConf_T(),
       '/visualizacao_servsolic_t':(context) => const VisualServSolic_T(),
       '/visualizacao_servfinal_t':(context) => const VisualServFinal_T(),
+      '/visualizacao_cuidador_t':(context) => const VisualCuidador_T(),
 
     }
     );
