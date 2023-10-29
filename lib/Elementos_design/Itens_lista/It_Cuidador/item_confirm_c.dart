@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Repositorios/cuidador_repos.dart';
+import '../../../Repositorios/cuidador_repos.dart';
 
 class ItemConfirmC extends StatefulWidget {
   final Servico servico;

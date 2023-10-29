@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:prjpetcare/Elementos_design/item_confirm_t.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_confirm_t.dart';
 
-import '../../Elementos_design/item_final_c.dart';
-import '../../Elementos_design/item_solic_t.dart';
+import '../../Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
+import '../../Elementos_design/Itens_lista/It_Tutor/item_solic_t.dart';
 
 class ServSolic_T extends StatefulWidget {
   const ServSolic_T({super.key});

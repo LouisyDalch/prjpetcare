@@ -3,7 +3,7 @@ import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
 import '../../API/cuidadoresmet.dart';
-import '../../Elementos_design/item_confirm_c.dart';
+import '../../Elementos_design/Itens_lista/It_Cuidador/item_confirm_c.dart';
 import '../../Repositorios/cuidador_repos.dart';
 
 class ServConfirm_C extends StatefulWidget {

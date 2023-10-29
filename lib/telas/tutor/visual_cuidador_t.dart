@@ -3,10 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:prjpetcare/Elementos_design/item_feedback_cuid_t.dart';
-import 'package:prjpetcare/Elementos_design/item_final_c.dart';
-import 'package:prjpetcare/Elementos_design/item_pet_c.dart';
-import 'package:prjpetcare/Elementos_design/item_pet_t.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_feedback_cuid_t.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_pet_c.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_pet_t.dart';
 
 class VisualCuidador_T extends StatefulWidget {
   const VisualCuidador_T({super.key});
@@ -664,8 +664,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                     top: MediaQuery.of(context).size.width * 0.03,
                     left: MediaQuery.of(context).size.width * 0.1,
                     right: MediaQuery.of(context).size.width * 0.1
-                    //MediaQuery.of(context).size.width * 0.08
-                    ),
+                  ),
               ),
             ),
           ],

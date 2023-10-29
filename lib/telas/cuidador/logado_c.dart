@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:prjpetcare/Elementos_design/item_agenda.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_agenda.dart';
 
 
 class LogadoCuidador extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
-import '../../Elementos_design/item_final_c.dart';
+import '../../Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
 
 class ServFinal_C extends StatefulWidget {
   const ServFinal_C({super.key});

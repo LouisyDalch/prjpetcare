@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
-import 'package:prjpetcare/Elementos_design/item_pet_t.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_pet_t.dart';
 
 class MeusPets_T extends StatefulWidget {
   const MeusPets_T({super.key});

@@ -4,7 +4,7 @@ import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
-import '../../Elementos_design/item_solic_c.dart';
+import '../../Elementos_design/Itens_lista/It_Cuidador/item_solic_c.dart';
 
 class ServSolic_C extends StatefulWidget {
   const ServSolic_C({super.key});
