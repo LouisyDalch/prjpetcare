@@ -30,8 +30,12 @@ import 'package:prjpetcare/telas/tutor/logado_t.dart';
 import 'package:prjpetcare/telas/tutor/login_t.dart';
 import 'package:prjpetcare/telas/tutor/meuhistorico_t.dart';
 import 'package:prjpetcare/telas/tutor/meuspets_t.dart';
+import 'package:prjpetcare/telas/tutor/mostrar_servadestra_t.dart';
+import 'package:prjpetcare/telas/tutor/mostrar_servcreche_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servhosp_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servpasseio_t.dart';
+import 'package:prjpetcare/telas/tutor/mostrar_servsitter_t.dart';
+import 'package:prjpetcare/telas/tutor/mostrar_servvet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';
@@ -54,7 +58,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/mostrar_hosp_t',
+      initialRoute: '/mostrar_pass_t',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -129,6 +133,10 @@ class WidStateless extends StatelessWidget{
       //Serviços selecionados by tutor -------------------------------------
       '/mostrar_hosp_t':(context) => const MostrarServHosp_T(),
       '/mostrar_pass_t':(context) => const MostrarServPass_T(),
+      '/mostrar_creche_t':(context) => const MostrarServCreche_T(),
+      '/mostrar_vet_t':(context) => const MostrarServVet_T(),
+      '/mostrar_sitter_t':(context) => const MostrarServPetSitter_T(),
+      '/mostrar_adestra_t':(context) => const MostrarServAdestra_T(),
     }
     );
     

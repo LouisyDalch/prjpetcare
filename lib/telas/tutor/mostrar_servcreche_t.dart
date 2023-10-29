@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
-import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_mostrarhosp_t.dart';
+import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_mostrarcreche_t.dart';
 
-import '../../Elementos_design/Itens_lista/It_Tutor/item_mostrarpass_t.dart';
 import '../../Elementos_design/design.dart';
 import '../../Elementos_design/Itens_lista/It_Tutor/item_feedback_cuid_t.dart';
 
-class MostrarServPass_T extends StatefulWidget {
-  const MostrarServPass_T({super.key});
+class MostrarServCreche_T extends StatefulWidget {
+  const MostrarServCreche_T({super.key});
 
   @override
-  State<MostrarServPass_T> createState() => _MostrarServPass_TState();
+  State<MostrarServCreche_T> createState() => _MostrarServCreche_TState();
 }
 
-class _MostrarServPass_TState extends State<MostrarServPass_T> {
+class _MostrarServCreche_TState extends State<MostrarServCreche_T> {
   String pesquisa = "";
   final lst = ["um", "2", "três"];
   @override
@@ -73,7 +72,7 @@ class _MostrarServPass_TState extends State<MostrarServPass_T> {
                   Container(height: MediaQuery.of(context).size.height * 0.04,),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text("Passeio", style: TextStyle(
+                    child: Text("Creche", style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: MediaQuery.of(context).size.width * 0.07
                     ),),
@@ -86,7 +85,7 @@ class _MostrarServPass_TState extends State<MostrarServPass_T> {
                                 shrinkWrap: true,
                                 itemCount: lst.length,
                                 itemBuilder: (context, Index) {
-                                  return const ItemMostrarPassT();
+                                  return const ItemMostrarCrecheT();
                                 }),
                   ),
                   Container(height: MediaQuery.of(context).size.height * 0.015,),
