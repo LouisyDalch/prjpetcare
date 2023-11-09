@@ -3,6 +3,9 @@ import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_agenda.dart';
 
+import '../../API/cuidadoresmet.dart';
+import '../../Repositorios/cuidador_repos.dart';
+//program
 
 class LogadoCuidador extends StatefulWidget {
   const LogadoCuidador({super.key});
@@ -12,7 +15,40 @@ class LogadoCuidador extends StatefulWidget {
 }
 
 class _LogadoCuidadorState extends State<LogadoCuidador> {
-  final List lst = ['um', 'dois', 'três', 'quatro'];
+  CuidadorRepository cuidadorRepository = new CuidadorRepository();
+  List<Servico> lst = [];
+
+  Future<ListResult> getServicos() async {
+    return await cuidadorRepository.puxarAgenda();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadServicos();
+  }
+
+  void loadServicos() async {
+    ListResult servicos = await getServicos();
+    setState(() {
+      lst = [];
+      for (var element in servicos.resultados) {
+        lst.add(Servico(
+            idServ: element['idServ'],
+            dataIni: DateTime.tryParse(element['dataIni']),
+            dataFin: DateTime.tryParse(element['dataFin']),
+            valor: element["valor"],
+            idDono: element['idDono'],
+            idCuidador: element['idCuidador'],
+            idPet: element["idPet"],
+            idTipoServ: element["idTipoServ"],
+            donoNome: element['donoNome'],
+            idStatus: element['idStatus'],
+            nomePet: element['nomePet'],
+            tipoServ: element['tipoServ'],));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +96,10 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
                           borderRadius: BorderRadius.circular(0)),
                       child: ListView.builder(
                           itemCount: lst.length,
+                          
                           itemBuilder: (context, Index) {
-                            return const ItemList();
+                            Servico current = lst[Index];
+                            return ItemList(servico: current,);
                           }),
                     ),
                     Padding(

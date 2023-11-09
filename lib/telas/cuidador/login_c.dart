@@ -24,7 +24,7 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
       height: MediaQuery.of(context).size.height * 0.057,
       child: ElevatedButton(
         onPressed: () async {
-          LoginResult result =
+          LoginResult? result =
               await cuidadorRepository.loginCuidadores(emailusu, senha);
 
           if (emailusu == "" || senha == "") {
@@ -43,6 +43,7 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
               ));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else {
+              if(result == null) return;
               if (result.success) {
                 print("uiiiiiiiiiiiiiii");
                 CuidadorRepository.token = result.token;

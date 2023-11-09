@@ -14,8 +14,8 @@ class ServConfirm_C extends StatefulWidget {
 }
 
 class _ServConfirm_CState extends State<ServConfirm_C> {
-  CuidadorRepository cuidadorRepository = new CuidadorRepository();
-  List<Servico> lst = [];
+  CuidadorRepository cuidadorRepository = CuidadorRepository();
+  List<ServicoSolic> lst = [];
 
   Future<ListResult> getServicos() async {
     return await cuidadorRepository.puxarServConf();
@@ -27,21 +27,26 @@ class _ServConfirm_CState extends State<ServConfirm_C> {
     loadServicos();
   }
 
-  void loadServicos() async {
+ void loadServicos() async {
     ListResult servicos = await getServicos();
     setState(() {
       lst = [];
       for (var element in servicos.resultados) {
-        lst.add(Servico(
+        lst.add(ServicoSolic(
             idServ: element['idServ'],
             dataIni: DateTime.tryParse(element['dataIni']),
             dataFin: DateTime.tryParse(element['dataFin']),
+            valor: element["valor"],
+            idStatus: element['idStatus'],
             idDono: element['idDono'],
             idCuidador: element['idCuidador'],
+            idPet: element["idPet"],
+            idTipoServ: element["idTipoServ"],
             donoNome: element['donoNome'],
-            idStatus: element['idStatus'],
-            tipoServ: element['tipoServ'],
-            nomePet: element['nomePet']));
+            dataDono: DateTime.tryParse(element["dataDono"]),
+            nomePet: element['nomePet'],
+            dataPet: DateTime.tryParse(element["dataPet"]),
+            tipoServ: element['tipoServ'],),);
       }
     });
   }
@@ -78,7 +83,7 @@ class _ServConfirm_CState extends State<ServConfirm_C> {
                       child: ListView.builder(
                           itemCount: lst.length,
                           itemBuilder: (context, index) {
-                            Servico current = lst[index];
+                            ServicoSolic current = lst[index];
                             return ItemConfirmC(
                               servico: current,
                             );

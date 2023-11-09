@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 import 'package:intl/intl.dart';
+import 'dart:typed_data';
+import 'dart:async';
 
+
+//ref
 class ItemSolicC extends StatefulWidget {
-  final Servico servico;
+  final ServicoSolic servico;
 
   const ItemSolicC({
     super.key,
@@ -11,15 +15,33 @@ class ItemSolicC extends StatefulWidget {
   });
 
   @override
-  State<ItemSolicC> createState() => _ItemSolicCState(servico: servico);
+  State<ItemSolicC> createState() => _ItemSolicCState(servico: servico, cuidadorRepository: CuidadorRepository());
 }
 
 class _ItemSolicCState extends State<ItemSolicC> {
-  Servico servico;
-
+  ServicoSolic servico;
+  Uint8List? _imageData;
+  CuidadorRepository cuidadorRepository;
+  
     _ItemSolicCState({
       required this.servico,
+      required this.cuidadorRepository,
     }) : super();
+
+  @override
+  void initState() {
+    super.initState();
+    print(this.servico.idDono);
+    _loadImage();
+  }
+
+  Future<void> _loadImage() async {
+    Uint8List data = await cuidadorRepository.getImageDataTutor(this.servico.idDono);
+    print("imagem carregou");
+    setState(() {
+      _imageData = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +63,15 @@ class _ItemSolicCState extends State<ItemSolicC> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.16,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.amber,
                   shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image:NetworkImage("https://img.freepik.com/vetores-premium/amigo-3d-pessoas-contato-perfil-simbolo-do-emblema-do-icone-do-usuario-pessoa-humano-simbolo-de-sinal-de-avatar_659151-934.jpg"))
+                  image: _imageData != null
+                    ? DecorationImage(
+                        image: MemoryImage(_imageData!),
+                        fit: BoxFit.cover,
+                    )
+                      : null,
                 ),
               )
             ],

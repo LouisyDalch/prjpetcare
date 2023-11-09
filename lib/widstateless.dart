@@ -59,7 +59,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/solic_servico_t',
+      initialRoute: '/inicio',
       routes: {
       '/inicio': (context) => const WidInicio(),
 

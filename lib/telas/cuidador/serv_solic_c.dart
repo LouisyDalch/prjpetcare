@@ -1,11 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
-import '../../Elementos_design/Itens_lista/It_Cuidador/item_solic_c.dart';
 
+import '../../Elementos_design/Itens_lista/It_Cuidador/item_solic_c.dart';
+//ref
 class ServSolic_C extends StatefulWidget {
   const ServSolic_C({super.key});
 
@@ -15,10 +18,42 @@ class ServSolic_C extends StatefulWidget {
 
 class _ServSolic_CState extends State<ServSolic_C> {
   CuidadorRepository cuidadorRepository = new CuidadorRepository();
-  List<Servico> lst = [];
+  List<ServicoSolic> lst = [];
 
-  Future<ListResult> getServicos() async {
-    return await cuidadorRepository.puxarServicos();
+  Future<ListResult> getServicosSolic() async {
+    return await cuidadorRepository.puxarServicosSolic();
+  }
+  /*Future<ListResult> getImgCuidador() async {
+    return await cuidadorRepository.chamarImgCuidador();
+  }*/
+
+  void loadServicos() async {
+    ListResult servicos = await getServicosSolic();
+    //ListResult imgCuidador = await getImgCuidador();
+    setState(() {
+      lst = [];
+      for (var element in servicos.resultados) {
+        lst.add(ServicoSolic(
+            idServ: element['idServ'],
+            dataIni: DateTime.tryParse(element['dataIni']),
+            dataFin: DateTime.tryParse(element['dataFin']),
+            valor: element["valor"],
+            idStatus: element['idStatus'],
+            idDono: element['idDono'],
+            idCuidador: element['idCuidador'],
+            idPet: element["idPet"],
+            idTipoServ: element["idTipoServ"],
+            donoNome: element['donoNome'],
+            dataDono: DateTime.tryParse(element["dataDono"]),
+            nomePet: element['nomePet'],
+            dataPet: DateTime.tryParse(element["dataPet"]),
+            tipoServ: element['tipoServ'],),);
+        //lst.add(objImgCuidador(imgCuidador: element["imgCuidador"]))
+      }
+      /*for(var a in imgCuidador.resultados){
+        lst.add(objImgCuidador(imgCuidador: a["imgCuidador"]) as ServicoSolic);
+      }*/
+    });
   }
 
   @override
@@ -27,24 +62,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
     loadServicos();
   }
 
-  void loadServicos() async {
-    ListResult servicos = await getServicos();
-    setState(() {
-      lst = [];
-      for (var element in servicos.resultados) {
-        lst.add(Servico(
-            idServ: element['idServ'],
-            dataIni: DateTime.tryParse(element['dataIni']),
-            dataFin: DateTime.tryParse(element['dataFin']),
-            idDono: element['idDono'],
-            idCuidador: element['idCuidador'],
-            donoNome: element['donoNome'],
-            idStatus: element['idStatus'],
-            tipoServ: element['tipoServ'],
-            nomePet: element['nomePet']));
-      }
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +96,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
                       child: ListView.builder(
                           itemCount: lst.length,
                           itemBuilder: (context, index) {
-                            Servico current = lst[index];
+                            ServicoSolic current = lst[index];
                             return ItemSolicC(
                               servico: current,
                             );

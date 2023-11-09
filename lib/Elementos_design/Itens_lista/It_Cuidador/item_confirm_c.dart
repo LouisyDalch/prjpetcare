@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../Repositorios/cuidador_repos.dart';
 
 class ItemConfirmC extends StatefulWidget {
-  final Servico servico;
+  final ServicoSolic servico;
 
   const ItemConfirmC({super.key,
   required this.servico,});
@@ -13,7 +13,7 @@ class ItemConfirmC extends StatefulWidget {
 }
 
 class _ItemConfirmCState extends State<ItemConfirmC> {
-  Servico servico;
+  ServicoSolic servico;
 
 
   _ItemConfirmCState({

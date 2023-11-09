@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 class EditarPerfilC extends StatefulWidget {
   const EditarPerfilC({super.key});
@@ -55,14 +61,6 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.013,
                               ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.14,
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 220, 48, 0),
-                                    shape: BoxShape.circle),
-                              ),
                             ]),
                             Column(
                               children: [
@@ -74,20 +72,59 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.02,
+                                          0.05,
                                     ),
-                                    GestureDetector(
-                                      onTap: () => print("PROGRAMAÇÃO"),
-                                      child: Text(
-                                        "Editar Foto",
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.065,
-                                            fontWeight: FontWeight.bold),
+                                    CircleAvatar(
+                                      radius:
+                                          MediaQuery.of(context).size.width *
+                                              0.13,
+                                      backgroundColor:
+                                          Color.fromRGBO(219, 114, 38, 1),
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            Color.fromRGBO(219, 114, 38, 1),
+                                        backgroundImage: imageBytes != null
+                                            ? MemoryImage(imageBytes!)
+                                            : null,
+                                        radius:
+                                            MediaQuery.of(context).size.width *
+                                                0.11,
                                       ),
                                     ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.1,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.06,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: ((context) =>
+                                                  opcoesImg()));
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Color.fromRGBO(219, 114, 38, 1),
+                                        ),
+                                        child: Text(
+                                          'Adicionar Foto',
+                                          style: TextStyle(
+                                              fontFamily: 'LilitaOne',
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ],
@@ -285,7 +322,8 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",
                                                 labelText: "Complemento",
-                                                border: const OutlineInputBorder()),
+                                                border:
+                                                    const OutlineInputBorder()),
                                       ),
                                     ],
                                   )),
@@ -313,7 +351,8 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",
                                                 labelText: "Número",
-                                                border: const OutlineInputBorder()),
+                                                border:
+                                                    const OutlineInputBorder()),
                                         keyboardType: TextInputType.number,
                                       ),
                                     ],
@@ -386,7 +425,9 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                 ),
                               ],
                             ),
-                            Container(height: MediaQuery.of(context).size.height * 0.04,),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.04,
+                            ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.5,
                               height: MediaQuery.of(context).size.height * 0.06,
@@ -395,21 +436,22 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                   //programação
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(
-                                          219, 114, 38, 1)
-                                ),
+                                    backgroundColor:
+                                        const Color.fromRGBO(219, 114, 38, 1)),
                                 child: Text(
                                   'Salvar Alterações',
                                   style: TextStyle(
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.05,
-                                      color: const Color.fromARGB(255, 0, 0, 0)),
+                                      color:
+                                          const Color.fromARGB(255, 0, 0, 0)),
                                 ),
                               ),
                             ),
-                            Container(height: MediaQuery.of(context).size.height * 0.04,),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.04,
+                            ),
                           ],
                         ))
                   ],
@@ -417,6 +459,110 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  final imagemPicker = ImagePicker();
+  Uint8List? imageBytes;
+  CuidadorRepository repository = CuidadorRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    loadImage();
+  }
+
+  void loadImage() async {
+    var bytes = await repository.pegarFoto();
+    setState(() => {imageBytes = bytes});
+  }
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagemPicker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      if (this.mounted) {
+        var file = File(pickedFile.path);
+        var imagemParaMandarProBanco = await file.readAsBytes();
+
+        ServiceResult result =
+            await repository.salvarFoto(imagemParaMandarProBanco);
+
+        print(result.success);
+
+        setState(() {
+          imageBytes = imagemParaMandarProBanco;
+        });
+      }
+    }
+  }
+
+  String foto = "";
+
+  Widget opcoesImg() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.25,
+      child: Column(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_library,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Galeria',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () async {
+              Navigator.of(context).pop();
+              pick(ImageSource.gallery);
+              //foto = utility.base64String(await imgFile.readAsBytes());
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_camera_back_rounded,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Câmera',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () async {
+              Navigator.of(context).pop();
+              pick(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.no_photography_outlined,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Remover Foto',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () {
+              setState(() async {});
+            },
+          ),
         ],
       ),
     );
