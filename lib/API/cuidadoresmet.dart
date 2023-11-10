@@ -75,6 +75,8 @@ class CuidadoresAPI {
     }
   }
 
+  
+
   Future<ListResult> puxarAgenda(String? token) async {
     //tbm vai ser usado p conf
     if (token == null) throw Exception('Failed to login');
@@ -178,7 +180,7 @@ class CuidadoresAPI {
     return response.bodyBytes;
   }
 
-  Future<ListResult> puxarEndCuidador(String? token) async {
+  Future<ListResult> puxarEndCuidador(String? token)  async{
     if (token == null) throw Exception('Failed to login');
 
     print(token);

@@ -99,7 +99,7 @@ class EndCuid {
   String rua;
   String bairro;
   int num;
-  String? comple;
+  String comple;
   String cep;
   String cidade;
   String uf;

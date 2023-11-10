@@ -18,9 +18,15 @@ class Perfil_C extends StatefulWidget {
 
 class _Perfil_CState extends State<Perfil_C> {
   List<InfoCuid> lst=[];
+  List<EndCuid> lst2=[];
   String nome= "";
   DateTime nasceu = DateTime.now();
   String email = "";
+  String rua = "";
+  String bairro = "";
+  String cidade = "";
+  String uf = "";
+  
 
    CuidadorRepository cuidadorRepository = CuidadorRepository();
 
@@ -28,10 +34,15 @@ class _Perfil_CState extends State<Perfil_C> {
     return await cuidadorRepository.puxarInfosCuid();
   }
 
+  Future<ListResult> getEndCuid() async {
+    return await cuidadorRepository.puxarEndCuidador();
+  }
+
   @override
   void initState() {
     super.initState();
     loadInfos();
+    loadEndereco();
   }
 
   void loadInfos() async {
@@ -60,6 +71,32 @@ class _Perfil_CState extends State<Perfil_C> {
       nome = a.nome;
       nasceu = a.dataNasce!;
       email = a.email;
+    });
+    
+   
+  }
+
+  void loadEndereco() async {
+    ListResult end = await getEndCuid();
+    setState(() {
+      for (var element in end.resultados) {
+        lst2 = [];
+         lst2.add(EndCuid(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]
+            ));
+      }
+      EndCuid a = lst2[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
     });
     
    
@@ -234,7 +271,7 @@ class _Perfil_CState extends State<Perfil_C> {
                           //colocar imagem
                         ),
                       ),
-                      Text("Localização",
+                      Text("$rua - $bairro, $cidade - $uf",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
