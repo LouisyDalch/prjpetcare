@@ -67,8 +67,6 @@ class InfoCuid {
   String senha;
   String especializacao;
   String tempoExper;
-  ImageByteFormat? img;
-  int curriculo;
   double valor;
   int idEnd;
   int idTipoServ;
@@ -86,8 +84,6 @@ class InfoCuid {
     required this.senha,
     required this.especializacao,
     required this.tempoExper,
-    required this.img,
-    required this.curriculo,
     required this.valor,
     required this.idEnd,
     required this.idTipoServ,

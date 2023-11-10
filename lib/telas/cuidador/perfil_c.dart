@@ -1,15 +1,85 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+
+import '../../API/cuidadoresmet.dart';
+
 
 class Perfil_C extends StatefulWidget {
-  const Perfil_C({super.key});
+  const Perfil_C({super.key,});
 
   @override
   State<Perfil_C> createState() => _Perfil_CState();
 }
 
 class _Perfil_CState extends State<Perfil_C> {
+  List<InfoCuid> lst=[];
+  String nome= "";
+  DateTime nasceu = DateTime.now();
+  String email = "";
+
+   CuidadorRepository cuidadorRepository = CuidadorRepository();
+
+   Future<ListResult> getInfoCuid() async {
+    return await cuidadorRepository.puxarInfosCuid();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadInfos();
+  }
+
+  void loadInfos() async {
+    ListResult infos = await getInfoCuid();
+    setState(() {
+      for (var element in infos.resultados) {
+        lst = [];
+         lst.add(InfoCuid(
+            idCuidador: element['id_cuidador'],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element["datanasce"]),
+            telefone: element["telefone"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"],
+            especializacao: element["especializacao"],
+            tempoExper: element["tempoexper"],
+            valor: element["valor"],
+            idEnd: element["id_end"],
+            idTipoServ: element["id_tipoServ"],
+            idTipoPet: element["id_TipoPet"],
+            idAgenda: element["id_Agenda"]));
+      }
+      InfoCuid a = lst[0];
+      nome = a.nome;
+      nasceu = a.dataNasce!;
+      email = a.email;
+    });
+    
+   
+  }
+
+  int _calcularIdade (DateTime dataNasceu){
+    DateTime verifica = DateTime(DateTime.now().year, dataNasceu.month,dataNasceu.day);
+    DateTime hoje = DateTime.now();
+    int idade;
+    if(DateTime.now().isBefore(verifica)){
+      idade = hoje.year - dataNasceu.year - 1;
+    }else{
+      idade = hoje.year - dataNasceu.year;
+    }
+    return idade;
+  }
+  
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,18 +207,20 @@ class _Perfil_CState extends State<Perfil_C> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                Container(
                   width: MediaQuery.of(context).size.width * 0.95,
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Nome_cuidador",
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.055,
-                        fontWeight: FontWeight.bold
-                      ),),
-                      Text("Idade",
+                      Container(
+                        child: Text(nome,//kkkkkkkkkkkkk
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.055,
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                      Text("${_calcularIdade(nasceu)} anos",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
@@ -167,7 +239,7 @@ class _Perfil_CState extends State<Perfil_C> {
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
                       ),),
-                      Text("Email",
+                      Text(email,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold

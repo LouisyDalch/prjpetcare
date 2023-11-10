@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 import 'package:prjpetcare/widstateless.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
   
@@ -9,7 +10,6 @@ main() {
 
   runApp(const WidStateless(
     MaterialApp(
-
       localizationsDelegates: [
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
@@ -19,6 +19,8 @@ main() {
     Locale('en'), // English
     Locale('pt'), // Spanish
   ],
-    )
+    ),
+    
   ));
+  
 }
