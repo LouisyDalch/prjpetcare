@@ -1,10 +1,13 @@
 import 'dart:ffi';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+
 
 import '../../API/cuidadoresmet.dart';
 
@@ -38,11 +41,22 @@ class _Perfil_CState extends State<Perfil_C> {
     return await cuidadorRepository.puxarEndCuidador();
   }
 
+  final imagemPicker = ImagePicker();
+  Uint8List? imageBytes;
+  
+  
+
+  void loadImage() async {
+    var bytes = await cuidadorRepository.pegarFoto();
+    setState(() => {imageBytes = bytes});
+  }
+
   @override
   void initState() {
     super.initState();
     loadInfos();
     loadEndereco();
+    loadImage();
   }
 
   void loadInfos() async {
@@ -181,7 +195,7 @@ class _Perfil_CState extends State<Perfil_C> {
                   height: MediaQuery.of(context).size.height * 0.0001,
                 ),
                 GestureDetector(
-                  onTap: () => print("uiiii"), //programação
+                  onTap: () => Navigator.pushNamed(context, '/editar_agenda_c'), //programação
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: MediaQuery.of(context).size.height * 0.08,
@@ -265,9 +279,15 @@ class _Perfil_CState extends State<Perfil_C> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.brown,
                           shape: BoxShape.circle,
+                          image: imageBytes != null
+                    ? DecorationImage(
+                        image: MemoryImage(imageBytes!),
+                        fit: BoxFit.cover,
+                    )
+                      : null,
                           //colocar imagem
                         ),
                       ),

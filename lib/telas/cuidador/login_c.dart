@@ -184,11 +184,14 @@ class WidEntrarCuidadorState extends State<WidEntrarCuidador> {
                         Padding(
                             padding: EdgeInsets.all(
                                 MediaQuery.of(context).size.height * 0.008)),
-                        Text(
-                          'Esqueci minha senha',
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02),
+                        GestureDetector(
+                          onTap: () => Navigator.pushReplacementNamed(context, '/esqsenha_email_c'),
+                          child: Text(
+                            'Esqueci minha senha',
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.02),
+                          ),
                         ),
                         Padding(
                             padding: EdgeInsets.all(

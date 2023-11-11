@@ -103,7 +103,7 @@ class CuidadoresAPI {
     }
   }
 
-  Future<Uint8List> pegarFoto(String? token) async {
+  Future<Uint8List> pegarFoto(String? token) async { //é do cuidador
     if (token == null) throw Exception('Failed to login');
 
     print(token);
@@ -271,4 +271,31 @@ class LoginResult extends ServiceResult {
   factory LoginResult.fromJson(Map<String, dynamic> json) {
     return LoginResult(success: json['success'], token: json['token']);
   }
+
+
+  Future<ServiceResult> AlterarAgendaCuid(
+    String? token, int dom, int seg, int ter, int qua, int qui, int sex, int sab
+  ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    final response = await http.get(Uri.parse(
+      "http://10.244.171.33/AlterarAgendaCuid.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"),
+      headers: <String, String>{
+        'Authorization': token,
+      },);
+
+
+    if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    return ServiceResult(success: true);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
+  }
+  }
+
+
 }

@@ -17,6 +17,14 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
   bool sex = false;
   bool dom = false;
 
+  int sab1 = 0;
+  int seg1 = 0;
+  int ter1 = 0;
+  int qua1 = 0;
+  int qui1 = 0;
+  int sex1 = 0;
+  int dom1 = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +60,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Domingo",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.1,
@@ -73,7 +82,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Segunda-feira",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
+                          
                     ),
                     Checkbox(
                       value: seg,
@@ -91,7 +102,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Terça-feira",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.07,
@@ -112,7 +124,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Quarta-feira",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.05,
@@ -133,7 +146,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Quinta-feira",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.05,
@@ -154,7 +168,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Sexta-feira",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.07,
@@ -175,7 +190,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                     Text(
                       "Sábado",
                       style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.05),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.14,
