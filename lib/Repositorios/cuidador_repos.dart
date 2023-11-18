@@ -47,12 +47,85 @@ class CuidadorRepository {
   Future<ListResult> puxarInfosCuid() async {
     return cuidadoresAPI.puxarInfosCuid(token);
   }
+
+  Future<ServiceResult> alterarAgendaCuid(
+    int dom, int seg, int ter, int qua, int qui, int sex, int sab
+  ) async {
+    return cuidadoresAPI.alterarAgenda(token, dom, seg, ter, qua, qui, sex, sab);
+  }
+
+  Future<ListResult> puxarPetCuid(
+    String idPet
+  ) async {
+    return cuidadoresAPI.puxarPetCuid(token, idPet);
+  }
+
+  Future<ListResult> puxarTutorCuid(
+    String idTutor
+  ) async {
+    return cuidadoresAPI.puxarDadosTutorCuid(token, idTutor);
+  }
+
+  Future<ListResult> puxarEndTutorCuid(
+    String idTutor
+  ) async {
+    return cuidadoresAPI.puxarEndTutorCuid(token, idTutor);
+  }
+
 }
 
 class objImgCuidador {
   ImageByteFormat? imgCuidador;
   objImgCuidador({
     required this.imgCuidador
+  });
+}
+
+class TutorByCuid {
+  int idTutor;
+  String nome;
+  String email;
+  DateTime? dataNasce;
+  String cell;
+  String cpf;
+  String genero;
+  String senha;
+  TutorByCuid({
+    required this.idTutor,
+    required this.nome,
+    required this.email,
+    required this.dataNasce,
+    required this.cell,
+    required this.cpf,
+    required this.genero,
+    required this.senha
+  });
+}
+
+class petCuid {
+  int idPet;
+  String nome;
+  DateTime? dataNasce;
+  String raca;
+  String sexo;
+  double peso;
+  String porte;
+  String vacinacao;
+  String descricao;
+  int idDono;
+  int idTipoPet;
+  petCuid({
+    required this.idPet,
+    required this.nome,
+    required this.dataNasce,
+    required this.raca,
+    required this.sexo,
+    required this.peso,
+    required this.porte,
+    required this.vacinacao,
+    required this.descricao,
+    required this.idDono,
+    required this.idTipoPet
   });
 }
 

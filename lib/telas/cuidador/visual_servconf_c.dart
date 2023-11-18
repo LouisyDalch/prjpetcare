@@ -3,16 +3,175 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+
+import '../../API/cuidadoresmet.dart';
 
 class VisualServConf extends StatefulWidget {
-  const VisualServConf({super.key});
+  final int idPet;
+  final int idDono;
+  final int idServ;
+  const VisualServConf({super.key,
+  required this.idPet,
+  required this.idDono,
+  required this.idServ});
 
   @override
-  State<VisualServConf> createState() => _VisualServConfState();
+  State<VisualServConf> createState() => _VisualServConfState(
+    idPet: idPet, idDono: idDono, idServ: idServ, cuidadorRepository: CuidadorRepository());
 }
 
 class _VisualServConfState extends State<VisualServConf> {
   bool abra = false;
+  CuidadorRepository cuidadorRepository;
+  List<petCuid> lst = [];
+  List<TutorByCuid> lstTutor = [];
+  List<EndCuid> lstEnd = [];
+  int idPet;
+  int idDono;
+  int idServ;
+
+  String nome = "";
+  //int idade = 0;
+  DateTime dataNasce1 = DateTime.now();
+
+  String nomeTutor = "";
+  DateTime dataNasceTut = DateTime.now();
+
+      String rua = "";
+      String bairro = "";
+      String cidade ="";
+      String uf = "";
+
+  _VisualServConfState({
+    required this.idPet,
+    required this.idDono,
+    required this.idServ,
+    
+    required this.cuidadorRepository,
+  }) :super();
+
+  Future<ListResult> getPet() async {
+    return await cuidadorRepository.puxarPetCuid(idPet.toString());
+  }
+
+  Future<ListResult> getTutor() async {
+    return await cuidadorRepository.puxarTutorCuid(idDono.toString());
+  }
+
+  Future<ListResult> getEndTutor() async {
+    return await cuidadorRepository.puxarEndTutorCuid(idDono.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadPet();
+    loadTutor();
+    loadEndereco();
+    //_loadImage();
+  }
+
+  void loadPet() async {
+    ListResult pet = await getPet();
+    setState(() {
+      lst = [];
+      for (var element in pet.resultados) {
+        lst.add(petCuid(
+            idPet: element['idPet'],
+            nome: element["nome"],
+            dataNasce: DateTime.tryParse(element['data']),
+            raca: element["raca"],
+            sexo: element["sexo"],
+            peso: element["peso"],
+            porte: element["porte"],
+            vacinacao: element['vacinacao'],
+            descricao: element['descricao'],
+            idDono: element["idDono"],
+            idTipoPet: element["idTipoPet"]),);
+      }
+      petCuid petA = lst[0];
+      nome = petA.nome;
+      dataNasce1 = petA.dataNasce!;
+    });
+  }
+
+  void loadTutor() async {
+    ListResult tutor = await getTutor();
+    setState(() {
+      lstTutor = [];
+      for (var element in tutor.resultados) {
+        lstTutor.add(TutorByCuid(
+            idTutor: element["idDono"],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element['dataNasc']),
+            cell: element["cell"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"]));
+      }
+      TutorByCuid tutorA =lstTutor[0];
+      nomeTutor = tutorA.nome;
+      dataNasceTut = tutorA.dataNasce!;
+    });
+  }
+
+  void loadEndereco() async {
+    ListResult end = await getEndTutor();
+    setState(() {
+      lstEnd = [];
+      for (var element in end.resultados) {
+        lstEnd.add(EndCuid(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]
+            ));
+      }
+      EndCuid a = lstEnd[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
+    });
+  }
+
+  String _calcularIdade (DateTime dataNasceu){
+    DateTime verifica = DateTime(DateTime.now().year, dataNasceu.month,dataNasceu.day);
+    DateTime hoje = DateTime.now();
+    int idade;
+    int mes;
+    if(DateTime.now().isBefore(verifica)){
+      idade = hoje.year - dataNasceu.year - 1;
+    }else{
+      idade = hoje.year - dataNasceu.year;
+    }
+    String a;
+    
+    if(idade>0){
+      a = "$idade anos";
+    }else{
+      //calcular meses
+      int mes = hoje.month - dataNasceu.month;
+      if(mes>1){
+        a = "$mes meses";
+      }else{
+        if(hoje.day>dataNasceu.day){
+          a = "$mes mês";
+        }else{
+          final mds = hoje.difference(dataNasceu).inDays;
+          a = "$mds dias";
+        }
+      }
+    }
+    
+    return a;
+  }
 
 
   @override
@@ -92,7 +251,7 @@ class _VisualServConfState extends State<VisualServConf> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.47,
                                     child: Text(
-                                      "Maria Eduarda Expedita Oliveira Canto",
+                                      nomeTutor,
                                       style:
                                           TextStyle(fontWeight: FontWeight.bold),
                                     ),
@@ -100,11 +259,11 @@ class _VisualServConfState extends State<VisualServConf> {
                                   Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
-                                      child: Text("Idade")),
+                                      child: Text("${_calcularIdade(dataNasceTut)}")),
                                   Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
-                                      child: Text("Localização")),
+                                      child: Text("$rua - $bairro, $cidade - $uf")),
                                   Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
@@ -167,14 +326,14 @@ class _VisualServConfState extends State<VisualServConf> {
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
                                       child: Text(
-                                        "Nome",
+                                        nome,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       )),
                                   Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
-                                      child: Text("Idade")),
+                                      child: Text("${_calcularIdade(dataNasce1)}")),
                                   GestureDetector(
                                     onTap: () => Navigator.of(context).pushNamed('/visualizacao_pet_c'),
                                     child: Container(

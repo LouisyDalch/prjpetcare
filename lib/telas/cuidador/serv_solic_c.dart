@@ -23,13 +23,10 @@ class _ServSolic_CState extends State<ServSolic_C> {
   Future<ListResult> getServicosSolic() async {
     return await cuidadorRepository.puxarServicosSolic();
   }
-  /*Future<ListResult> getImgCuidador() async {
-    return await cuidadorRepository.chamarImgCuidador();
-  }*/
+  
 
   void loadServicos() async {
     ListResult servicos = await getServicosSolic();
-    //ListResult imgCuidador = await getImgCuidador();
     setState(() {
       lst = [];
       for (var element in servicos.resultados) {
@@ -48,11 +45,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
             nomePet: element['nomePet'],
             dataPet: DateTime.tryParse(element["dataPet"]),
             tipoServ: element['tipoServ'],),);
-        //lst.add(objImgCuidador(imgCuidador: element["imgCuidador"]))
       }
-      /*for(var a in imgCuidador.resultados){
-        lst.add(objImgCuidador(imgCuidador: a["imgCuidador"]) as ServicoSolic);
-      }*/
     });
   }
 

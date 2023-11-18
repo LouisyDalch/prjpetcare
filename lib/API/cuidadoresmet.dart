@@ -229,6 +229,107 @@ class CuidadoresAPI {
       throw Exception('deu merda, chama o gabs');
     }
   }
+
+  Future<ListResult> puxarPetCuid(String? token, String idPet) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarPetCuid.aspx?idPet=$idPet"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ServiceResult> alterarAgenda(
+    String? token, int dom, int seg, int ter, int qua, int qui, int sex, int sab
+  ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    final response = await http.get(Uri.parse(
+      "http://10.244.171.33/AlterarAgendaCuid.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"),
+      headers: <String, String>{
+        'Authorization': token,
+      },);
+
+
+    if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    return ServiceResult(success: true);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to login');
+  }
+  }
+
+  Future<ListResult> puxarDadosTutorCuid(String? token, String idTutor) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarDadosTutorCuid.aspx?idTutor=$idTutor"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarEndTutorCuid(String? token, String idTutor) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarEndTutorCuid.aspx?idTutor=$idTutor"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  
 }
 
 class ServiceResult {
@@ -273,29 +374,7 @@ class LoginResult extends ServiceResult {
   }
 
 
-  Future<ServiceResult> AlterarAgendaCuid(
-    String? token, int dom, int seg, int ter, int qua, int qui, int sex, int sab
-  ) async {
-    if (token == null) throw Exception('Failed to login');
-
-    final response = await http.get(Uri.parse(
-      "http://10.244.171.33/AlterarAgendaCuid.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"),
-      headers: <String, String>{
-        'Authorization': token,
-      },);
-
-
-    if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    print(response.body);
-    return ServiceResult(success: true);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to login');
-  }
-  }
+  
 
 
 }

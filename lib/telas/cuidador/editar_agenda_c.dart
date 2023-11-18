@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+
+import '../../API/cuidadoresmet.dart';
 
 class EditarAgenda_C extends StatefulWidget {
   const EditarAgenda_C({super.key});
@@ -72,6 +75,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           dom = value!;
+                          if(dom == true){
+                            dom1 = 1;
+                          }
                         });
                       },
                     )
@@ -92,6 +98,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           seg = value!;
+                          if(seg == true){
+                            seg1 = 1;
+                          }
                         });
                       },
                     )
@@ -114,6 +123,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           ter = value!;
+                          if(ter == true){
+                            ter1 = 1;
+                          }
                         });
                       },
                     )
@@ -136,6 +148,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           qua = value!;
+                          if(qua == true){
+                            qua1 = 1;
+                          }
                         });
                       },
                     )
@@ -158,6 +173,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           qui = value!;
+                          if(qui == true){
+                            qui1 = 1;
+                          }
                         });
                       },
                     )
@@ -180,6 +198,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           sex = value!;
+                          if(sex == true){
+                            sex1 = 1;
+                          }
                         });
                       },
                     )
@@ -202,6 +223,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           sab = value!;
+                          if(sab == true){
+                            sab1 = 1;
+                          }
                         });
                       },
                     )
@@ -215,7 +239,9 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                   height: MediaQuery.of(context).size.height * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
-                      //programação
+                      CuidadorRepository repositorioCuid = CuidadorRepository();
+                      Future<ServiceResult> agenda = repositorioCuid.alterarAgendaCuid(
+                        dom1, seg1, ter1, qua1, qui1, sex1, sab1);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(219, 114, 38, 1)),

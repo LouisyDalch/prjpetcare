@@ -61,7 +61,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: '/editar_agenda_c',
+      initialRoute: 'inicio',
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -125,7 +125,7 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_pet_c':(context) => Container(child: VisualizacaoPet_T(text: descr)),
       '/visualizacao_tutor_c':(context) => const VisualTutor_C(),
       '/visualizacao_servsolic_c':(context) => const VisualServSolic(),
-      '/visualizacao_servconf_c':(context) => const VisualServConf(),
+      //:(context) => const VisualServConf(),
       '/visualizacao_servfinal_c':(context) => const VisualServFinal(),
 
       '/visualizacao_servconf_t':(context) => const VisualServConf_T(),
