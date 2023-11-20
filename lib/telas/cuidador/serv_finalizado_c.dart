@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 
+import '../../API/cuidadoresmet.dart';
 import '../../Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
+import '../../Repositorios/cuidador_repos.dart';
 
 class ServFinal_C extends StatefulWidget {
   const ServFinal_C({super.key});
@@ -12,16 +14,40 @@ class ServFinal_C extends StatefulWidget {
 }
 
 class _ServFinal_CState extends State<ServFinal_C> {
-  final List lst = [
-    'um',
-    'dois',
-    'três',
-    'quatro',
-    'cinco',
-    'seis',
-    'sete',
-    'oito'
-  ];
+  CuidadorRepository cuidadorRepository = CuidadorRepository();
+  List<ServicoSolic> lst = [];
+
+  Future<ListResult> getServicos() async {
+    return await cuidadorRepository.puxarServFinal();
+  }
+
+  void initState() {
+    super.initState();
+    loadServicos();
+  }
+
+ void loadServicos() async {
+    ListResult servicos = await getServicos();
+    setState(() {
+      lst = [];
+      for (var element in servicos.resultados) {
+        lst.add(ServicoSolic(
+            idServ: element['idServ'],
+            dataIni: DateTime.tryParse(element['dataIni']),
+            dataFin: DateTime.tryParse(element['dataFin']),
+            valor: element["valor"],
+            idStatus: element['idStatus'],
+            idDono: element['idDono'],
+            idCuidador: element['idCuidador'],
+            idPet: element["idPet"],
+            idTipoServ: element["idTipoServ"],
+            donoNome: element['donoNome'],
+            dataDono: DateTime.tryParse(element["dataDono"]),
+            nomePet: element['nomePet'],
+            dataPet: DateTime.tryParse(element["dataPet"]),),);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +81,8 @@ class _ServFinal_CState extends State<ServFinal_C> {
                       child: ListView.builder(
                           itemCount: lst.length,
                           itemBuilder: (context, Index) {
-                            return const ItemFinalC();
+                            ServicoSolic a = lst[Index];
+                            return ItemFinalC(servico: a);
                           }),
                     ),
                     Padding(

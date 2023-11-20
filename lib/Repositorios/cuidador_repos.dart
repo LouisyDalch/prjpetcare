@@ -28,6 +28,10 @@ class CuidadorRepository {
     return cuidadoresAPI.puxarServConf(token);
   }
 
+  Future<ListResult> puxarServFinal() async {
+    return cuidadoresAPI.puxarServFinal(token);
+  }
+
   Future<Uint8List> getImageDataTutor(int idTutor) async {
         return cuidadoresAPI.getImageDataTutor(token, idTutor);
   }

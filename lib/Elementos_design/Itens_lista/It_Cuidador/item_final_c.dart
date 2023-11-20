@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 class ItemFinalC extends StatefulWidget {
-  const ItemFinalC({super.key});
+  final ServicoSolic servico;
+  const ItemFinalC({super.key,
+  required this.servico});
 
   @override
-  State<ItemFinalC> createState() => _ItemFinalCState();
+  State<ItemFinalC> createState() => _ItemFinalCState(servico: servico);
 }
 
 class _ItemFinalCState extends State<ItemFinalC> {
+  ServicoSolic servico;
+  _ItemFinalCState({
+    required this.servico
+  }):super();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,16 +53,18 @@ class _ItemFinalCState extends State<ItemFinalC> {
                 height: MediaQuery.of(context).size.height * 0.16,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text('Tipo_Serv',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Nome_Tutor',
+                    Text(servico.donoNome,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
-                    Text('Data/hra fin',
+                    Text('Data de término: ${servico.dataIni != null ?
+                      DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                      : 'Data inválida'}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),),

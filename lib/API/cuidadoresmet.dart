@@ -167,6 +167,31 @@ class CuidadoresAPI {
     }
   }
 
+  Future<ListResult> puxarServFinal(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarFinal.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
   Future<Uint8List> getImageDataTutor(String? token, int idTutor) async {
     if (token == null) throw Exception('Failed to login');
 
