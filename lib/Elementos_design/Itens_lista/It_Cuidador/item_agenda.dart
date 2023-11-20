@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
+import '../../../API/cuidadoresmet.dart';
 import '../../../Repositorios/cuidador_repos.dart';
 //program
 class ItemList extends StatefulWidget {
@@ -13,15 +14,76 @@ class ItemList extends StatefulWidget {
     required this.servico,});
 
   @override
-  State<ItemList> createState() => _ItemListState(servico: servico);
+  State<ItemList> createState() => _ItemListState(servico: servico, cuidadorRepository: CuidadorRepository());
 }
 
 class _ItemListState extends State<ItemList> {
   Servico servico;
-
+  List<TipoServ> lst = [];
   _ItemListState({
       required this.servico,
+      required this.cuidadorRepository
     }) : super();
+
+    CuidadorRepository cuidadorRepository;
+    int hospI = 0;
+    int crecheI = 0;
+    int petSitterI = 0;
+    int passeioI = 0;
+    int adestraI = 0;
+
+    Future<ListResult> getTipoServ() async {
+    return await cuidadorRepository.puxarTipoServ(servico.idTipoServ.toString());
+  }
+
+  void initState() {
+    super.initState();
+    loadTipoServ();
+    //_loadImage();
+  }
+
+  void loadTipoServ() async {
+    ListResult tipoServico = await getTipoServ();
+    setState(() {
+      lst = [];
+      for (var element in tipoServico.resultados) {
+        lst.add(TipoServ(
+            idTipoServ: element["idTipoServ"],
+            hosp: element["hosp"],
+            creche: element["creche"],
+            petSitter: element["petSitter"],
+            passeio: element["passeio"],
+            adestra: element["adestra"]),);
+      }
+      TipoServ a = lst[0];
+      hospI = a.hosp;
+      crecheI = a.creche;
+      petSitterI = a.petSitter;
+      passeioI = a.passeio;
+      adestraI = a.adestra;
+    });
+  }
+
+  String _tipoServicoNome(){
+    String servico = "";
+    if(hospI ==1){
+      servico ="Hospedagem";
+    }
+    if(crecheI == 1){
+      servico ="Creche";
+    }
+    if(petSitterI == 1){
+      servico = "PetSitter";
+    }
+    if(passeioI == 1){
+      servico = "Passeio";
+    }
+    if(adestraI == 1){
+      servico = "Adestramento";
+    }
+    return servico;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +103,7 @@ class _ItemListState extends State<ItemList> {
                   padding: EdgeInsets.all(
                       MediaQuery.of(context).size.height * 0.01)),
               Text(
-                servico.tipoServ,
+                _tipoServicoNome(),
                 style: TextStyle(
                     fontFamily: 'LilitaOne',
                     fontSize: MediaQuery.of(context).size.width * 0.06),

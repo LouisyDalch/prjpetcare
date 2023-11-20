@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:prjpetcare/telas/cuidador/visual_servconf_c.dart';
 import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 
+import '../../../API/cuidadoresmet.dart';
 import '../../../Repositorios/cuidador_repos.dart';
 
 class ItemConfirmC extends StatefulWidget {
@@ -22,17 +23,30 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
   Uint8List? _imageData;
   CuidadorRepository cuidadorRepository;
   List lst = [];
+  List<TipoServ> lstTipoServ = [];
 
   _ItemConfirmCState({
       required this.servico,
       required this.cuidadorRepository,
     }) : super();
+    
+    int hospI = 0;
+    int crecheI = 0;
+    int petSitterI = 0;
+    int passeioI = 0;
+    int adestraI = 0;
+
+    Future<ListResult> getTipoServ() async {
+    return await cuidadorRepository.puxarTipoServ(servico.idTipoServ.toString());
+  }
 
     @override
   void initState() {
     super.initState();
     print(this.servico.idDono);
     _loadImage();
+    loadTipoServ();
+    
   }
 
     Future<void> _loadImage() async {
@@ -41,6 +55,48 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
     setState(() {
       _imageData = data;
     });
+  }
+
+  void loadTipoServ() async {
+    ListResult tipoServico = await getTipoServ();
+    setState(() {
+      lstTipoServ = [];
+      for (var element in tipoServico.resultados) {
+        lstTipoServ.add(TipoServ(
+            idTipoServ: element["idTipoServ"],
+            hosp: element["hosp"],
+            creche: element["creche"],
+            petSitter: element["petSitter"],
+            passeio: element["passeio"],
+            adestra: element["adestra"]),);
+      }
+      TipoServ a = lstTipoServ[0];
+      hospI = a.hosp;
+      crecheI = a.creche;
+      petSitterI = a.petSitter;
+      passeioI = a.passeio;
+      adestraI = a.adestra;
+    });
+  }
+
+  String _tipoServicoNome(){
+    String servico = "";
+    if(hospI ==1){
+      servico ="Hospedagem";
+    }
+    if(crecheI == 1){
+      servico ="Creche";
+    }
+    if(petSitterI == 1){
+      servico = "PetSitter";
+    }
+    if(passeioI == 1){
+      servico = "Passeio";
+    }
+    if(adestraI == 1){
+      servico = "Adestramento";
+    }
+    return servico;
   }
 
    
@@ -93,7 +149,7 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(servico.tipoServ,
+                      Text(_tipoServicoNome(),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold
                       ),),

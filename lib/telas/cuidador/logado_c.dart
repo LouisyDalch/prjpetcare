@@ -44,8 +44,7 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
             idTipoServ: element["idTipoServ"],
             donoNome: element['donoNome'],
             idStatus: element['idStatus'],
-            nomePet: element['nomePet'],
-            tipoServ: element['tipoServ'],));
+            nomePet: element['nomePet'],));
       }
     });
   }

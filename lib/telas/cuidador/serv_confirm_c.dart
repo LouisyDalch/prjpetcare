@@ -45,8 +45,7 @@ class _ServConfirm_CState extends State<ServConfirm_C> {
             donoNome: element['donoNome'],
             dataDono: DateTime.tryParse(element["dataDono"]),
             nomePet: element['nomePet'],
-            dataPet: DateTime.tryParse(element["dataPet"]),
-            tipoServ: element['tipoServ'],),);
+            dataPet: DateTime.tryParse(element["dataPet"]),),);
       }
     });
   }

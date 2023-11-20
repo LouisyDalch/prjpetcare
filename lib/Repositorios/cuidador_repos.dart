@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:prjpetcare/API/cuidadoresmet.dart';
-
+//aaa
 
 class CuidadorRepository {
   static CuidadoresAPI cuidadoresAPI = CuidadoresAPI();
@@ -72,12 +72,35 @@ class CuidadorRepository {
     return cuidadoresAPI.puxarEndTutorCuid(token, idTutor);
   }
 
+  Future<ListResult> puxarTipoServ(
+    String idTipoServ
+  ) async {
+    return cuidadoresAPI.puxarTipoServ(token, idTipoServ);
+  }
+
 }
 
 class objImgCuidador {
   ImageByteFormat? imgCuidador;
   objImgCuidador({
     required this.imgCuidador
+  });
+}
+
+class TipoServ {
+  int idTipoServ;
+  int hosp;
+  int creche;
+  int petSitter;
+  int passeio;
+  int adestra;
+  TipoServ({
+    required this.idTipoServ,
+    required this.hosp,
+    required this.creche,
+    required this.petSitter,
+    required this.passeio,
+    required this.adestra
   });
 }
 
@@ -203,7 +226,6 @@ class Servico {
   int idStatus;
   String donoNome;
   String nomePet;
-  String tipoServ;
 
   Servico({
     required this.idServ,
@@ -217,7 +239,6 @@ class Servico {
     required this.idStatus,
     required this.donoNome,
     required this.nomePet,
-    required this.tipoServ,
   });
 
   
@@ -237,7 +258,6 @@ class ServicoSolic {
   DateTime? dataDono;
   String nomePet;
   DateTime? dataPet;
-  String tipoServ;
 
   ServicoSolic({
     required this.idServ,
@@ -253,7 +273,6 @@ class ServicoSolic {
     required this.dataDono,
     required this.nomePet,
     required this.dataPet,
-    required this.tipoServ,
   });
 
   

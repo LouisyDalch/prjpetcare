@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-//ref
+//gfgf
 import 'package:http/http.dart' as http;
 
 class CuidadoresAPI {
@@ -311,6 +311,31 @@ class CuidadoresAPI {
 
     final response = await http.get(
       Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarEndTutorCuid.aspx?idTutor=$idTutor"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarTipoServ(String? token, String idTipoServ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarTipoServ.aspx?idTipoServ=$idTipoServ"),
       headers: <String, String>{
         'Authorization': token,
       },

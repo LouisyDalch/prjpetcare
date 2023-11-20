@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'dart:typed_data';
 import 'dart:async';
 
+import '../../../API/cuidadoresmet.dart';
+
 
 //reff
 class ItemSolicC extends StatefulWidget {
@@ -22,17 +24,29 @@ class _ItemSolicCState extends State<ItemSolicC> {
   ServicoSolic servico;
   Uint8List? _imageData;
   CuidadorRepository cuidadorRepository;
+  List<TipoServ> lstTipoServ = [];
   
     _ItemSolicCState({
       required this.servico,
       required this.cuidadorRepository,
     }) : super();
 
+    int hospI = 0;
+    int crecheI = 0;
+    int petSitterI = 0;
+    int passeioI = 0;
+    int adestraI = 0;
+
+    Future<ListResult> getTipoServ() async {
+    return await cuidadorRepository.puxarTipoServ(servico.idTipoServ.toString());
+  }
+
   @override
   void initState() {
     super.initState();
     print(this.servico.idDono);
     _loadImage();
+    loadTipoServ();
   }
 
   Future<void> _loadImage() async {
@@ -41,6 +55,48 @@ class _ItemSolicCState extends State<ItemSolicC> {
     setState(() {
       _imageData = data;
     });
+  }
+
+  void loadTipoServ() async {
+    ListResult tipoServico = await getTipoServ();
+    setState(() {
+      lstTipoServ = [];
+      for (var element in tipoServico.resultados) {
+        lstTipoServ.add(TipoServ(
+            idTipoServ: element["idTipoServ"],
+            hosp: element["hosp"],
+            creche: element["creche"],
+            petSitter: element["petSitter"],
+            passeio: element["passeio"],
+            adestra: element["adestra"]),);
+      }
+      TipoServ a = lstTipoServ[0];
+      hospI = a.hosp;
+      crecheI = a.creche;
+      petSitterI = a.petSitter;
+      passeioI = a.passeio;
+      adestraI = a.adestra;
+    });
+  }
+
+  String _tipoServicoNome(){
+    String servico = "";
+    if(hospI ==1){
+      servico ="Hospedagem";
+    }
+    if(crecheI == 1){
+      servico ="Creche";
+    }
+    if(petSitterI == 1){
+      servico = "PetSitter";
+    }
+    if(passeioI == 1){
+      servico = "Passeio";
+    }
+    if(adestraI == 1){
+      servico = "Adestramento";
+    }
+    return servico;
   }
 
   @override
@@ -84,7 +140,7 @@ class _ItemSolicCState extends State<ItemSolicC> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(servico.tipoServ,
+                    Text(_tipoServicoNome(),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold
                     ),),
