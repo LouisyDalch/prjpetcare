@@ -5,7 +5,8 @@ import 'package:sql_conn/sql_conn.dart';
 class TutorAPI{
 
   Future<LoginResult> loginTutor(String usuario,String senha) async {
-    final response = await http.get(Uri.parse("http://10.244.171.33/LoginTutorFW.aspx?username=$usuario&password=$senha"));
+    final response = await http.get(Uri.parse(
+      "http://10.244.171.33/LoginTutorFW.aspx?username=$usuario&password=$senha"));
 
 
     if (response.statusCode == 200) {
@@ -41,6 +42,31 @@ class TutorAPI{
   }
   }
 
+  Future<ListResult> puxarCuidHosp(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarCuidHosp.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      List<String> responseArray = response.body.split("\n");
+      return ListResult.fromJson(jsonDecode(responseArray[0]));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
   
 
 }
@@ -59,6 +85,23 @@ class ServiceResult {
     return ServiceResult(
       success: json['success']
     );
+  }
+}
+
+class ListResult extends ServiceResult {
+  final List<dynamic> resultados;
+
+  ListResult({
+    required bool success,
+    required this.resultados,
+  }) : super(success: success);
+//minha msg de erro funciona kkkk
+  factory ListResult.fromJson(Map<String, dynamic> json) {
+    print("aqqqqqqq");
+    print(json);
+    return ListResult(
+        success: json['success'],
+        resultados: List<dynamic>.from(json['Resultados'].map((x) => x)));
   }
 }
 

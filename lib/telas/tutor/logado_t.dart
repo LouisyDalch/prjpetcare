@@ -42,31 +42,27 @@ class _LogadoTutorState extends State<LogadoTutor> {
                 ),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.015)),
                 _btnHosp(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.015)),
                 _btnCreche(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.015)),
                 _btnPetSitter(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.015)),
                 _btnPasseio(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.015)),
                 _btnAdestramento(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
-                _btnVet(),
-                Padding(
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.01)),
+                        MediaQuery.of(context).size.height * 0.025)),
                 Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: MediaQuery.of(context).size.height * 0.075,
@@ -126,7 +122,7 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(61, 91, 31, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
+        onTap: () => Navigator.of(context).pushNamed('/mostrar_hosp_t'),
         child: Row(children: [
           Image.asset('defora/imagens/coelho.png'),
           Padding(
@@ -153,7 +149,7 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(94, 144, 64, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
+        onTap: () => Navigator.of(context).pushNamed('/mostrar_creche_t'),
         child: Row(children: [
           Image.asset('defora/imagens/passarinho.png'),
           Padding(
@@ -180,7 +176,7 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(81, 156, 93, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
+        onTap: () => Navigator.of(context).pushNamed('/mostrar_sitter_t'),
         child: Row(children: [
           Image.asset('defora/imagens/peixe.png'),
           Padding(
@@ -207,7 +203,7 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(94, 144, 64, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
+        onTap: () => Navigator.of(context).pushNamed('/mostrar_pass_t'),
         child: Row(children: [
           Image.asset('defora/imagens/cachorro.png'),
           Padding(
@@ -234,7 +230,7 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(81, 156, 93, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
+        onTap: () => Navigator.of(context).pushNamed('/mostrar_adestra_t'),
         child: Row(children: [
           Image.asset('defora/imagens/gato.png'),
           Padding(
@@ -253,30 +249,5 @@ class _LogadoTutorState extends State<LogadoTutor> {
     );
   }
 
-  Widget _btnVet() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
-      width: MediaQuery.of(context).size.width * 0.7,
-      decoration: BoxDecoration(
-          color: const Color.fromRGBO(61, 91, 31, 1),
-          borderRadius: BorderRadius.circular(20)),
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/escolherperfil'),
-        child: Row(children: [
-          Image.asset('defora/imagens/galo.png'),
-          Padding(
-              padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.005)),
-          Text(
-            'VETERINÁRIO',
-            style: TextStyle(
-                fontFamily: 'LilitaOne',
-                fontSize: MediaQuery.of(context).size.width * 0.05,
-                color: Colors.white),
-            textAlign: TextAlign.right,
-          )
-        ]),
-      ),
-    );
-  }
+ 
 }

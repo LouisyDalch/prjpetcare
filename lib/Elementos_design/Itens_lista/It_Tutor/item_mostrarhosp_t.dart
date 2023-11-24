@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 
 class ItemMostrarHospT extends StatefulWidget {
-  const ItemMostrarHospT({super.key});
+  final InfoCuidP cuidador;
+  const ItemMostrarHospT({super.key,
+  required this.cuidador});
 
   @override
-  State<ItemMostrarHospT> createState() => _ItemMostrarHospTState();
+  State<ItemMostrarHospT> createState() => _ItemMostrarHospTState(cuidador: cuidador);
 }
 
 class _ItemMostrarHospTState extends State<ItemMostrarHospT> {
+  InfoCuidP cuidador;
+  _ItemMostrarHospTState({
+    required this.cuidador
+  }):super();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,7 +57,7 @@ class _ItemMostrarHospTState extends State<ItemMostrarHospT> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.5,
-                      child: Text('Maria Eduarda Expedita Oliveira Canto',
+                      child: Text(cuidador.nome,
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),),

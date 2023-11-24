@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:prjpetcare/telas/cuidador/visual_servconf_c.dart';
 import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 
 import '../../../API/cuidadoresmet.dart';
 import '../../../Repositorios/cuidador_repos.dart';
+import '../../../telas/cuidador/visual_servconf_c.dart';
 
 class ItemConfirmC extends StatefulWidget {
   final ServicoSolic servico;

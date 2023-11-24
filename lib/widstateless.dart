@@ -125,7 +125,6 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_pet_c':(context) => Container(child: VisualizacaoPet_T(text: descr)),
       '/visualizacao_tutor_c':(context) => const VisualTutor_C(),
       '/visualizacao_servsolic_c':(context) => const VisualServSolic(),
-      //:(context) => const VisualServConf(),
       '/visualizacao_servfinal_c':(context) => const VisualServFinal(),
 
       '/visualizacao_servconf_t':(context) => const VisualServConf_T(),
@@ -137,7 +136,6 @@ class WidStateless extends StatelessWidget{
       '/mostrar_hosp_t':(context) => const MostrarServHosp_T(),
       '/mostrar_pass_t':(context) => const MostrarServPass_T(),
       '/mostrar_creche_t':(context) => const MostrarServCreche_T(),
-      '/mostrar_vet_t':(context) => const MostrarServVet_T(),
       '/mostrar_sitter_t':(context) => const MostrarServPetSitter_T(),
       '/mostrar_adestra_t':(context) => const MostrarServAdestra_T(),
 
