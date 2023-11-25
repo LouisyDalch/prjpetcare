@@ -36,7 +36,6 @@ import 'package:prjpetcare/telas/tutor/mostrar_servcreche_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servhosp_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servpasseio_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servsitter_t.dart';
-import 'package:prjpetcare/telas/tutor/mostrar_servvet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';

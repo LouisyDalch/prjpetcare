@@ -22,7 +22,7 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
   ServicoSolic servico;
   Uint8List? _imageData;
   CuidadorRepository cuidadorRepository;
-  List lst = [];
+ // List lst = [];
   List<TipoServ> lstTipoServ = [];
 
   _ItemConfirmCState({

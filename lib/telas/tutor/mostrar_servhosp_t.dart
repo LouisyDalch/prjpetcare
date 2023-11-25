@@ -35,8 +35,9 @@ class _MostrarServHosp_TState extends State<MostrarServHosp_T> {
   void loadInfos() async {
     ListResult infos = await getInfoCuid();
     setState(() {
+              lst = [];
       for (var element in infos.resultados) {
-        lst = [];
+
          lst.add(InfoCuidP(
             idCuidador: element['id_cuidador'],
             nome: element["nome"],
@@ -55,9 +56,12 @@ class _MostrarServHosp_TState extends State<MostrarServHosp_T> {
             idAgenda: element["id_Agenda"]));
       }
     });
-    
+    //
    
+   print(lst.length);
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +130,8 @@ class _MostrarServHosp_TState extends State<MostrarServHosp_T> {
                                 primary: false,
                                 shrinkWrap: true,
                                 itemCount: lst.length,
-                                itemBuilder: (context, Index) {
-                                  InfoCuidP a = lst[Index];
+                                itemBuilder: (context, index) {
+                                  InfoCuidP a = lst[index];
                                   return ItemMostrarHospT(cuidador: a);
                                 }),
                   ),

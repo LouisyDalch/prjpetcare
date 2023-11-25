@@ -12,9 +12,7 @@ class CuidadoresAPI {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(response.body);
-      List<String> responseArray = response.body.split("\n");
-      return LoginResult.fromJson(jsonDecode(responseArray[0]));
+      return LoginResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -40,8 +38,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -66,8 +63,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -94,8 +90,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -158,8 +153,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -183,8 +177,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -214,15 +207,14 @@ class CuidadoresAPI {
       Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarEndCuid.aspx"),
       headers: <String, String>{
         'Authorization': token,
-      },
+      },//
     );
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -246,8 +238,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -271,8 +262,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -320,8 +310,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -345,8 +334,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -370,8 +358,7 @@ class CuidadoresAPI {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      List<String> responseArray = response.body.split("\n");
-      return ListResult.fromJson(jsonDecode(responseArray[0]));
+      return ListResult.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

@@ -1,4 +1,6 @@
 import 'dart:ffi';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:prjpetcare/API/tutoresmet.dart';
 //
@@ -9,6 +11,8 @@ class TutorRopository{
   Future<LoginResult> loginTutor(String usuario, String senha) async{
     return tutorAPI.loginTutor(usuario, senha);
   }
+
+  
 
   Future<ServiceResult> cadTutor (
     String nome,String email,String datanasce, String cell, String cpf,
@@ -23,6 +27,25 @@ class TutorRopository{
     return tutorAPI.puxarCuidHosp(token);
   }
 
+  Future<Uint8List> getImageDataTutor(int idCuid) async {
+        return tutorAPI.getImageDataCuid(token, idCuid);
+  }
+
+  Future<ListResult> puxarEndCuidTutor(String idCuid) async {
+    return tutorAPI.puxarEndCuidTutor(token, idCuid);
+  }
+
+  Future<ListResult> puxarSomaAval(String idCuid) async {
+    return tutorAPI.puxarSomaAval(token, idCuid);
+  }
+
+}
+
+class objImgTutor {
+  ImageByteFormat? imgTutor;
+  objImgTutor({
+    required this.imgTutor
+  });
 }
 
 class TutorByCuid {
@@ -43,6 +66,13 @@ class TutorByCuid {
     required this.cpf,
     required this.genero,
     required this.senha
+  });
+}
+
+class SomaAval {
+  int somaAval;
+  SomaAval({
+    required this.somaAval
   });
 }
 
@@ -79,6 +109,32 @@ class InfoCuidP {
     required this.idTipoServ,
     required this.idTipoPet,
     required this.idAgenda
+  });
+
+  
+
+  
+}
+
+class EndTutor {
+  int idEndereco;
+  String rua;
+  String bairro;
+  int num;
+  String comple;
+  String cep;
+  String cidade;
+  String uf;
+
+  EndTutor({
+    required this.idEndereco,
+    required this.rua,
+    required this.bairro,
+    required this.num,
+    required this.comple,
+    required this.cep,
+    required this.cidade,
+    required this.uf
   });
 
   
