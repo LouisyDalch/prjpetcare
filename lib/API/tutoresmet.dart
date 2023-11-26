@@ -127,6 +127,150 @@ class TutorAPI{
     }
   }
 
+  Future<ListResult> puxarTipoServTutor(String? token, String idTipoServ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarTipoServTutor.aspx?idTipoServ=$idTipoServ"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarDias(String? token, String idAgenda) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarDias.aspx?idAgenda=$idAgenda"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarTipoPet(String? token, String idTipoPet) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarTipoPet.aspx?idTipoPet=$idTipoPet"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarFeedbackTutor(String? token, String idCuid) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarFeedbackTutor.aspx?idCuid=$idCuid"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarDadosTutores(String? token, String idTutor) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarInfoTutores.aspx?idTutor=$idTutor"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarPetsDoTutor(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarPetsDoTutor.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
   
 
 }

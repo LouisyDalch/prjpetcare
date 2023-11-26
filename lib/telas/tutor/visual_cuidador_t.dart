@@ -1,24 +1,280 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
+import 'package:prjpetcare/API/tutoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_feedback_cuid_t.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_pet_c.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_pet_t.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
+import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 
 class VisualCuidador_T extends StatefulWidget {
-  const VisualCuidador_T({super.key});
+  final int idCuid;
+  const VisualCuidador_T({super.key, required this.idCuid});
 
   @override
-  State<VisualCuidador_T> createState() => _VisualCuidador_TState();
+  State<VisualCuidador_T> createState() => _VisualCuidador_TState(
+      idCuid: idCuid, tutorRopository: TutorRopository());
 }
 
 class _VisualCuidador_TState extends State<VisualCuidador_T> {
-  final lst = ["um", "2", "três"];
+  List<InfoCuidP> lstCuid = [];
+  List<EndTutor> lstEnd = [];
+  List<TipoServT> lstTipoS = [];
+  List<DiasTutor> lstDias = [];
+  List<TipoPet> lstTipoP = [];
+  List<FeedbackTutor> lstFeedback = [];
+
+  TutorRopository tutorRopository;
+
+  int idCuid;
   bool abra = false;
+
+  String nomeCuid = "";
+  DateTime dataNasceu = DateTime.now();
+  double valor = 0.0;
+  String cell = "";
+  String email = "";
+  int idTipoServ = 0;
+  int idAgenda = 0;
+  int idTipoPet = 0;
+
+  String rua = "";
+  String bairro = "";
+  String cidade = "";
+  String uf = "";
+
+  int hospI = 0;
+  int crecheI = 0;
+  int petSitterI = 0;
+  int passeioI = 0;
+  int adestraI = 0;
+
+  int domI = 0;
+  int segI = 0;
+  int terI = 0;
+  int quaI = 0;
+  int quiI = 0;
+  int sexI = 0;
+  int sabI = 0;
+
+  int cao = 0;
+  int gato = 0;
+  int roedor = 0;
+  int peixe = 0;
+  int aves = 0;
+  int outros = 0;
+
   String cancelam = "";
+
+  _VisualCuidador_TState({required this.idCuid, required this.tutorRopository})
+      : super();
+
+  Future<ListResult> getInfoCuid() async {
+    return await tutorRopository.puxarCuidHosp();
+  }
+
+  Future<ListResult> getEndCuid() async {
+    return await tutorRopository.puxarEndCuidTutor(idCuid.toString());
+  }
+
+  Future<ListResult> getTipoServ() async {
+    return await tutorRopository.puxarTipoServTutor(idTipoServ.toString());
+  }
+
+  Future<ListResult> getDias() async {
+    return await tutorRopository.puxarDias(idAgenda.toString());
+  }
+
+  Future<ListResult> getTipoPet() async {
+    return await tutorRopository.puxarTipoPet(idTipoPet.toString());
+  }
+
+  Future<ListResult> getFeedbackT() async {
+    return await tutorRopository.puxarFeedbackTutor(idCuid.toString());
+  }
+
+  int _calcularIdade(DateTime dataNasceu) {
+    DateTime verifica =
+        DateTime(DateTime.now().year, dataNasceu.month, dataNasceu.day);
+    DateTime hoje = DateTime.now();
+    int idade;
+    if (DateTime.now().isBefore(verifica)) {
+      idade = hoje.year - dataNasceu.year - 1;
+    } else {
+      idade = hoje.year - dataNasceu.year;
+    }
+    return idade;
+  }
+
+  void loadFeedback() async {
+    ListResult feedbackTutor = await getFeedbackT();
+    setState(() {
+      lstFeedback = [];
+      for (var element in feedbackTutor.resultados) {
+        lstFeedback.add(
+          FeedbackTutor(
+              coment: element["comentario"],
+              data: DateTime.tryParse(element["data"]),
+              aval: element["aval"],
+              idTutor: element["idDono"],
+              idCuid: element["idCuid"]),
+        );
+      }
+    });
+  }
+
+  void loadTipoServ() async {
+    ListResult tipoServico = await getTipoServ();
+    setState(() {
+      lstTipoS = [];
+      for (var element in tipoServico.resultados) {
+        lstTipoS.add(
+          TipoServT(
+              idTipoServ: element["idTipoServ"],
+              hosp: element["hosp"],
+              creche: element["creche"],
+              petSitter: element["petSitter"],
+              passeio: element["passeio"],
+              adestra: element["adestra"]),
+        );
+      }
+      TipoServT a = lstTipoS[0];
+      hospI = a.hosp;
+      crecheI = a.creche;
+      petSitterI = a.petSitter;
+      passeioI = a.passeio;
+      adestraI = a.adestra;
+    });
+  }
+
+  void loadDias() async {
+    ListResult dias = await getDias();
+    setState(() {
+      lstDias = [];
+      for (var element in dias.resultados) {
+        lstDias.add(
+          DiasTutor(
+              idAgenda: element["idAgenda"],
+              dom: element["dom"],
+              seg: element["seg"],
+              ter: element["ter"],
+              qua: element["qua"],
+              qui: element["qui"],
+              sex: element["sex"],
+              sab: element["sab"]),
+        );
+      }
+      DiasTutor a = lstDias[0];
+      domI = a.dom;
+      segI = a.ter;
+      terI = a.ter;
+      quaI = a.qua;
+      quiI = a.qui;
+      sexI = a.sex;
+      sabI = a.sab;
+    });
+  }
+
+  void loadTipoPet() async {
+    ListResult tipos = await getTipoPet();
+    setState(() {
+      lstTipoP = [];
+      for (var element in tipos.resultados) {
+        lstTipoP.add(
+          TipoPet(
+              idTipoPet: element["idTipoPet"],
+              cao: element["cao"],
+              gato: element["gato"],
+              roedor: element["roedor"],
+              peixe: element["peixe"],
+              aves: element["aves"],
+              outros: element["outros"]),
+        );
+      }
+      TipoPet a = lstTipoP[0];
+      cao = a.cao;
+      gato = a.gato;
+      roedor = a.roedor;
+      peixe = a.peixe;
+      aves = a.aves;
+      outros = a.outros;
+    });
+  }
+
+  void loadEndereco() async {
+    ListResult end = await getEndCuid();
+    setState(() {
+      for (var element in end.resultados) {
+        lstEnd = [];
+        lstEnd.add(EndTutor(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]));
+      }
+      EndTutor a = lstEnd[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadInfos();
+    loadFeedback();
+  }
+
+  void loadInfos() async {
+    ListResult infos = await getInfoCuid();
+    setState(() {
+      lstCuid = [];
+      for (var element in infos.resultados) {
+        lstCuid.add(InfoCuidP(
+            idCuidador: element['id_cuidador'],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element["datanasce"]),
+            telefone: element["telefone"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"],
+            especializacao: element["especializacao"],
+            tempoExper: element["tempoexper"],
+            valor: element["valor"],
+            idEnd: element["id_end"],
+            idTipoServ: element["id_tipoServ"],
+            idTipoPet: element["id_TipoPet"],
+            idAgenda: element["id_Agenda"]));
+      }
+      InfoCuidP a = lstCuid[0];
+      nomeCuid = a.nome;
+      dataNasceu = a.dataNasce!;
+      valor = a.valor;
+      cell = a.telefone;
+      email = a.email;
+      idTipoServ = a.idTipoServ;
+      idAgenda = a.idAgenda;
+      idTipoPet = a.idTipoPet;
+    });
+    loadEndereco();
+    loadTipoServ();
+    loadDias();
+    loadTipoPet();
+  }
+
   //fundovistut
   @override
   Widget build(BuildContext context) {
@@ -119,7 +375,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                           children: [
                             Container(
                               padding: EdgeInsets.all(5),
-                              child: Text("Preço: R\$10,00/hora"),
+                              child: Text("Preço: R\$$valor/hora"),
                               decoration: BoxDecoration(
                                   color: Color.fromARGB(255, 168, 168, 168),
                                   borderRadius: BorderRadius.circular(5)),
@@ -131,10 +387,17 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                               width: MediaQuery.of(context).size.width * 0.3,
                               height: MediaQuery.of(context).size.height * 0.04,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/criarcontacuidador');
-                                },
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            SolicServico(
+                                              idCuid: idCuid,
+                                              nome: nomeCuid,
+                                              tipoServ: "Hospedagem",
+                                              )
+                                            )
+                                          )),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
                                       Color.fromARGB(255, 9, 153, 26),
@@ -166,18 +429,21 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                         ),
                         child: Column(
                           children: [
-                            Text(
-                              "Maria Eduarda Expedita Oliveira Canto",
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.06,
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: Text(
+                                nomeCuid,
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.06,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Row(
                               children: [
                                 Text(
-                                  "Tantos anos",
+                                  "${_calcularIdade(dataNasceu)} anos",
                                   style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).size.width *
@@ -216,7 +482,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                               ],
                             ),
                             Text(
-                              "Brooklyn, Rua das Maritacas, 603",
+                              "$rua - $bairro, $cidade - $uf",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,
@@ -264,7 +530,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(0),
+                                      color: disponivel(domI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -282,7 +548,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(segI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -300,7 +566,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(terI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                               ],
@@ -321,7 +587,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(quaI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -339,7 +605,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(quiI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -357,7 +623,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(sexI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -375,7 +641,133 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(sabI),
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.02),
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color:
+                              Color.fromRGBO(205, 205, 205, 1).withOpacity(0.9),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Serviços prestados",
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.055,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.01),
+                                  child: Text(
+                                    "Hospedagem",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: disponivel(hospI),
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.01),
+                                  child: Text(
+                                    "Adestramento",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: disponivel(adestraI),
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                ),
+                              ],
+                            ),
+                            Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.01),
+                                  child: Text(
+                                    "Creche",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: disponivel(crecheI),
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.01),
+                                  child: Text(
+                                    "Pet Sitter",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: disponivel(petSitterI),
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.width * 0.01),
+                                  child: Text(
+                                    "Passeios",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: disponivel(passeioI),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                               ],
@@ -422,7 +814,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(cao),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -440,7 +832,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(gato),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -458,7 +850,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(roedor),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -476,7 +868,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(aves),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                               ],
@@ -497,7 +889,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(peixe),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                                 Container(
@@ -515,7 +907,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                                 0.05),
                                   ),
                                   decoration: BoxDecoration(
-                                      color: disponivel(1),
+                                      color: disponivel(outros),
                                       borderRadius: BorderRadius.circular(5)),
                                 ),
                               ],
@@ -555,56 +947,44 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
-                                          "(11) 97654-0988",
-                                          style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.05,
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.75,
+                                          child: Text(
+                                            cell,
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Text(
-                                          "loulou@gmail.com",
-                                          style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.05,
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.75,
+                                          child: Text(
+                                            email,
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.05,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.15,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color:
-                                              Color.fromARGB(212, 42, 162, 24)),
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.chat_sharp,
-                                          color: Color.fromRGBO(28, 73, 25, 1),
-                                        ),
-                                        iconSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.1,
-                                      ),
-                                    ),
-                                  ],
-                                )
                               ],
                             )
                           ],
@@ -639,9 +1019,12 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                             ListView.builder(
                                 primary: false,
                                 shrinkWrap: true,
-                                itemCount: lst.length,
-                                itemBuilder: (context, Index) {
-                                  return const ItemFeedback_T();
+                                itemCount: lstFeedback.length,
+                                itemBuilder: (context, index) {
+                                  FeedbackTutor a = lstFeedback[index];
+                                  return ItemFeedback_T(
+                                    feedback: a,
+                                  );
                                 }),
                           ],
                         ),
@@ -663,8 +1046,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                     bottom: MediaQuery.of(context).size.width * 0.063,
                     top: MediaQuery.of(context).size.width * 0.03,
                     left: MediaQuery.of(context).size.width * 0.1,
-                    right: MediaQuery.of(context).size.width * 0.1
-                  ),
+                    right: MediaQuery.of(context).size.width * 0.1),
               ),
             ),
           ],

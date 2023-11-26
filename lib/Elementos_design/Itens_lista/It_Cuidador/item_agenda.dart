@@ -39,7 +39,6 @@ class _ItemListState extends State<ItemList> {
   void initState() {
     super.initState();
     loadTipoServ();
-    //_loadImage();
   }
 
   void loadTipoServ() async {

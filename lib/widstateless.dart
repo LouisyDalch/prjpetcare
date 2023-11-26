@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 import 'package:prjpetcare/telas/cuidador/alterarsenha_c.dart';
 import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
 import 'package:prjpetcare/telas/cuidador/editar_agenda_c.dart';
@@ -12,7 +11,6 @@ import 'package:prjpetcare/telas/cuidador/serv_confirm_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_finalizado_c.dart';
 import 'package:prjpetcare/telas/cuidador/serv_solic_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_pet_c.dart';
-import 'package:prjpetcare/telas/cuidador/visual_servconf_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_servfinal_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_servsolic_c.dart';
 import 'package:prjpetcare/telas/cuidador/visual_tutor_c.dart';
@@ -42,7 +40,6 @@ import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_finalizado_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_solic_t.dart';
 import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
-import 'package:prjpetcare/telas/tutor/visual_cuidador_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servconf_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servfinal_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_servsolic_t.dart';
@@ -129,7 +126,6 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_servconf_t':(context) => const VisualServConf_T(),
       '/visualizacao_servsolic_t':(context) => const VisualServSolic_T(),
       '/visualizacao_servfinal_t':(context) => const VisualServFinal_T(),
-      '/visualizacao_cuidador_t':(context) => const VisualCuidador_T(),
 
       //Serviços selecionados by tutor -------------------------------------
       '/mostrar_hosp_t':(context) => const MostrarServHosp_T(),
@@ -137,8 +133,6 @@ class WidStateless extends StatelessWidget{
       '/mostrar_creche_t':(context) => const MostrarServCreche_T(),
       '/mostrar_sitter_t':(context) => const MostrarServPetSitter_T(),
       '/mostrar_adestra_t':(context) => const MostrarServAdestra_T(),
-
-      '/solic_servico_t':(context) => const SolicServico(),
     }
     );
     

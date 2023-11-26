@@ -39,12 +39,118 @@ class TutorRopository{
     return tutorAPI.puxarSomaAval(token, idCuid);
   }
 
+   Future<ListResult> puxarTipoServTutor(
+    String idTipoServ
+  ) async {
+    return tutorAPI.puxarTipoServTutor(token, idTipoServ);
+  }
+
+  Future<ListResult> puxarDias(
+    String idAgenda
+  ) async {
+    return tutorAPI.puxarDias(token, idAgenda);
+  }
+
+   Future<ListResult> puxarTipoPet(
+    String idTipoPet
+  ) async {
+    return tutorAPI.puxarTipoPet(token, idTipoPet);
+  }
+
+  Future<ListResult> puxarFeedbackTutor(
+    String idCuid
+  ) async {
+    return tutorAPI.puxarFeedbackTutor(token, idCuid);
+  }
+
+  Future<ListResult> puxarDadosTutores(
+    String idTutor
+  ) async {
+    return tutorAPI.puxarDadosTutores(token, idTutor);
+  }
+
+  Future<ListResult> puxarPetsDoTutor() async {
+    return tutorAPI.puxarPetsDoTutor(token);
+  }
+
 }
 
 class objImgTutor {
   ImageByteFormat? imgTutor;
   objImgTutor({
     required this.imgTutor
+  });
+}
+
+class FeedbackTutor {
+  String coment;
+  DateTime? data;
+  int aval;
+  int idTutor;
+  int idCuid;
+  FeedbackTutor({
+    required this.coment,
+    required this.data,
+    required this.aval,
+    required this.idTutor,
+    required this.idCuid
+  });
+}
+
+class TipoPet {
+  int idTipoPet;
+  int cao;
+  int gato;
+  int roedor;
+  int peixe;
+  int aves;
+  int outros;
+  TipoPet({
+    required this.idTipoPet,
+    required this.cao,
+    required this.gato,
+    required this.roedor,
+    required this.peixe,
+    required this.aves,
+    required this.outros
+  });
+}
+
+class DiasTutor {
+  int idAgenda;
+  int dom;
+  int seg;
+  int ter;
+  int qua;
+  int qui;
+  int sex;
+  int sab;
+  DiasTutor({
+    required this.idAgenda,
+    required this.dom,
+    required this.seg,
+    required this.ter,
+    required this.qua,
+    required this.qui,
+    required this.sex,
+    required this.sab
+  });
+}
+
+class TipoServT {
+  int idTipoServ;
+  int hosp;
+  int creche;
+  int petSitter;
+  int passeio;
+  int adestra;
+  TipoServT({
+    required this.idTipoServ,
+    required this.hosp,
+    required this.creche,
+    required this.petSitter,
+    required this.passeio,
+    required this.adestra
   });
 }
 

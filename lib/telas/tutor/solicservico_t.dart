@@ -5,14 +5,26 @@ import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 
 class SolicServico extends StatefulWidget {
-  const SolicServico({super.key});
+  final int idCuid;
+  final String nome;
+  final String tipoServ;
+
+  const SolicServico({super.key,
+  required this.idCuid,
+  required this.nome,
+  required this.tipoServ});
 
   @override
-  State<SolicServico> createState() => _SolicServicoState();
+  State<SolicServico> createState() => _SolicServicoState(
+    idCuid: idCuid, nome: nome, tipoServ: tipoServ);
 }
 
 class _SolicServicoState extends State<SolicServico> {
-  _SolicServicoState() {
+  _SolicServicoState({
+    required this.idCuid,
+    required this.nome,
+    required this.tipoServ
+  }) {
     _portSelect = portes[0];
   }
   TimeOfDay horaServInicio = TimeOfDay.now();
@@ -24,6 +36,11 @@ class _SolicServicoState extends State<SolicServico> {
 
   final portes = ["Selecionar pet", "Katy", "Toby"];
   String? _portSelect = "";
+
+  //PROGRAMAÇÃO BD
+  int idCuid;
+  String nome;
+  String tipoServ;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +77,7 @@ class _SolicServicoState extends State<SolicServico> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.59,
                             child: Text(
-                              "Pedro Cauã Silva Alves",
+                              nome,
                               style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.width *
                                       0.055),
@@ -83,7 +100,7 @@ class _SolicServicoState extends State<SolicServico> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Hospedagem",
+                            tipoServ,
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.055),

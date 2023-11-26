@@ -1,3 +1,0 @@
-class Tipos_ServicosRopository{
-  
-}
