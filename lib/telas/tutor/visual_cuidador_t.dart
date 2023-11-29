@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -35,6 +37,8 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
   int idCuid;
   bool abra = false;
 
+  Uint8List? _imageData;
+
   String nomeCuid = "";
   DateTime dataNasceu = DateTime.now();
   double valor = 0.0;
@@ -43,6 +47,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
   int idTipoServ = 0;
   int idAgenda = 0;
   int idTipoPet = 0;
+  double valorBD = 0.0;
 
   String rua = "";
   String bairro = "";
@@ -112,9 +117,19 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
     return idade;
   }
 
+  Future<void> _loadImage() async {
+    Uint8List data = await tutorRopository.getImageDataTutor(idCuid);
+    print("imagem carregou");
+    setState(() {
+      _imageData = data;
+    });
+  }
+
   void loadFeedback() async {
     ListResult feedbackTutor = await getFeedbackT();
     setState(() {
+      var length = feedbackTutor.resultados.length;
+      print("feedback $length");
       lstFeedback = [];
       for (var element in feedbackTutor.resultados) {
         lstFeedback.add(
@@ -268,11 +283,13 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
       idTipoServ = a.idTipoServ;
       idAgenda = a.idAgenda;
       idTipoPet = a.idTipoPet;
+      valorBD = a.valor;
     });
     loadEndereco();
     loadTipoServ();
     loadDias();
     loadTipoPet();
+    _loadImage();
   }
 
   //fundovistut
@@ -326,7 +343,13 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Colors.brown),
+                            color: Colors.brown,
+                            image: _imageData != null
+                        ? DecorationImage(
+                            image: MemoryImage(_imageData!),
+                            fit: BoxFit.cover,
+                        )
+                          : null,),
                       ),
                       Container(
                           height: MediaQuery.of(context).size.height * 0.05),
@@ -395,6 +418,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                               idCuid: idCuid,
                                               nome: nomeCuid,
                                               tipoServ: "Hospedagem",
+                                              valor: valorBD,
                                               )
                                             )
                                           )),

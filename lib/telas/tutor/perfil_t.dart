@@ -52,7 +52,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
                         MediaQuery.of(context).size.height * 0.005)),
                 GestureDetector(
                   onTap: () => Navigator.of(context)
-                      .pushNamed('/editar_perfil_c'), //programação
+                      .pushNamed('/meuspet_t'), //programação
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: MediaQuery.of(context).size.height * 0.08,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prjpetcare/Elementos_design/design.dart';
 
 import '../../Elementos_design/background.dart';
 
@@ -42,70 +43,28 @@ class _LogadoTutorState extends State<LogadoTutor> {
                 ),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.015)),
+                        MediaQuery.of(context).size.height * 0.02)),
                 _btnHosp(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.015)),
+                        MediaQuery.of(context).size.height * 0.02)),
                 _btnCreche(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.015)),
+                        MediaQuery.of(context).size.height * 0.02)),
                 _btnPetSitter(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.015)),
+                        MediaQuery.of(context).size.height * 0.02)),
                 _btnPasseio(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.015)),
+                        MediaQuery.of(context).size.height * 0.02)),
                 _btnAdestramento(),
                 Padding(
                     padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.height * 0.025)),
-                Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.075,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(81, 156, 93, 1),
-                        borderRadius: BorderRadius.circular(30)),
-
-                    //------------------ BARRA-NAVEGAÇÃO ------------------------------
-
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              //programação
-                            },
-                            icon: Image.asset('defora/imagens/home.png')),
-                        Padding(
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height * 0.01)),
-                        IconButton(
-                            onPressed: () {
-                              //programação
-                            },
-                            icon: Image.asset('defora/imagens/carrinho.png')),
-                        Padding(
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height * 0.01)),
-                        IconButton(
-                            onPressed: () {
-                              //programação
-                            },
-                            icon: Image.asset('defora/imagens/chats.png')),
-                        Padding(
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.height * 0.01)),
-                        IconButton(
-                            onPressed: () {
-                              //programação
-                            },
-                            icon: Image.asset('defora/imagens/perfiltutor.png'))
-                      ],
-                    ))
+                        MediaQuery.of(context).size.height * 0.03)),
+                MenuHorTutor()
               ],
             )
           ],

@@ -499,7 +499,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
     }
   }
 
-  String foto = "";
+  
 
   Widget opcoesImg() {
     return Container(
@@ -543,24 +543,6 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
             onTap: () async {
               Navigator.of(context).pop();
               pick(ImageSource.camera);
-            },
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey[200],
-              child: Center(
-                child: Icon(
-                  Icons.no_photography_outlined,
-                  color: Colors.grey[500],
-                ),
-              ),
-            ),
-            title: Text(
-              'Remover Foto',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            onTap: () {
-              setState(() async {});
             },
           ),
         ],

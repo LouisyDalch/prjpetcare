@@ -73,12 +73,47 @@ class TutorRopository{
     return tutorAPI.puxarPetsDoTutor(token);
   }
 
+  Future<Uint8List> getImagePet(int idPet) async {
+        return tutorAPI.getImagePet(token, idPet);
+  }
+
+  Future<ServiceResult> CadastrarImgPet(Uint8List img, String nome) async {
+        return tutorAPI.cadastrarImgPet(token, img, nome);
+  }
+
 }
 
 class objImgTutor {
   ImageByteFormat? imgTutor;
   objImgTutor({
     required this.imgTutor
+  });
+}
+
+class PetTutor {
+  int idPet;
+  String nome;
+  DateTime? dataNasce;
+  String raca;
+  String sexo;
+  double peso;
+  String porte;
+  String vacinacao;
+  String descricao;
+  int idDono;
+  int idTipoPet;
+  PetTutor({
+    required this.idPet,
+    required this.nome,
+    required this.dataNasce,
+    required this.raca,
+    required this.sexo,
+    required this.peso,
+    required this.porte,
+    required this.vacinacao,
+    required this.descricao,
+    required this.idDono,
+    required this.idTipoPet
   });
 }
 

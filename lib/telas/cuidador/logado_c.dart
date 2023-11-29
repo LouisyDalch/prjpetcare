@@ -38,12 +38,13 @@ class _LogadoCuidadorState extends State<LogadoCuidador> {
             dataIni: DateTime.tryParse(element['dataIni']),
             dataFin: DateTime.tryParse(element['dataFin']),
             valor: element["valor"],
+            idStatus: element['idStatus'],
             idDono: element['idDono'],
             idCuidador: element['idCuidador'],
             idPet: element["idPet"],
             idTipoServ: element["idTipoServ"],
             donoNome: element['donoNome'],
-            idStatus: element['idStatus'],
+
             nomePet: element['nomePet'],));
       }
     });

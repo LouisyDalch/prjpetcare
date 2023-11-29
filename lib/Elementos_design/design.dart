@@ -157,7 +157,8 @@ class MenuHorTutor extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.2,
               child: IconButton(
                   onPressed: () {
-                    //programação
+                    //programação 
+                     Navigator.of(context).pushNamed('/perfil_t');
                   },
                   icon: Image.asset('defora/imagens/perfiltutor.png')),
             )

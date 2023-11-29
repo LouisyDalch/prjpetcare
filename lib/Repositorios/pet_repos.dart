@@ -1,15 +1,16 @@
 import 'package:prjpetcare/API/petmet.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 
 class PetRopository{
-  PetsAPI petsAPI = PetsAPI();
+  static PetsAPI petsAPI = PetsAPI();
   static String? token;
 
   Future<ServiceResult> cadPet (
     String nome,String data,String raca, String gen, String peso,
-    String porte, String vacinacao, String descr, String foto, 
+    String porte, String vacinacao, String descr, int idTipoPet
   )async{
     return petsAPI.cadastroPet(
-      token,nome, data, raca, gen, peso, porte, vacinacao, descr, foto);
+      TutorRopository.token,nome, data, raca, gen, peso, porte, vacinacao, descr, idTipoPet);
   }
   
   

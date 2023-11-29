@@ -3,29 +3,56 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
+
+import '../../API/tutoresmet.dart';
 
 class SolicServico extends StatefulWidget {
   final int idCuid;
   final String nome;
   final String tipoServ;
+  final double valor;
 
   const SolicServico({super.key,
   required this.idCuid,
   required this.nome,
-  required this.tipoServ});
+  required this.tipoServ,
+  required this.valor});
 
   @override
   State<SolicServico> createState() => _SolicServicoState(
-    idCuid: idCuid, nome: nome, tipoServ: tipoServ);
+    idCuid: idCuid, nome: nome, tipoServ: tipoServ,valor: valor, tutorRopository: TutorRopository());
 }
 
 class _SolicServicoState extends State<SolicServico> {
+
+  int idCuid;
+  String nome;
+  String tipoServ;
+  double valor;
+  TutorRopository tutorRopository;
+
+  List<PetTutor> lstPets = [];
+
+  Future<ListResult> getPetsDoTutor() async {
+    return await tutorRopository.puxarPetsDoTutor();
+  }
+
+   @override
+  void initState() {
+    super.initState();
+    loadPets();
+  }
+
   _SolicServicoState({
     required this.idCuid,
     required this.nome,
-    required this.tipoServ
+    required this.tipoServ,
+    required this.valor,
+    required this.tutorRopository
   }) {
-    _portSelect = portes[0];
+   
+
   }
   TimeOfDay horaServInicio = TimeOfDay.now();
   TimeOfDay horaServFim = TimeOfDay.now();
@@ -33,14 +60,38 @@ class _SolicServicoState extends State<SolicServico> {
   String dattaInicio = "";
   DateTime dataFim = DateTime.now();
   String dattaFim = "";
+  double valTotal = 0.0;
 
-  final portes = ["Selecionar pet", "Katy", "Toby"];
-  String? _portSelect = "";
+  final portes = ["Selecionar pet"];
+  String _portSelect = "";
 
-  //PROGRAMAÇÃO BD
-  int idCuid;
-  String nome;
-  String tipoServ;
+  //PROGRAMAÇÃO BD ---------------------------------------
+
+
+  void loadPets() async {
+    ListResult infos = await getPetsDoTutor();
+    setState(() {
+      lstPets = [];
+      for (var element in infos.resultados) {
+        lstPets.add(PetTutor(
+           idPet: element['idPet'],
+            nome: element["nome"],
+            dataNasce: DateTime.tryParse(element['data']),
+            raca: element["raca"],
+            sexo: element["sexo"],
+            peso: element["peso"],
+            porte: element["porte"],
+            vacinacao: element['vacinacao'],
+            descricao: element['descricao'],
+            idDono: element["idDono"],
+            idTipoPet: element["idTipoPet"]));
+      }
+
+          _portSelect = lstPets[0].nome;
+     
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,331 +99,338 @@ class _SolicServicoState extends State<SolicServico> {
       body: Stack(
         children: [
           WidBackground(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Solicitar Serviço",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width * 0.07),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Cuidador: ",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.055,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.59,
-                            child: Text(
-                              nome,
+          SingleChildScrollView(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                    Text(
+                      "Solicitar Serviço",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.width * 0.07),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Cuidador: ",
                               style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width *
-                                      0.055),
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.055,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.59,
+                              child: Text(
+                                nome,
+                                style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.width *
+                                        0.055),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Serviço: ",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.055,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              tipoServ,
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.055),
+                            ),
+                          ],
+                        )),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: DropdownButtonFormField(
+                            value: _portSelect,
+                            items: lstPets.map((e) {
+                              return DropdownMenuItem(
+                                child: Text(e.nome),
+                                value: e.nome,
+                              );
+                            }).toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                _portSelect = val.toString();
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.arrow_drop_down_circle,
+                              color: Color.fromRGBO(8, 113, 26, 1),
                             ),
                           ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color.fromARGB(255, 8, 82, 10).withOpacity(0.8),
+                      ),
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.03),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: Text(
+                              "Selecione data e hora de início",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.055,
+                                  color: Color.fromARGB(255, 11, 42, 13)),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: ElevatedButton(
+                                  onPressed: () => _selectDateInicio(context),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromRGBO(7, 125, 27, 1)),
+                                  child: Text(
+                                    DateFormat("dd/MM/yyyy").format(dataInicio),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        color: Color.fromARGB(255, 3, 65, 9)),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.05,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                child: ElevatedButton(
+                                  onPressed: () => _selectTimeInicio(context),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Color.fromRGBO(7, 125, 27, 1),
+                                  ),
+                                  child: Text(
+                                    mostrarHoraIni(horaServInicio),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        color: Color.fromARGB(255, 3, 65, 9)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
-                      )),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Container(
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color.fromARGB(255, 8, 121, 12).withOpacity(0.8),
+                      ),
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.03),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: Text(
+                              "Selecione data e hora de término",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.055,
+                                  color: Color.fromARGB(255, 11, 42, 13)),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                height: MediaQuery.of(context).size.height * 0.07,
+                                child: ElevatedButton(
+                                  onPressed: () => _selectDateFinal(context),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Color.fromRGBO(19, 113, 33, 1)),
+                                  child: Text(
+                                    DateFormat("dd/MM/yyyy").format(dataFim),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        color: Color.fromARGB(255, 3, 65, 9)),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.05,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                child: ElevatedButton(
+                                  onPressed: () => _selectTimeFinal(context),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Color.fromRGBO(19, 113, 33, 1),
+                                  ),
+                                  child: Text(
+                                    mostrarHoraIni(horaServFim),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        color: Color.fromARGB(255, 3, 65, 9)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    Container(
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: Row(
                         children: [
                           Text(
-                            "Serviço: ",
+                            "Valor total: ",
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.055,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            tipoServ,
+                            _calcularPreco(),
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.055),
                           ),
                         ],
-                      )),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: DropdownButtonFormField(
-                          value: _portSelect,
-                          items: portes.map((e) {
-                            return DropdownMenuItem(
-                              child: Text(e),
-                              value: e,
-                            );
-                          }).toList(),
-                          onChanged: (val) {
-                            setState(() {
-                              _portSelect = val.toString();
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.arrow_drop_down_circle,
-                            color: Color.fromRGBO(8, 113, 26, 1),
-                          ),
-                        ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 8, 82, 10).withOpacity(0.8),
                     ),
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width * 0.03),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Text(
-                            "Selecione data e hora de início",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.055,
-                                color: Color.fromARGB(255, 11, 42, 13)),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.45,
-                              height: MediaQuery.of(context).size.height * 0.07,
-                              child: ElevatedButton(
-                                onPressed: () => _selectDateInicio(context),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromRGBO(7, 125, 27, 1)),
-                                child: Text(
-                                  DateFormat("dd/MM/yyyy").format(dataInicio),
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.06,
-                                      color: Color.fromARGB(255, 3, 65, 9)),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              child: ElevatedButton(
-                                onPressed: () => _selectTimeInicio(context),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromRGBO(7, 125, 27, 1),
-                                ),
-                                child: Text(
-                                  mostrarHoraIni(horaServInicio),
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.06,
-                                      color: Color.fromARGB(255, 3, 65, 9)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 8, 121, 12).withOpacity(0.8),
-                    ),
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width * 0.03),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Text(
-                            "Selecione data e hora de término",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.055,
-                                color: Color.fromARGB(255, 11, 42, 13)),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.45,
-                              height: MediaQuery.of(context).size.height * 0.07,
-                              child: ElevatedButton(
-                                onPressed: () => _selectDateFinal(context),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromRGBO(19, 113, 33, 1)),
-                                child: Text(
-                                  DateFormat("dd/MM/yyyy").format(dataFim),
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.06,
-                                      color: Color.fromARGB(255, 3, 65, 9)),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              child: ElevatedButton(
-                                onPressed: () => _selectTimeFinal(context),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromRGBO(19, 113, 33, 1),
-                                ),
-                                child: Text(
-                                  mostrarHoraIni(horaServFim),
-                                  style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.06,
-                                      color: Color.fromARGB(255, 3, 65, 9)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: Row(
-                      children: [
-                        Text(
-                          "Valor total: ",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.055,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "R\$12,00",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.055),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        DateTime dataInicioBD = DateTime(
-                            dataInicio.year,
-                            dataInicio.month,
-                            dataInicio.day,
-                            horaServInicio.hour,
-                            horaServInicio.minute);
-
-                        DateTime dataFimBD = DateTime(
-                            dataFim.year,
-                            dataFim.month,
-                            dataFim.day,
-                            horaServFim.hour,
-                            horaServFim.minute);
-
-                        int a = dataInicioBD.compareTo(dataFimBD);
-
-                        if (_portSelect != portes[0]) {
-                          if (dataInicioBD.isAfter(dataFimBD) || a == 0) {
-                            //msg de erro
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          DateTime dataInicioBD = DateTime(
+                              dataInicio.year,
+                              dataInicio.month,
+                              dataInicio.day,
+                              horaServInicio.hour,
+                              horaServInicio.minute);
+          
+                          DateTime dataFimBD = DateTime(
+                              dataFim.year,
+                              dataFim.month,
+                              dataFim.day,
+                              horaServFim.hour,
+                              horaServFim.minute);
+          
+                          int a = dataInicioBD.compareTo(dataFimBD);
+          
+                          if (_portSelect != portes[0]) {
+                            if (dataInicioBD.isAfter(dataFimBD) || a == 0) {
+                              //msg de erro
+                              var snackBar = const SnackBar(
+                                  content: Text(
+                                "O início do serviço deve ser antes de seu término.",
+                                style: TextStyle(fontSize: 15),
+                              ));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              print(horaServFim);
+                              print(horaServInicio);
+          
+                              //PROGRAMAÇÃO
+          
+                              
+          
+                            }
+                          } else {
                             var snackBar = const SnackBar(
                                 content: Text(
-                              "O início do serviço deve ser antes de seu término.",
+                              "Selecione um pet.",
                               style: TextStyle(fontSize: 15),
                             ));
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          } else {
-                            print(horaServFim);
-                            print(horaServInicio);
-
-                            //PROGRAMAÇÃO
-
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
-                        } else {
-                          var snackBar = const SnackBar(
-                              content: Text(
-                            "Selecione um pet.",
-                            style: TextStyle(fontSize: 15),
-                          ));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(60, 115, 56, 1),
-                      ),
-                      child: Text(
-                        'Solicitar Serviço',
-                        style: TextStyle(
-                            fontFamily: 'LilitaOne',
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            color: Color.fromARGB(255, 11, 42, 13)),
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromRGBO(60, 115, 56, 1),
+                        ),
+                        child: Text(
+                          'Solicitar Serviço',
+                          style: TextStyle(
+                              fontFamily: 'LilitaOne',
+                              fontSize: MediaQuery.of(context).size.width * 0.05,
+                              color: Color.fromARGB(255, 11, 42, 13)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           )
         ],
       ),
@@ -402,12 +460,13 @@ class _SolicServicoState extends State<SolicServico> {
         },
         context: context,
         initialDate: dataInicio,
-        firstDate: DateTime(1950),
+        firstDate: DateTime.now(),
         lastDate: DateTime.utc(DateTime.now().year + 2));
     if (pickedDate != null && pickedDate != dataInicio) {
       setState(() {
         var format = DateFormat("dd/MM/yyyy");
         dattaInicio = format.format(pickedDate);
+        dataFim = pickedDate;
         dataInicio = pickedDate;
       });
     }
@@ -434,7 +493,8 @@ class _SolicServicoState extends State<SolicServico> {
         },
         context: context,
         initialDate: dataFim,
-        firstDate: DateTime(1950),
+        firstDate: DateTime(
+          dataInicio.year,dataInicio.month,dataInicio.day,DateTime.now().hour,DateTime.now().minute),
         lastDate: DateTime.utc(DateTime.now().year + 2));
     if (pickedDate != null && pickedDate != dataFim) {
       setState(() {
@@ -450,9 +510,11 @@ class _SolicServicoState extends State<SolicServico> {
         context: context,
         initialTime: horaServInicio,
         initialEntryMode: TimePickerEntryMode.dial);
+    
     if (TimeOfDay != null) {
       setState(() {
         if (newTime != null) {
+          horaServFim = newTime;
           horaServInicio = newTime;
         }
       });
@@ -489,5 +551,27 @@ class _SolicServicoState extends State<SolicServico> {
     }
 
     return "$hora:$min";
+  }
+
+  String _calcularPreco(){
+    DateTime inicio = DateTime(
+      dataInicio.year, dataInicio.month, dataInicio.day,horaServInicio.hour,horaServInicio.minute);
+
+    DateTime fim = DateTime(
+      dataFim.year, dataFim.month, dataFim.day,horaServFim.hour,horaServFim.minute);
+
+    var preco = valor / 60;
+    int min = fim.difference(inicio).inMinutes;
+    var total = preco * min;
+    if(total < 0){
+      total = - total;
+      
+    }
+    setState(() {
+      valTotal = total;
+      print("t:$valTotal");
+    });
+    return "R\$$total";
+    
   }
 }

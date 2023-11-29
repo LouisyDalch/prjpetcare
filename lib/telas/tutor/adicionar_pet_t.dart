@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Repositorios/pet_repos.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
+import '../../API/tutoresmet.dart';
 import '../../Elementos_design/design.dart';
 import 'package:prjpetcare/API/petmet.dart' as petsAPI;
 
@@ -20,30 +24,18 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     _genSelect = generos[2];
     _portSelect = portes[0];
     _vacSelect = vacinacao[3];
+    _tipoSelect = tipoPets[0];
   }
   PetRopository petRopository = PetRopository();
-
-  final imagemPicker = ImagePicker();
-  File? imgFile;
-  
-
-  pick(ImageSource source) async {
-    final pickedFile = await imagemPicker.pickImage(source: source);
-
-    if (pickedFile != null) {
-      if (this.mounted) {
-        setState(() {
-          imgFile = File(pickedFile.path);
-        });
-      }
-    }
-  }
 
   final generos = ["Feminino", "Masculino", "Desconhecido"];
   String? _genSelect = "";
 
   final portes = ["Pequeno", "Médio", "Grande"];
   String? _portSelect = "";
+
+  final tipoPets = ["cão", "gato", "roedor", "peixe", "ave", "outro"];
+  String? _tipoSelect ="";
 
   final vacinacao = [
     "Possui todas as vacinas.",
@@ -61,7 +53,9 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
   String descr = "";
   DateTime data = DateTime.now();
   String datta = "";
-  String foto ="";
+  int idTipoPet = 1;
+
+  var imagemParaMandarProBanco = null;
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +107,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                                     child: CircleAvatar(
                                       backgroundColor:
                                           Color.fromARGB(255, 96, 219, 168),
-                                      backgroundImage: imgFile != null
-                                          ? FileImage(imgFile!)
+                                      backgroundImage: imageBytes != null
+                                          ? MemoryImage(imageBytes!)
                                           : null,
                                       radius:
                                           MediaQuery.of(context).size.width *
@@ -173,9 +167,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              
                               setState(() {
-                                nome=Text;
+                                nome = Text;
                               });
                             },
                             autocorrect: false,
@@ -236,9 +229,8 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              
                               setState(() {
-                                Text = especie;
+                                especie = Text;
                               });
                             },
                             autocorrect: false,
@@ -411,6 +403,57 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                         ),
                       ),
                     ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "O tipo do pet:",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: SingleChildScrollView(
+                            child: DropdownButtonFormField<int>(
+                              isExpanded: true,
+                              value: idTipoPet,
+                              items: tipoPets.map((e) {
+                                return DropdownMenuItem(
+                                  child: Text(
+                                    e,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  value: tipoPets.indexOf(e) + 1,
+                                );
+                              }).toList(),
+                              onChanged: (val) {
+                                setState(() {
+                                  if(val != null) {
+                                    idTipoPet = val;
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.arrow_drop_down_circle,
+                                color: Color.fromRGBO(8, 113, 26, 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.13,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -421,7 +464,6 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                           TextFormField(
                             maxLines: 3,
                             onChanged: (Text) {
-                              
                               setState(() {
                                 descr = Text;
                               });
@@ -442,11 +484,24 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           //ATENÇÃO
-                          Future<petsAPI.ServiceResult> novoPet = petRopository.cadPet(
-                            nome, datta, especie, _genSelect.toString(), peso, _portSelect.toString(), _vacSelect.toString(), descr, foto);
+                          print(idTipoPet);
 
+                          petsAPI.ServiceResult novoPet =
+                              await petRopository.cadPet(
+                                  nome,
+                                  datta,
+                                  especie,
+                                  _genSelect.toString(),
+                                  peso,
+                                  _portSelect.toString(),
+                                  _vacSelect.toString(),
+                                  descr,
+                                  idTipoPet);
+                            ServiceResult result = await repository.CadastrarImgPet(imagemParaMandarProBanco,nome);
+
+                   
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(60, 115, 56, 1),
@@ -506,6 +561,34 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
     }
   }
 
+  final imagemPicker = ImagePicker();
+  Uint8List? imageBytes;
+  TutorRopository repository = TutorRopository();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagemPicker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      if (this.mounted) {
+        var file = File(pickedFile.path);
+        imagemParaMandarProBanco = await file.readAsBytes();
+
+         
+
+        // print(result.success);
+
+         setState(() {
+         imageBytes = imagemParaMandarProBanco;
+        });
+       }
+      }
+    }
+
   Widget opcoesImg() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
@@ -525,7 +608,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               'Galeria',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            onTap: () async{
+            onTap: () async {
               Navigator.of(context).pop();
               pick(ImageSource.gallery);
               //foto = utility.base64String(await imgFile.readAsBytes());
@@ -545,32 +628,9 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
               'Câmera',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            onTap: () async{
+            onTap: () async {
               Navigator.of(context).pop();
               pick(ImageSource.camera);
-              foto = base64Encode(await imgFile!.readAsBytes());
-            },
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey[200],
-              child: Center(
-                child: Icon(
-                  Icons.no_photography_outlined,
-                  color: Colors.grey[500],
-                ),
-              ),
-            ),
-            title: Text(
-              'Remover Foto',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            onTap: () {
-              setState(() async {
-                imgFile = null;
-                foto = base64Encode(await imgFile!.readAsBytes());
-              });
-              
             },
           ),
         ],

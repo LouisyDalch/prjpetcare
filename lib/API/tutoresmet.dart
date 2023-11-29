@@ -271,6 +271,43 @@ class TutorAPI{
     }
   }
 
+  Future<Uint8List> getImagePet(String? token, int idPet) async {
+    if (token == null) throw Exception('Failed to login');
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarImgPet.aspx?idPet=$idPet"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    print(response.statusCode);
+
+    return response.bodyBytes;
+  }
+
+  Future<ServiceResult> cadastrarImgPet(String? token, Uint8List image, String nome) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var file =
+        http.MultipartFile.fromBytes("image", image, filename: "imagem.png");
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse("http://10.244.171.33/Tutor/Servicos/CadastrarImgPet.aspx?nome=$nome"));
+
+    request.files.add(file);
+    request.headers.addAll({"Authorization": token});
+
+    http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+
+    print(response.body);
+
+    return ServiceResult(success: response.statusCode == 200);
+  }
+
   
 
 }
