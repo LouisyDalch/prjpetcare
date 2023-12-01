@@ -60,7 +60,9 @@ class _ItemListState extends State<ItemList> {
       petSitterI = a.petSitter;
       passeioI = a.passeio;
       adestraI = a.adestra;
+      print("id:${a.idTipoServ}");
     });
+    
   }
 
   String _tipoServicoNome(){

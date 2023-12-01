@@ -21,11 +21,10 @@ class SolicServico extends StatefulWidget {
 
   @override
   State<SolicServico> createState() => _SolicServicoState(
-    idCuid: idCuid, nome: nome, tipoServ: tipoServ,valor: valor, tutorRopository: TutorRopository());
+    idCuid: idCuid, nome: nome, tipoServ: tipoServ,valor: valor, tutorRopository: TutorRopository(),);
 }
 
 class _SolicServicoState extends State<SolicServico> {
-
   int idCuid;
   String nome;
   String tipoServ;
@@ -49,7 +48,7 @@ class _SolicServicoState extends State<SolicServico> {
     required this.nome,
     required this.tipoServ,
     required this.valor,
-    required this.tutorRopository
+    required this.tutorRopository,
   }) {
    
 
@@ -61,6 +60,7 @@ class _SolicServicoState extends State<SolicServico> {
   DateTime dataFim = DateTime.now();
   String dattaFim = "";
   double valTotal = 0.0;
+  int idPet = 1;
 
   final portes = ["Selecionar pet"];
   String _portSelect = "";
@@ -181,6 +181,15 @@ class _SolicServicoState extends State<SolicServico> {
                             onChanged: (val) {
                               setState(() {
                                 _portSelect = val.toString();
+                                for(int x = 0; x<=lstPets.length;x++){
+                                  if(_portSelect==lstPets[x].nome){
+                                    idPet = lstPets[x].idPet;
+                                    print("la $idPet");
+                                    break;
+                                  }
+                                  
+                                }
+                                
                               });
                             },
                             icon: const Icon(
@@ -355,7 +364,7 @@ class _SolicServicoState extends State<SolicServico> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            _calcularPreco(),
+                            "R\$${_calcularPreco()}",
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.055),
@@ -372,12 +381,13 @@ class _SolicServicoState extends State<SolicServico> {
                       child: ElevatedButton(
                         onPressed: () {
                           DateTime dataInicioBD = DateTime(
+                    
                               dataInicio.year,
                               dataInicio.month,
                               dataInicio.day,
                               horaServInicio.hour,
                               horaServInicio.minute);
-          
+          print(dataInicioBD);
                           DateTime dataFimBD = DateTime(
                               dataFim.year,
                               dataFim.month,
@@ -386,6 +396,9 @@ class _SolicServicoState extends State<SolicServico> {
                               horaServFim.minute);
           
                           int a = dataInicioBD.compareTo(dataFimBD);
+                          var formatter = new DateFormat("dd/MM/yyyy hh:mm:ss");
+                          String inicioFormat = formatter.format(dataInicioBD);
+                          String fimFormat = formatter.format(dataFimBD);
           
                           if (_portSelect != portes[0]) {
                             if (dataInicioBD.isAfter(dataFimBD) || a == 0) {
@@ -401,9 +414,24 @@ class _SolicServicoState extends State<SolicServico> {
                               print(horaServFim);
                               print(horaServInicio);
           
-                              //PROGRAMAÇÃO
-          
+                               Future<ServiceResult> cadastro =
+                                        tutorRopository.cadastrarServHosp(
+                                            inicioFormat,
+                                            inicioFormat,
+                                            valTotal,
+                                            0,
+                                            idCuid,
+                                            idPet
+                                            );
+                                var snackBar = const SnackBar(
+                                  content: Text(
+                                "Serviço solicitado!",
+                                style: TextStyle(fontSize: 15),
+                              ));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                               
+                              Navigator.pop(context);
           
                             }
                           } else {
@@ -553,7 +581,7 @@ class _SolicServicoState extends State<SolicServico> {
     return "$hora:$min";
   }
 
-  String _calcularPreco(){
+  double _calcularPreco(){
     DateTime inicio = DateTime(
       dataInicio.year, dataInicio.month, dataInicio.day,horaServInicio.hour,horaServInicio.minute);
 
@@ -562,16 +590,16 @@ class _SolicServicoState extends State<SolicServico> {
 
     var preco = valor / 60;
     int min = fim.difference(inicio).inMinutes;
-    var total = preco * min;
+    var total = preco * min * 1.05;
     if(total < 0){
       total = - total;
       
     }
     setState(() {
-      valTotal = total;
+      valTotal = total/10;
       print("t:$valTotal");
     });
-    return "R\$$total";
+    return total;
     
   }
 }

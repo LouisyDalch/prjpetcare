@@ -113,12 +113,72 @@ class TutorRopository{
       token, email, cell, cidade, bairro, uf, cep, complemento, rua, numero);
   }
 
+  Future<ServiceResult> cadastrarServHosp(
+    String inicio, String fim, double valor, int estado, int idCuid, int idPet
+  )async{
+    return tutorAPI.cadastrarServHosp(
+      token, inicio,fim,valor,estado,idCuid,idPet);
+  }
+
+  Future<ListResult> puxarServSolicTutor(
+  ) async {
+    return tutorAPI.puxarServSolicTutor(token);
+  }
+
+  Future<ListResult> puxarServConfTutor(
+  ) async {
+    return tutorAPI.puxarServConfTutor(token);
+  }
+
+  Future<ListResult> puxarServFinalTutor(
+  ) async {
+    return tutorAPI.puxarServFinalTutor(token);
+  }
+
+  Future<ListResult> puxarInfoCuidUM( int idCuid
+  ) async {
+    return tutorAPI.puxarInfoCuid(token, idCuid);
+  }
+
+
 }
 
 class objImgTutor {
   ImageByteFormat? imgTutor;
   objImgTutor({
     required this.imgTutor
+  });
+}
+
+class ServicoSolic {
+  int idServ;
+  DateTime? dataIni;
+  DateTime? dataFin;
+  double valor;
+  int idStatus;
+  int idDono;
+  int idCuidador;
+  int idPet;
+  int idTipoServ;
+  String donoNome;
+  DateTime? dataDono;
+  String nomePet;
+  DateTime? dataPet;
+
+  ServicoSolic({
+    required this.idServ,
+    required this.dataIni,
+    required this.dataFin,
+    required this.valor,
+    required this.idStatus,
+    required this.idDono,
+    required this.idCuidador,
+    required this.idPet,
+    required this.idTipoServ,
+    required this.donoNome,
+    required this.dataDono,
+    required this.nomePet,
+    required this.dataPet,
   });
 }
 

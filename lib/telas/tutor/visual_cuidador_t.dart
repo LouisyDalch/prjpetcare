@@ -295,16 +295,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
   //fundovistut
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (!abra) {
-          final conf = await showCancelDialog();
-          print(conf);
-          return conf ?? false;
-        }
-        return true;
-      },
-      child: Scaffold(
+    return Scaffold(
         body: Stack(
           children: <Widget>[
             WidBackground(),
@@ -353,36 +344,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                       ),
                       Container(
                           height: MediaQuery.of(context).size.height * 0.05),
-                      Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                abra = true;
-                                showCancelDialog();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 194, 25, 3),
-                              ),
-                              child: Text(
-                                'Denunciar',
-                                style: TextStyle(
-                                    fontFamily: 'LilitaOne',
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.05,
-                                    color: Color.fromARGB(255, 10, 10, 10)),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      
                       Container(
                           height: MediaQuery.of(context).size.height * 0.01),
                       Container(
@@ -1075,7 +1037,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
             ),
           ],
         ),
-      ),
+      
     );
   }
 
@@ -1087,40 +1049,4 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
     }
   }
 
-  Future<bool?> showCancelDialog() {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Deseja realmente cancelar o serviço?"),
-            actions: [
-              Container(
-                color: Colors.white,
-                child: Form(
-                    child: Column(
-                  children: [
-                    TextFormField(
-                      maxLines: 3,
-                      onChanged: (Text) {
-                        cancelam = Text;
-                      },
-                      autocorrect: false,
-                      decoration: DesignEntradaTxt.decorarcaixa(
-                          hintText: "",
-                          labelText: "Por que deseja denunciar?",
-                          border: const OutlineInputBorder()),
-                    ),
-                  ],
-                )),
-              ),
-              TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text("Não")),
-              TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  child: Text("Sim"))
-            ],
-          );
-        });
-  }
 }

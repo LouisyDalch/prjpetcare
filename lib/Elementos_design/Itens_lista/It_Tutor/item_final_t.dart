@@ -1,13 +1,159 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../../API/tutoresmet.dart';
+import '../../../Repositorios/tutor_repos.dart';
 
 class ItemFinalT extends StatefulWidget {
-  const ItemFinalT({super.key});
+  final ServicoSolic servico;
+  const ItemFinalT({super.key,
+  required this.servico});
 
   @override
-  State<ItemFinalT> createState() => _ItemFinalTState();
+  State<ItemFinalT> createState() => _ItemFinalTState(servico: servico,tutorRopository: TutorRopository());
 }
 
 class _ItemFinalTState extends State<ItemFinalT> {
+  ServicoSolic servico;
+  TutorRopository tutorRopository;
+  _ItemFinalTState({
+    required this.servico,
+    required this.tutorRopository
+  }):super();
+
+  List<TipoServT> lstTipoS = [];
+  List<InfoCuidP> lstCuid = [];
+
+  int hospI = 0;
+  int crecheI = 0;
+  int petSitterI = 0;
+  int passeioI = 0;
+  int adestraI = 0;
+
+  String nomeCuid = "";
+  DateTime dataNasceu = DateTime.now();
+  double valor = 0.0;
+  String cell = "";
+  String email = "";
+  int idTipoServ = 0;
+  int idAgenda = 0;
+  int idTipoPet = 0;
+  double valorBD = 0.0;
+
+  Uint8List? _imageData;
+
+  @override
+  void initState() {
+    super.initState();
+    loadInfos();
+    loadTipoServ();
+    _loadImage();
+    
+  }
+
+
+  Future<ListResult> getInfoCuid() async {
+    return await tutorRopository.puxarInfoCuidUM(servico.idCuidador);
+  }
+
+   Future<ListResult> getTipoServ() async {
+    return await tutorRopository.puxarTipoServTutor(servico.idTipoServ.toString());
+  }
+
+  Future<void> _loadImage() async {
+    Uint8List data = await tutorRopository.getImageDataTutor(servico.idCuidador);
+    print("imagem carregou");
+    setState(() {
+      _imageData = data;
+    });
+  }
+
+
+
+  void loadTipoServ() async {
+    ListResult tipoServico = await getTipoServ();
+    setState(() {
+      lstTipoS = [];
+      for (var element in tipoServico.resultados) {
+        lstTipoS.add(
+          TipoServT(
+              idTipoServ: element["idTipoServ"],
+              hosp: element["hosp"],
+              creche: element["creche"],
+              petSitter: element["petSitter"],
+              passeio: element["passeio"],
+              adestra: element["adestra"]),
+        );
+      }
+      TipoServT a = lstTipoS[0];
+      hospI = a.hosp;
+      crecheI = a.creche;
+      petSitterI = a.petSitter;
+      passeioI = a.passeio;
+      adestraI = a.adestra;
+    });
+  }
+
+  void loadInfos() async {
+    ListResult infos = await getInfoCuid();
+    setState(() {
+      lstCuid = [];
+      for (var element in infos.resultados) {
+        lstCuid.add(InfoCuidP(
+            idCuidador: element['id_cuidador'],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element["datanasce"]),
+            telefone: element["telefone"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"],
+            especializacao: element["especializacao"],
+            tempoExper: element["tempoexper"],
+            valor: element["valor"],
+            idEnd: element["id_end"],
+            idTipoServ: element["id_tipoServ"],
+            idTipoPet: element["id_TipoPet"],
+            idAgenda: element["id_Agenda"]));
+      }
+      InfoCuidP a = lstCuid[0];
+      nomeCuid = a.nome;
+      dataNasceu = a.dataNasce!;
+      valor = a.valor;
+      cell = a.telefone;
+      email = a.email;
+      idTipoServ = a.idTipoServ;
+      idAgenda = a.idAgenda;
+      idTipoPet = a.idTipoPet;
+      valorBD = a.valor;
+    });
+
+  }
+
+  String _tipoServicoNome(){
+    String servico = "";
+    if(hospI ==1){
+      servico ="Hospedagem";
+    }
+    if(crecheI == 1){
+      servico ="Creche";
+    }
+    if(petSitterI == 1){
+      servico = "PetSitter";
+    }
+    if(passeioI == 1){
+      servico = "Passeio";
+    }
+    if(adestraI == 1){
+      servico = "Adestramento";
+    }
+    return servico;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,12 +174,15 @@ class _ItemFinalTState extends State<ItemFinalT> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.height * 0.16,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.amber,
                   shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image:NetworkImage("https://img.freepik.com/vetores-premium/amigo-3d-pessoas-contato-perfil-simbolo-do-emblema-do-icone-do-usuario-pessoa-humano-simbolo-de-sinal-de-avatar_659151-934.jpg"))
-                ),
+                  image: _imageData != null
+                        ? DecorationImage(
+                            image: MemoryImage(_imageData!),
+                            fit: BoxFit.cover,
+                        )
+                          : null,                ),
               )
             ],
           ),
@@ -47,21 +196,23 @@ class _ItemFinalTState extends State<ItemFinalT> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text('Tipo_Serv',
+                      child: Text(_tipoServicoNome(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text('Nome_Tutor',
+                      child: Text(nomeCuid,
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text('Data/hra fin',
+                      child: Text("Término: ${servico.dataFin != null ?
+                      DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                      : 'Data inválida'}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),),

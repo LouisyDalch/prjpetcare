@@ -19,15 +19,15 @@ class _MeuHist_TState extends State<MeuHist_T> {
       height: MediaQuery.of(context).size.height * 0.1,
       child: ElevatedButton(
         onPressed: () {
-          
+          Navigator.pushNamed(context, '/serv_solic_t');
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(255, 15, 96, 8),
+            backgroundColor: Color.fromRGBO(81, 156, 93, 1),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
-          'Em andamento',
+          'Solicitações',
           style: TextStyle(
             fontSize: 19, color: Color.fromRGBO(20, 20, 20, 1)),
         ),
@@ -41,12 +41,12 @@ class _MeuHist_TState extends State<MeuHist_T> {
       height: MediaQuery.of(context).size.height * 0.1,
       child: ElevatedButton(
         onPressed: () {
-          
+          Navigator.pushNamed(context, '/serv_final_t');
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(255, 3, 112, 23),
+            backgroundColor: Color.fromRGBO(61, 91, 31, 1),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
           'Finalizados',
@@ -64,12 +64,12 @@ class _MeuHist_TState extends State<MeuHist_T> {
       height: MediaQuery.of(context).size.height * 0.1,
       child: ElevatedButton(
         onPressed: () {
-          
+          Navigator.pushNamed(context, '/serv_confirm_t');
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromRGBO(7, 88, 20, 1),
+            backgroundColor: const Color.fromRGBO(94, 144, 64, 1),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 side: const BorderSide(color: Color.fromRGBO(7, 88, 20, 1)))),
         child: const Text(
           'Confirmados',
@@ -105,7 +105,7 @@ class _MeuHist_TState extends State<MeuHist_T> {
              Container(
               
               decoration: BoxDecoration(
-                color: Color.fromARGB(131, 66, 151, 53),
+                color: Color.fromARGB(255, 141, 141, 141).withOpacity(0.3),
                 borderRadius: BorderRadius.circular(10)
               ),
               child: 
