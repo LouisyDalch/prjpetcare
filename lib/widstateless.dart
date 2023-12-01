@@ -111,7 +111,7 @@ class WidStateless extends StatelessWidget{
 
 
       //Funções --------------------------------------------------------
-      '/perfil_pet_t':(context) => const PerfilPet_T(),
+
       '/editar_perfil_pet_t':(context) => const EditarPerfPet_T(),
       '/adicionar_pet_t':(context) => const AdicionarPet_T(),
 

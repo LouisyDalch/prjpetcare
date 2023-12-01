@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:sql_conn/sql_conn.dart';
-
+//p programar
 class TutorAPI{
 
   Future<LoginResult> loginTutor(String usuario,String senha) async {
@@ -308,6 +308,135 @@ class TutorAPI{
     return ServiceResult(success: response.statusCode == 200);
   }
 
+  Future<ListResult> puxarPet(String? token, String idPet) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarInfoPet.aspx?idPet=$idPet"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarMeusDadosTutor(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarMeusDadosTutor.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarMeuEndTutor(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarEndTutor.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<Uint8List> pegarMinhaFoto(String? token) async { //é do cuidador
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarMinhaImg.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    print(response.body);
+
+    return response.bodyBytes;
+  }
+
+  Future<ServiceResult> salvarFotoTutor(String? token, Uint8List image) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var file =
+        http.MultipartFile.fromBytes("image", image, filename: "imagem.png");
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse("http://10.244.171.33/Tutor/Servicos/CadastrarImgTutor.aspx"));
+
+    request.files.add(file);
+    request.headers.addAll({"Authorization": token});
+
+    http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+
+    print(response.body);
+
+    return ServiceResult(success: response.statusCode == 200);
+  }
+
+  Future<ServiceResult> atualizarDadosTutor(String? token,
+    String email, String cell, String cidade, String bairro, String uf,
+    String cep, String complemento,String rua, int numero) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Tutor/Servicos/EditarDadosTutor.aspx?email=$email&cell=$cell&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&rua=$rua&numero=$numero"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
   
 
 }

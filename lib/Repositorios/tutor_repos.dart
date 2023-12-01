@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:prjpetcare/API/tutoresmet.dart';
-//
+//p programar
 class TutorRopository{
   static TutorAPI tutorAPI = TutorAPI();
   static String? token;
@@ -79,6 +79,38 @@ class TutorRopository{
 
   Future<ServiceResult> CadastrarImgPet(Uint8List img, String nome) async {
         return tutorAPI.cadastrarImgPet(token, img, nome);
+  }
+
+  Future<ListResult> puxarPet(
+    String idPet
+  ) async {
+    return tutorAPI.puxarPet(token, idPet);
+  }
+
+  Future<ListResult> puxarMeusDadosTutor(
+  ) async {
+    return tutorAPI.puxarMeusDadosTutor(token);
+  }
+
+  Future<ListResult> puxarMeuEndTutor(
+  ) async {
+    return tutorAPI.puxarMeuEndTutor(token);
+  }
+
+  Future<Uint8List> pegarMinhaFoto() async {
+        return tutorAPI.pegarMinhaFoto(token);
+  }
+
+  Future<ServiceResult> salvarFotoTutor(Uint8List img) async {
+        return tutorAPI.salvarFotoTutor(token, img);
+  }
+
+  Future<ServiceResult> atualizarDadosTutor (
+    String email, String cell, String cidade, String bairro, String uf,
+    String cep, String complemento, String rua, int numero
+  )async{
+    return tutorAPI.atualizarDadosTutor(
+      token, email, cell, cidade, bairro, uf, cep, complemento, rua, numero);
   }
 
 }

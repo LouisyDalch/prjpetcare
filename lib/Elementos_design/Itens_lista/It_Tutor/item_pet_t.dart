@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
-
+//p programar
 class ItemPet_T extends StatefulWidget {
   final PetTutor pet;
   const ItemPet_T({super.key,
   required this.pet});
-  //AQUI TÁ DANDO ERRO NA IMAGEM
+
   @override
   State<ItemPet_T> createState() => _ItemPet_TState(pet: pet, tutorRopository: TutorRopository());
 }
@@ -48,7 +48,7 @@ class _ItemPet_TState extends State<ItemPet_T> {
         onTap: () => Navigator.push(
             context, 
             MaterialPageRoute(builder: (
-              (context) => PerfilPet_T()))),
+              (context) => PerfilPet_T(idPet: pet.idPet,)))),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.13,
           width: MediaQuery.of(context).size.width * 0.1,

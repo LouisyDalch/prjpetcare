@@ -1,6 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/Repositorios/tutor_repos.dart';
+
+import '../../API/tutoresmet.dart';
 
 class PerfilTutor extends StatefulWidget {
   const PerfilTutor({super.key});
@@ -10,6 +16,23 @@ class PerfilTutor extends StatefulWidget {
 }
 
 class _PerfilTutorState extends State<PerfilTutor> {
+
+  TutorRopository tutorRopository = TutorRopository();
+  List <TutorByCuid> lstTutor = [];
+  List<EndTutor> lstEnd=[];
+
+  int _calcularIdade (DateTime dataNasceu){
+    DateTime verifica = DateTime(DateTime.now().year, dataNasceu.month,dataNasceu.day);
+    DateTime hoje = DateTime.now();
+    int idade;
+    if(DateTime.now().isBefore(verifica)){
+      idade = hoje.year - dataNasceu.year - 1;
+    }else{
+      idade = hoje.year - dataNasceu.year;
+    }
+    return idade;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +77,12 @@ class _PerfilTutorState extends State<PerfilTutor> {
                   onTap: () => Navigator.of(context)
                       .pushNamed('/meuspet_t'), //programação
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: Row(children: [
+                      Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.12)),
                       Icon(
                         Icons.pets,
                         size: MediaQuery.of(context).size.height * 0.05,
@@ -75,11 +101,14 @@ class _PerfilTutorState extends State<PerfilTutor> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed('/editar_perfil_c'), //programação
+                  onTap: () => Navigator.of(context).pushReplacementNamed('/editar_perfil_t'), //programação
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: Row(children: [
+                     Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.12)),
                       Icon(
                         Icons.person,
                         size: MediaQuery.of(context).size.height * 0.05,
@@ -99,11 +128,14 @@ class _PerfilTutorState extends State<PerfilTutor> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed('/editar_perfil_c'), //programação
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                  onTap: () => Navigator.of(context).pushNamed('/meuhist_t'), //programação
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: Row(children: [
+                       Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.12)),
                       Icon(
                         Icons.calendar_month,
                         size: MediaQuery.of(context).size.height * 0.05,
@@ -164,18 +196,18 @@ class _PerfilTutorState extends State<PerfilTutor> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                Container(
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
                   width: MediaQuery.of(context).size.width * 0.95,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Nome_tutor",
+                      Text(nome,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
                       ),),
-                      Text("Idade",
+                      Text("${_calcularIdade(dataNasc)} anos",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
@@ -183,18 +215,25 @@ class _PerfilTutorState extends State<PerfilTutor> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           color: Colors.brown,
                           shape: BoxShape.circle,
-                          //colocar imagem
+                          image: imageBytes != null
+                    ? DecorationImage(
+                        image: MemoryImage(imageBytes!),
+                        fit: BoxFit.cover,
+                    )
+                      : null,
                         ),
                       ),
-                      Text("Localização",
+                      Text("$rua - $bairro, $cidade - $uf",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
-                        fontWeight: FontWeight.bold
-                      ),),
-                      Text("Email",
+                        fontWeight: FontWeight.bold,
+                        
+                      ),
+                     ),
+                      Text(email,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
@@ -212,4 +251,90 @@ class _PerfilTutorState extends State<PerfilTutor> {
       ]),
     );
   }
+
+  //VARIAVEIS LOCAIS
+  String nome = "";
+  DateTime dataNasc = DateTime.now();
+  String email = "";
+
+  String rua = "";
+  String bairro = "";
+  String cidade = "";
+  String uf = "";
+
+  Future<ListResult> getTutor() async {
+    return await tutorRopository.puxarMeusDadosTutor();
+  }
+
+  Future<ListResult> getEnd() async {
+    return await tutorRopository.puxarMeuEndTutor();
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    loadTutor();
+    loadEndereco();
+    loadImage();
+  }
+
+  void loadTutor() async {
+    ListResult tipoServico = await getTutor();
+    setState(() {
+      lstTutor = [];
+      for (var element in tipoServico.resultados) {
+        lstTutor.add(
+          TutorByCuid(
+             idTutor: element["idDono"],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element['dataNasc']),
+            cell: element["cell"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"] ),
+        );
+      }
+      TutorByCuid t = lstTutor[0];
+      nome = t.nome;
+      dataNasc = t.dataNasce!;
+      email = t.email;
+    });
+  }
+
+  void loadEndereco() async {
+    ListResult end = await getEnd();
+    setState(() {
+      for (var element in end.resultados) {
+        lstEnd = [];
+         lstEnd.add(EndTutor(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]
+            ));
+      }
+      EndTutor a = lstEnd[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
+    });
+
+  }
+  
+  final imagemPicker = ImagePicker();
+  Uint8List? imageBytes;
+
+  void loadImage() async {
+    var bytes = await tutorRopository.pegarMinhaFoto();
+    setState(() => {imageBytes = bytes});
+  
+
+  }
+
 }
