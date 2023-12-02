@@ -158,7 +158,7 @@ class _ItemConfirmTState extends State<ItemConfirmT> {
       onTap: () =>  Navigator.push(
             context, 
             MaterialPageRoute(builder: (
-              (context) => VisualServConf_T()))),
+              (context) => VisualServConf_T(servico: servico,tipoServ: _tipoServicoNome(),)))),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, top: 10),
         child: Container(
@@ -223,7 +223,7 @@ class _ItemConfirmTState extends State<ItemConfirmT> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text("Término: ${servico.dataFin != null ?
-                        DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                        DateFormat('dd/MM/yyyy').format(servico.dataFin!) 
                         : 'Data inválida'}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold

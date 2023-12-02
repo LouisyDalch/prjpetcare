@@ -140,6 +140,13 @@ class TutorRopository{
     return tutorAPI.puxarInfoCuid(token, idCuid);
   }
 
+  Future<ServiceResult> cancelarServico(
+    int idServico
+  )async{
+    return tutorAPI.cancelarServico(
+      token, idServico);
+  }
+
 
 }
 

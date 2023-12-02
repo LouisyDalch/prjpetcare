@@ -17,14 +17,17 @@ import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 
 class VisualCuidador_T extends StatefulWidget {
   final int idCuid;
-  const VisualCuidador_T({super.key, required this.idCuid});
+  final bool btnSolic;
+  const VisualCuidador_T({super.key, required this.idCuid,
+  required this.btnSolic});
 
   @override
   State<VisualCuidador_T> createState() => _VisualCuidador_TState(
-      idCuid: idCuid, tutorRopository: TutorRopository());
+      idCuid: idCuid, tutorRopository: TutorRopository(),btnSolic: btnSolic);
 }
 
 class _VisualCuidador_TState extends State<VisualCuidador_T> {
+  bool btnSolic;
   List<InfoCuidP> lstCuid = [];
   List<EndTutor> lstEnd = [];
   List<TipoServT> lstTipoS = [];
@@ -77,8 +80,10 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
 
   String cancelam = "";
 
-  _VisualCuidador_TState({required this.idCuid, required this.tutorRopository})
-      : super();
+  _VisualCuidador_TState({
+    required this.idCuid, 
+    required this.tutorRopository,
+    required this.btnSolic}): super();
 
   Future<ListResult> getInfoCuid() async {
     return await tutorRopository.puxarCuidHosp();
@@ -372,7 +377,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                               width: MediaQuery.of(context).size.width * 0.3,
                               height: MediaQuery.of(context).size.height * 0.04,
                               child: ElevatedButton(
-                                onPressed: () => Navigator.push(
+                                onPressed: btnSolic != false ? () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: ((context) =>
@@ -383,7 +388,8 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                               valor: valorBD,
                                               )
                                             )
-                                          )),
+                                          )
+                                          ):null,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
                                       Color.fromARGB(255, 9, 153, 26),

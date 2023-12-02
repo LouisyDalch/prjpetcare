@@ -119,7 +119,7 @@ class _ItemMostrarHospTState extends State<ItemMostrarHospT> {
       onTap: () => Navigator.push(
             context, 
             MaterialPageRoute(builder: (
-              (context) => VisualCuidador_T(idCuid: cuidador.idCuidador,)))),
+              (context) => VisualCuidador_T(idCuid: cuidador.idCuidador,btnSolic: true,)))),
        
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, top: 10),

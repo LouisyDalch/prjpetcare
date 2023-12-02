@@ -123,8 +123,6 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_servsolic_c':(context) => const VisualServSolic(),
       '/visualizacao_servfinal_c':(context) => const VisualServFinal(),
 
-      '/visualizacao_servconf_t':(context) => const VisualServConf_T(),
-      '/visualizacao_servsolic_t':(context) => const VisualServSolic_T(),
       '/visualizacao_servfinal_t':(context) => const VisualServFinal_T(),
 
       //Serviços selecionados by tutor -------------------------------------

@@ -554,6 +554,22 @@ class TutorAPI{
 
   }
 
+  Future<ServiceResult> cancelarServico(String? token, int idServ) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Tutor/Servicos/DeletarServico.aspx?id=$idServ"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
   
   
 
