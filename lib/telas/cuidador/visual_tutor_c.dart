@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,16 +7,144 @@ import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_pet_c.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_pet_t.dart';
+import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+
+import '../../API/cuidadoresmet.dart';
 
 class VisualTutor_C extends StatefulWidget {
-  const VisualTutor_C({super.key});
+  final TutorByCuid servico;
+  const VisualTutor_C({super.key,
+  required this.servico});
 
   @override
-  State<VisualTutor_C> createState() => _VisualTutor_CState();
+  State<VisualTutor_C> createState() => _VisualTutor_CState(servico: servico, cuidadorRepository: CuidadorRepository());
 }
 
 class _VisualTutor_CState extends State<VisualTutor_C> {
-  final lst = ["um", "2", "três"];
+  TutorByCuid servico;
+  CuidadorRepository cuidadorRepository;
+
+  
+  Uint8List? _imageData;
+
+  Future<void> _loadImage() async {
+    Uint8List data = await cuidadorRepository.getImageDataTutor(servico.idTutor);
+    print("imagem carregou");
+    setState(() {
+      _imageData = data;
+    });
+  }
+
+   @override
+  void initState() {
+    super.initState();
+    loadPet();
+    loadEndereco();
+    _loadImage();
+  }
+
+  String rua = "";
+  String bairro = "";
+  String cidade = "";
+  String uf = "";
+
+  _VisualTutor_CState({
+    required this.servico,
+    required this.cuidadorRepository
+  }):super();
+
+
+  List<EndCuid> lstEnd = [];
+  List<petCuid> lst = [];
+
+   String _calcularIdade(DateTime dataNasceu) {
+    DateTime verifica =
+        DateTime(DateTime.now().year, dataNasceu.month, dataNasceu.day);
+    DateTime hoje = DateTime.now();
+    int idade;
+    int mes;
+    if (DateTime.now().isBefore(verifica)) {
+      idade = hoje.year - dataNasceu.year - 1;
+    } else {
+      idade = hoje.year - dataNasceu.year;
+    }
+    String a;
+
+    if (idade > 0) {
+      a = "$idade anos";
+    } else {
+      //calcular meses
+      int mes = hoje.month - dataNasceu.month;
+      if (mes > 1) {
+        a = "$mes meses";
+      } else {
+        if (hoje.day > dataNasceu.day) {
+          a = "$mes mês";
+        } else {
+          final mds = hoje.difference(dataNasceu).inDays;
+          a = "$mds dias";
+        }
+      }
+    }
+
+    return a;
+  }
+
+  Future<ListResult> getPet() async {
+    return await cuidadorRepository.puxarPetCuid(servico.idTutor.toString());
+  }
+
+  Future<ListResult> getEndTutor() async {
+    return await cuidadorRepository
+        .puxarEndTutorCuid(servico.idTutor.toString());
+  }
+
+   void loadEndereco() async {
+    ListResult end = await getEndTutor();
+    setState(() {
+      lstEnd = [];
+      for (var element in end.resultados) {
+        lstEnd.add(EndCuid(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]));
+      }
+      EndCuid a = lstEnd[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
+    });
+  }
+
+   void loadPet() async {
+    ListResult pet = await getPet();
+    setState(() {
+      lst = [];
+      for (var element in pet.resultados) {
+        lst.add(
+          petCuid(
+              idPet: element['idPet'],
+              nome: element["nome"],
+              dataNasce: DateTime.tryParse(element['data']),
+              raca: element["raca"],
+              sexo: element["sexo"],
+              peso: element["peso"],
+              porte: element["porte"],
+              vacinacao: element['vacinacao'],
+              descricao: element['descricao'],
+              idDono: element["idDono"],
+              idTipoPet: element["idTipoPet"]),
+        );
+      }
+    });
+  }
+
   //fundovistut
   @override
   Widget build(BuildContext context) {
@@ -53,7 +183,13 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                       width: MediaQuery.of(context).size.width * 0.5,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          color: Colors.brown),
+                          color: Colors.brown,
+                          image: _imageData != null
+                                      ? DecorationImage(
+                                          image: MemoryImage(_imageData!),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,),
                     ),
                     Container(
                         height: MediaQuery.of(context).size.height * 0.05),
@@ -69,7 +205,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                       child: Column(
                         children: [
                           Text(
-                            "Maria Eduarda Expedita Oliveira Canto",
+                            servico.nome,
                             style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.06,
@@ -78,11 +214,14 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                           ),
                           Row(
                             children: [
-                              Text(
-                                "Tantos anos",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.055,
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Text(
+                                  _calcularIdade(servico.dataNasce!),
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width * 0.055,
+                                  ),textAlign: TextAlign.center,
                                 ),
                               ),
                             ],
@@ -116,7 +255,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                             ],
                           ),
                           Text(
-                            "Brooklyn, Rua das Maritacas, 603",
+                            "$rua - $bairro, $cidade - $uf",
                             style: TextStyle(
                               fontSize:
                                   MediaQuery.of(context).size.width * 0.05,
@@ -157,7 +296,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                                   Row(
                                     children: [
                                       Text(
-                                        "(11) 97654-0988",
+                                        servico.cell,
                                         style: TextStyle(
                                           fontSize:
                                               MediaQuery.of(context).size.width *
@@ -169,7 +308,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                                   Row(
                                     children: [
                                       Text(
-                                        "loulou@gmail.com",
+                                        servico.email,
                                         style: TextStyle(
                                           fontSize:
                                               MediaQuery.of(context).size.width *
@@ -185,19 +324,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                                   Container(
                             width: MediaQuery.of(context).size.width * 0.15,
                           ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(212, 42, 162, 24)
-                                    ),
-                                    child: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.chat_sharp,
-                                      color: Color.fromRGBO(28, 73, 25, 1),),
-                                      iconSize:
-                                          MediaQuery.of(context).size.width * 0.1,
-                                    ),
-                                  ),
+                                  
                                 ],
                               )
                             ],
@@ -242,7 +369,8 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
                               shrinkWrap: true,
                               itemCount: lst.length,
                               itemBuilder: (context, Index) {
-                                return const ItemPet_C();
+                                petCuid a = lst[Index];
+                                return ItemPet_C(pet: a,);
                               }),
                         ],
                       ),

@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
@@ -10,15 +13,22 @@ import '../../API/cuidadoresmet.dart';
 class VisualServConf extends StatefulWidget {
   final int idPet;
   final int idDono;
-  final int idServ;
-  const VisualServConf({super.key,
-  required this.idPet,
-  required this.idDono,
-  required this.idServ});
+  final String nomeServico;
+  final ServicoSolic servico;
+  const VisualServConf(
+      {super.key,
+      required this.idPet,
+      required this.idDono,
+      required this.servico,
+      required this.nomeServico});
 
   @override
   State<VisualServConf> createState() => _VisualServConfState(
-    idPet: idPet, idDono: idDono, idServ: idServ, cuidadorRepository: CuidadorRepository());
+      nomeServico: nomeServico,
+      idPet: idPet,
+      idDono: idDono,
+      servico: servico,
+      cuidadorRepository: CuidadorRepository());
 }
 
 class _VisualServConfState extends State<VisualServConf> {
@@ -29,27 +39,30 @@ class _VisualServConfState extends State<VisualServConf> {
   List<EndCuid> lstEnd = [];
   int idPet;
   int idDono;
-  int idServ;
+  ServicoSolic servico;
+  String nomeServico;
 
   String nome = "";
-  //int idade = 0;
   DateTime dataNasce1 = DateTime.now();
 
   String nomeTutor = "";
   DateTime dataNasceTut = DateTime.now();
 
-      String rua = "";
-      String bairro = "";
-      String cidade ="";
-      String uf = "";
+  String rua = "";
+  String bairro = "";
+  String cidade = "";
+  String uf = "";
+
+  Uint8List? _imageData;
+  Uint8List? _imageDataPet;
 
   _VisualServConfState({
     required this.idPet,
     required this.idDono,
-    required this.idServ,
-    
+    required this.servico,
+    required this.nomeServico,
     required this.cuidadorRepository,
-  }) :super();
+  }) : super();
 
   Future<ListResult> getPet() async {
     return await cuidadorRepository.puxarPetCuid(idPet.toString());
@@ -69,7 +82,27 @@ class _VisualServConfState extends State<VisualServConf> {
     loadPet();
     loadTutor();
     loadEndereco();
+    _loadImage();
+    _loadImagePet();
     //_loadImage();
+  }
+
+  Future<void> _loadImage() async {
+    Uint8List data = await cuidadorRepository.getImageDataTutor(idDono);
+    print("imagem carregou");
+    setState(() {
+      _imageData = data;
+    });
+  }
+
+  Future<void> _loadImagePet() async {
+    Uint8List data = await cuidadorRepository.getImagePet(idPet);
+    print(data.length);
+    if (mounted) {
+      setState(() {
+        _imageDataPet = data;
+      });
+    }
   }
 
   void loadPet() async {
@@ -77,18 +110,20 @@ class _VisualServConfState extends State<VisualServConf> {
     setState(() {
       lst = [];
       for (var element in pet.resultados) {
-        lst.add(petCuid(
-            idPet: element['idPet'],
-            nome: element["nome"],
-            dataNasce: DateTime.tryParse(element['data']),
-            raca: element["raca"],
-            sexo: element["sexo"],
-            peso: element["peso"],
-            porte: element["porte"],
-            vacinacao: element['vacinacao'],
-            descricao: element['descricao'],
-            idDono: element["idDono"],
-            idTipoPet: element["idTipoPet"]),);
+        lst.add(
+          petCuid(
+              idPet: element['idPet'],
+              nome: element["nome"],
+              dataNasce: DateTime.tryParse(element['data']),
+              raca: element["raca"],
+              sexo: element["sexo"],
+              peso: element["peso"],
+              porte: element["porte"],
+              vacinacao: element['vacinacao'],
+              descricao: element['descricao'],
+              idDono: element["idDono"],
+              idTipoPet: element["idTipoPet"]),
+        );
       }
       petCuid petA = lst[0];
       nome = petA.nome;
@@ -111,7 +146,7 @@ class _VisualServConfState extends State<VisualServConf> {
             genero: element["genero"],
             senha: element["senha"]));
       }
-      TutorByCuid tutorA =lstTutor[0];
+      TutorByCuid tutorA = lstTutor[0];
       nomeTutor = tutorA.nome;
       dataNasceTut = tutorA.dataNasce!;
     });
@@ -130,8 +165,7 @@ class _VisualServConfState extends State<VisualServConf> {
             comple: element["comple"],
             cep: element["cep"],
             cidade: element["cidade"],
-            uf: element["uf"]
-            ));
+            uf: element["uf"]));
       }
       EndCuid a = lstEnd[0];
       rua = a.rua;
@@ -141,383 +175,467 @@ class _VisualServConfState extends State<VisualServConf> {
     });
   }
 
-  String _calcularIdade (DateTime dataNasceu){
-    DateTime verifica = DateTime(DateTime.now().year, dataNasceu.month,dataNasceu.day);
+  String _calcularIdade(DateTime dataNasceu) {
+    DateTime verifica =
+        DateTime(DateTime.now().year, dataNasceu.month, dataNasceu.day);
     DateTime hoje = DateTime.now();
     int idade;
     int mes;
-    if(DateTime.now().isBefore(verifica)){
+    if (DateTime.now().isBefore(verifica)) {
       idade = hoje.year - dataNasceu.year - 1;
-    }else{
+    } else {
       idade = hoje.year - dataNasceu.year;
     }
     String a;
-    
-    if(idade>0){
+
+    if (idade > 0) {
       a = "$idade anos";
-    }else{
+    } else {
       //calcular meses
       int mes = hoje.month - dataNasceu.month;
-      if(mes>1){
+      if (mes > 1) {
         a = "$mes meses";
-      }else{
-        if(hoje.day>dataNasceu.day){
+      } else {
+        if (hoje.day > dataNasceu.day) {
           a = "$mes mês";
-        }else{
+        } else {
           final mds = hoje.difference(dataNasceu).inDays;
           a = "$mds dias";
         }
       }
     }
-    
+
     return a;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async{ 
-        if(!abra){
-          final conf = await showConfDialog();
-          print(conf);
-          return conf ?? false;
-        }
-        return true;
-       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            WidBackground(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.03,
+    return Scaffold(
+      body: Stack(
+        children: [
+          WidBackground(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text(
+                      "Serviço Confirmado",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.width * 0.06),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: Text(
-                        "Serviço Confirmado",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.06),
-                      ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromARGB(143, 153, 153, 153),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromARGB(143, 153, 153, 153),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Text(
-                                "Sobre o tutor",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width * 0.05),
-                              )),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              "Sobre o tutor",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05),
+                            )),
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.15,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(219, 114, 38, 1),
+                                shape: BoxShape.circle,
+                                image: _imageData != null
+                                    ? DecorationImage(
+                                        image: MemoryImage(_imageData!),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.15,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(219, 114, 38, 1),
-                                    shape: BoxShape.circle),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.47,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.47,
+                                  child: Text(
+                                    nomeTutor,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
                                     child: Text(
-                                      nomeTutor,
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.47,
-                                      child: Text("${_calcularIdade(dataNasceTut)}")),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.47,
-                                      child: Text("$rua - $bairro, $cidade - $uf")),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.47,
-                                      child: GestureDetector(
-                                        onTap: () => Navigator.of(context).pushNamed('/visualizacao_tutor_c'),
-                                        child: Text(
-                                          "Saber mais",
-                                          style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(219, 114, 38, 1),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.045),
-                                        ),
-                                      ))
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Sobre o pet",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05),
-                                  ),
-                                ],
-                              )),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
+                                        "${_calcularIdade(dataNasceTut)}")),
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
+                                    child:
+                                        Text("$rua - $bairro, $cidade - $uf")),
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.of(context)
+                                          .pushNamed('/visualizacao_tutor_c'),
+                                      child: Text(
+                                        "Saber mais",
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(219, 114, 38, 1),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.045),
+                                      ),
+                                    ))
+                              ],
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Sobre o pet",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.05),
+                                ),
+                              ],
+                            )),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              height: MediaQuery.of(context).size.height * 0.12,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(219, 114, 38, 1),
+                                borderRadius: BorderRadius.circular(10),
+                                image: _imageDataPet != null
+                                    ? DecorationImage(
+                                        image: MemoryImage(_imageDataPet!),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height: MediaQuery.of(context).size.height * 0.12,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(219, 114, 38, 1),
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Column(
-                                children: [
-                                  Container(
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
+                                    child: Text(
+                                      nome,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.47,
+                                    child:
+                                        Text("${_calcularIdade(dataNasce1)}")),
+                                GestureDetector(
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed('/visualizacao_pet_c'),
+                                  child: Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
                                       child: Text(
-                                        nome,
+                                        "Saber mais",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                            color:
+                                                Color.fromRGBO(219, 114, 38, 1),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.045),
                                       )),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.47,
-                                      child: Text("${_calcularIdade(dataNasce1)}")),
-                                  GestureDetector(
-                                    onTap: () => Navigator.of(context).pushNamed('/visualizacao_pet_c'),
-                                    child: Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.47,
-                                        child: Text(
-                                          "Saber mais",
-                                          style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(219, 114, 38, 1),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.045),
-                                        )),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.004,
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            color: Colors.black.withOpacity(0.5),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.03,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Text(
-                                "Modalidade: Creche",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.5),
                                 ),
-                              )),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Text(
-                                "Início: 14/12/2024 às 14:30",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                              )),
-                          Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Text(
-                                "Término: 14/12/2024 às 15:00",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                              )),
-                              Container(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.004,
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              "Modalidade: $nomeServico",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            )),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              "Início: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataIni != null ? DateFormat('hh:mm').format(servico.dataIni!) : 'Data inválida'}",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            )),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              "Término: ${servico.dataFin != null ? DateFormat('dd/MM/yyyy').format(servico.dataFin!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm').format(servico.dataFin!) : 'Data inválida'}",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            )),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              "Precificação total: R\$${servico.valor}",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            )),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        Row(
+                          children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Text(
-                                "Precificação total: R\$ 23,00",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                              )),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.03,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.06,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    //Programação
-                                    //if antes do tempo final, desabilita
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 0, 157, 16),
-                                  ),
-                                  child: Text(
-                                    'Finalizar',
-                                    style: TextStyle(
-                                        fontFamily: 'LilitaOne',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        color:
-                                            Color.fromARGB(255, 231, 231, 231)),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.19,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.height * 0.06,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    abra = true;
-                                    showConfDialog();
-                                    /*final conf = await showConfDialog();
-                                    print(conf);*/
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 157, 0, 0),
-                                  ),
-                                  child: Text(
-                                    'Cancelar',
-                                    style: TextStyle(
-                                        fontFamily: 'LilitaOne',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        color:
-                                            Color.fromARGB(255, 231, 231, 231)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                              child: Text("O serviço não pode ser cancelado 24 horas antes de seu início")
+                              width: MediaQuery.of(context).size.width * 0.05,
                             ),
-                    Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                          ),
-                    MenuHorCuidador()
-                  ],
-                ),
-              ],
-            )
-          ],
-        ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  showAlertDialog(context);
+                                  //Programação
+                                  //if antes do tempo final, desabilita
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 0, 157, 16),
+                                ),
+                                child: Text(
+                                  'Finalizar',
+                                  style: TextStyle(
+                                      fontFamily: 'LilitaOne',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.05,
+                                      color:
+                                          Color.fromARGB(255, 231, 231, 231)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.19,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  showAlertDialogCancelar(context);
+                                  /*final conf = await showConfDialog();
+                                    print(conf);*/
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 157, 0, 0),
+                                ),
+                                child: Text(
+                                  'Cancelar',
+                                  style: TextStyle(
+                                      fontFamily: 'LilitaOne',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.05,
+                                      color:
+                                          Color.fromARGB(255, 231, 231, 231)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: Text(
+                          "O serviço não pode ser cancelado 24 horas antes de seu início")),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  MenuHorCuidador()
+                ],
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
 
-  Future<bool?> showConfDialog(){
-    return showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: Text("Deseja realmente cancelar o serviço?"),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context,false), 
-          child: Text("Não")),
-           TextButton(onPressed: () => Navigator.pop(context,true), 
-          child: Text("Sim"))
-        ],
-      );
-    });
+  showAlertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Finalizar?'),
+          content: Text("Você quer realmente finalizar o serviço?"),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                if (DateTime.now().isAfter(servico.dataFin!)) {
+                  Future<ServiceResult> agenda =
+                      cuidadorRepository.finalizarServico(servico.idServ);
+                  var snackBar = const SnackBar(
+                      content: Text(
+                    "Serviço Finalizado.",
+                    style: TextStyle(fontSize: 15),
+                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                } else {
+                  var snackBar = const SnackBar(
+                      content: Text(
+                    "Espere o tempo do serviço acabar para finaliza-lo.",
+                    style: TextStyle(fontSize: 15),
+                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+              child: Text('Sim'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Não'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
+  showAlertDialogCancelar(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cancelar?'),
+          content: Text("Você quer realmente cancelar o serviço?"),
+          actions: [
+            TextButton(
+              onPressed: btnCancel() != false
+                  ? () async {
+                      Future<ServiceResult> agenda =
+                          cuidadorRepository.deletarServico(servico.idServ);
+
+                      var snackBar = const SnackBar(
+                          content: Text(
+                        "Serviço Finalizado.",
+                        style: TextStyle(fontSize: 15),
+                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+                  : null,
+              child: Text('Sim'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Não'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool btnCancel() {
+    DateTime vq = DateTime.now().add(Duration(hours: 24));
+    if (vq.isBefore(servico.dataIni!)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
-
-

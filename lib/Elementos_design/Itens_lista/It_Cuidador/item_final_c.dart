@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:prjpetcare/telas/cuidador/visual_servfinal_c.dart';
 
 import '../../../API/cuidadoresmet.dart';
 
@@ -94,73 +95,81 @@ class _ItemFinalCState extends State<ItemFinalC> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10, top: 10),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.16,
-        width: MediaQuery.of(context).size.width * 0.1,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Column(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (
+              (context) => VisualServFinal(servico: servico,nomeServico: _tipoServicoNome(),))));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10, top: 10),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.16,
+          width: MediaQuery.of(context).size.width * 0.1,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.25,
-                height: MediaQuery.of(context).size.height * 0.16,
-                decoration:  BoxDecoration(
-                  color: Colors.amber,
-                  shape: BoxShape.circle,
-                  image: _imageData != null
-                          ? DecorationImage(
-                              image: MemoryImage(_imageData!),
-                              fit: BoxFit.cover,
-                          )
-                            : null                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.16,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text(_tipoServicoNome(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text(servico.donoNome,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Text('Término: ${servico.dataFin != null ?
-                        DateFormat('dd/MM/yyyy').format(servico.dataFin!) 
-                        : 'Data inválida'}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
-        ]),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.16,
+                  decoration:  BoxDecoration(
+                    color: Colors.amber,
+                    shape: BoxShape.circle,
+                    image: _imageData != null
+                            ? DecorationImage(
+                                image: MemoryImage(_imageData!),
+                                fit: BoxFit.cover,
+                            )
+                              : null                ),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.16,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(_tipoServicoNome(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(servico.donoNome,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text('Término: ${servico.dataFin != null ?
+                          DateFormat('dd/MM/yyyy').format(servico.dataFin!) 
+                          : 'Data inválida'}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )
+          ]),
+        ),
       ),
     );
   }

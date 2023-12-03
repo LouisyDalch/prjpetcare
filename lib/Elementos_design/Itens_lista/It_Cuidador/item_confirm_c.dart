@@ -110,7 +110,8 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
         onTap:  () => Navigator.push(
             context, 
             MaterialPageRoute(builder: (
-              (context) => VisualServConf(idPet: servico.idPet, idDono: servico.idDono, idServ: servico.idServ,)))),
+              (context) => VisualServConf(
+                idPet: servico.idPet, idDono: servico.idDono, servico: servico,nomeServico: _tipoServicoNome(),)))),
        
         child: Container(
           height: MediaQuery.of(context).size.height * 0.16,

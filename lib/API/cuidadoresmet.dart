@@ -71,8 +71,6 @@ class CuidadoresAPI {
     }
   }
 
-  
-
   Future<ListResult> puxarAgenda(String? token) async {
     //tbm vai ser usado p conf
     if (token == null) throw Exception('Failed to login');
@@ -98,7 +96,8 @@ class CuidadoresAPI {
     }
   }
 
-  Future<Uint8List> pegarFoto(String? token) async { //é do cuidador
+  Future<Uint8List> pegarFoto(String? token) async {
+    //é do cuidador
     if (token == null) throw Exception('Failed to login');
 
     print(token);
@@ -198,7 +197,7 @@ class CuidadoresAPI {
     return response.bodyBytes;
   }
 
-  Future<ListResult> puxarEndCuidador(String? token)  async{
+  Future<ListResult> puxarEndCuidador(String? token) async {
     if (token == null) throw Exception('Failed to login');
 
     print(token);
@@ -207,7 +206,7 @@ class CuidadoresAPI {
       Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarEndCuid.aspx"),
       headers: <String, String>{
         'Authorization': token,
-      },//
+      }, //
     );
 
     if (response.statusCode == 200) {
@@ -252,7 +251,8 @@ class CuidadoresAPI {
     print(token);
 
     final response = await http.get(
-      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarPetCuid.aspx?idPet=$idPet"),
+      Uri.parse(
+          "http://10.244.171.33/Cuidadores/Servicos/PuxarPetCuid.aspx?idPet=$idPet"),
       headers: <String, String>{
         'Authorization': token,
       },
@@ -270,28 +270,28 @@ class CuidadoresAPI {
     }
   }
 
-  Future<ServiceResult> alterarAgenda(
-    String? token, int dom, int seg, int ter, int qua, int qui, int sex, int sab
-  ) async {
+  Future<ServiceResult> alterarAgenda(String? token, int dom, int seg, int ter,
+      int qua, int qui, int sex, int sab) async {
     if (token == null) throw Exception('Failed to login');
 
-    final response = await http.get(Uri.parse(
-      "http://10.244.171.33/AlterarAgendaCuid.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"),
+    final response = await http.get(
+      Uri.parse(
+          "http://10.244.171.33/AlterarAgendaCuid.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"),
       headers: <String, String>{
         'Authorization': token,
-      },);
-
+      },
+    );
 
     if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    print(response.body);
-    return ServiceResult(success: true);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to login');
-  }
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return ServiceResult(success: true);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to login');
+    }
   }
 
   Future<ListResult> puxarDadosTutorCuid(String? token, String idTutor) async {
@@ -300,7 +300,8 @@ class CuidadoresAPI {
     print(token);
 
     final response = await http.get(
-      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarDadosTutorCuid.aspx?idTutor=$idTutor"),
+      Uri.parse(
+          "http://10.244.171.33/Cuidadores/Servicos/PuxarDadosTutorCuid.aspx?idTutor=$idTutor"),
       headers: <String, String>{
         'Authorization': token,
       },
@@ -324,7 +325,8 @@ class CuidadoresAPI {
     print(token);
 
     final response = await http.get(
-      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarEndTutorCuid.aspx?idTutor=$idTutor"),
+      Uri.parse(
+          "http://10.244.171.33/Cuidadores/Servicos/PuxarEndTutorCuid.aspx?idTutor=$idTutor"),
       headers: <String, String>{
         'Authorization': token,
       },
@@ -348,7 +350,8 @@ class CuidadoresAPI {
     print(token);
 
     final response = await http.get(
-      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarTipoServ.aspx?idTipoServ=$idTipoServ"),
+      Uri.parse(
+          "http://10.244.171.33/Cuidadores/Servicos/PuxarTipoServ.aspx?idTipoServ=$idTipoServ"),
       headers: <String, String>{
         'Authorization': token,
       },
@@ -366,38 +369,49 @@ class CuidadoresAPI {
     }
   }
 
-  Future<ServiceResult> atualizarDadosCuid(String? token,
-    String email, String cell, String cidade, String bairro, String uf,
-    String cep, String complemento,String rua, int numero, double valor) async {
-   if (token == null) throw Exception('Failed to login');
+  Future<ServiceResult> atualizarDadosCuid(
+      String? token,
+      String email,
+      String cell,
+      String cidade,
+      String bairro,
+      String uf,
+      String cep,
+      String complemento,
+      String rua,
+      int numero,
+      double valor) async {
+    if (token == null) throw Exception('Failed to login');
 
     print(token);
 
-    var request = http.MultipartRequest("POST",
-        Uri.parse( "http://10.244.171.33/Cuidadores/Servicos/EditarCuidador.aspx?email=$email&cell=$cell&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&rua=$rua&numero=$numero&valor=$valor"));
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            "http://10.244.171.33/Cuidadores/Servicos/EditarCuidador.aspx?email=$email&cell=$cell&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&rua=$rua&numero=$numero&valor=$valor"));
 
-    
-        request.headers.addAll({"Authorization": token});
+    request.headers.addAll({"Authorization": token});
 
-         http.StreamedResponse stream = await request.send();
+    http.StreamedResponse stream = await request.send();
     var response = await http.Response.fromStream(stream);
     print(response.body);
     return ServiceResult.fromJson(jsonDecode(response.body));
   }
 
-  Future<ServiceResult> atualizarAgenda(String? token,
-    int dom, int seg, int ter, int qua, int qui, int sex, int sab) async {
-   if (token == null) throw Exception('Failed to login');
+  Future<ServiceResult> atualizarAgenda(String? token, int dom, int seg,
+      int ter, int qua, int qui, int sex, int sab) async {
+    if (token == null) throw Exception('Failed to login');
 
     print(token);
 
-    var request = http.MultipartRequest("POST",
-        Uri.parse( "http://10.244.171.33/Cuidadores/Servicos/AlterarAgenda.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"));
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            "http://10.244.171.33/Cuidadores/Servicos/AlterarAgenda.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"));
 
-    
-        request.headers.addAll({"Authorization": token});
+    request.headers.addAll({"Authorization": token});
 
-         http.StreamedResponse stream = await request.send();
+    http.StreamedResponse stream = await request.send();
     var response = await http.Response.fromStream(stream);
     print(response.body);
     return ServiceResult.fromJson(jsonDecode(response.body));
@@ -427,7 +441,74 @@ class CuidadoresAPI {
     }
   }
 
-  
+  Future<Uint8List> getImagePet(String? token, int idPet) async {
+    if (token == null) throw Exception('Failed to login');
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Tutor/Servicos/PuxarImgPet.aspx?idPet=$idPet"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    print(response.statusCode);
+
+    return response.bodyBytes;
+  }
+
+  Future<ServiceResult> aceitarServico(String? token, int idServ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            "http://10.244.171.33/Cuidadores/Servicos/AceitarServico.aspx?idServ=$idServ"));
+
+    request.headers.addAll({"Authorization": token});
+
+    http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> deletarServico(String? token, int idServ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            "http://10.244.171.33/Cuidadores/Servicos/DeletarServico.aspx?idServ=$idServ"));
+
+    request.headers.addAll({"Authorization": token});
+
+    http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> finalizarServico(String? token, int idServ) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest(
+        "POST",
+        Uri.parse(
+            "http://10.244.171.33/Cuidadores/Servicos/FinalizarServico.aspx?idServ=$idServ"));
+
+    request.headers.addAll({"Authorization": token});
+
+    http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
 }
 
 class ServiceResult {
@@ -471,8 +552,5 @@ class LoginResult extends ServiceResult {
     return LoginResult(success: json['success'], token: json['token']);
   }
 
-
   
-
-
 }

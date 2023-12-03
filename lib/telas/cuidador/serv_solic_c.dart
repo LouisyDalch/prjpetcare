@@ -45,6 +45,7 @@ class _ServSolic_CState extends State<ServSolic_C> {
             nomePet: element['nomePet'],
             dataPet: DateTime.tryParse(element["dataPet"]),),);
       }
+      print(lst);
     });
   }
 
