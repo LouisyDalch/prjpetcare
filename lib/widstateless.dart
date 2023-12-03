@@ -101,7 +101,6 @@ class WidStateless extends StatelessWidget{
 
       //Perfil ---------------------------------------------------------
       '/perfil_c':(context) => Perfil_C(),
-      '/editar_perfil_c':(context) => const EditarPerfilC(),
       '/editar_agenda_c':(context) => const EditarAgenda_C(),
       
       '/perfil_t':(context) => const PerfilTutor(),

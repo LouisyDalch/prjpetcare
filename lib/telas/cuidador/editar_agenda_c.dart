@@ -28,6 +28,74 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
   int sex1 = 0;
   int dom1 = 0;
 
+   @override
+  void initState() {
+    super.initState();
+    loadAgenda();
+    
+  }
+
+  CuidadorRepository cuidadorRepository = CuidadorRepository();
+  Future<ListResult> getAgenda() async {
+    return await cuidadorRepository.puxarDias();
+    
+  }
+
+  void iniciar(){
+    if(dom1 == 1){
+      dom = true;
+    }
+    if(seg1 == 1){
+      seg = true;
+    }
+    if(ter1 == 1){
+      ter = true;
+    }
+    if(qua1 == 1){
+      qua = true;
+    }
+    if(qui1 == 1){
+      qui = true;
+    }
+    if(sex1 == 1){
+      sex = true;
+    }
+    if(sab1 == 1){
+      sab = true;
+    }
+  }
+
+  List<Dias> lstDias = [];
+
+  void loadAgenda() async {
+    ListResult agenda = await getAgenda();
+    setState(() {
+      lstDias = [];
+      for (var element in agenda.resultados) {
+        
+         lstDias.add(Dias(
+           idAgenda: element["idAgenda"],
+           dom: element["dom"],
+           seg: element["seg"],
+           ter: element["ter"],
+           qua: element["qua"],
+           qui: element["qui"],
+           sex: element["sex"],
+           sab: element["sab"]));
+      }
+      print(lstDias);
+    Dias a = lstDias[0];
+    dom1 = a.dom;
+    seg1 = a.seg;
+    ter1 = a.ter;
+    qua1 = a.qua;
+    qui1 = a.qui;
+    sex1 = a.sex;
+    sab1 = a.sab;
+    iniciar();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,8 +143,10 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                       onChanged: (bool? value) {
                         setState(() {
                           dom = value!;
-                          if(dom == true){
+                          if(dom != value){
                             dom1 = 1;
+                          }else{
+                            dom1 =0;
                           }
                         });
                       },
@@ -100,6 +170,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           seg = value!;
                           if(seg == true){
                             seg1 = 1;
+                          }else{
+                            seg1 = 0;
                           }
                         });
                       },
@@ -125,6 +197,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           ter = value!;
                           if(ter == true){
                             ter1 = 1;
+                          }else{
+                            ter1 =0;
                           }
                         });
                       },
@@ -150,6 +224,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           qua = value!;
                           if(qua == true){
                             qua1 = 1;
+                          }else{
+                            qua1 = 0;
                           }
                         });
                       },
@@ -175,6 +251,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           qui = value!;
                           if(qui == true){
                             qui1 = 1;
+                          }else{
+                            qui1 = 0;
                           }
                         });
                       },
@@ -200,6 +278,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           sex = value!;
                           if(sex == true){
                             sex1 = 1;
+                          }else{
+                            sex1 = 0;
                           }
                         });
                       },
@@ -225,6 +305,8 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                           sab = value!;
                           if(sab == true){
                             sab1 = 1;
+                          }else{
+                            sab1 = 0;
                           }
                         });
                       },
@@ -239,9 +321,10 @@ class _EditarAgenda_CState extends State<EditarAgenda_C> {
                   height: MediaQuery.of(context).size.height * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
-                      CuidadorRepository repositorioCuid = CuidadorRepository();
-                      Future<ServiceResult> agenda = repositorioCuid.alterarAgendaCuid(
+                      iniciar();
+                      Future<ServiceResult> agenda = cuidadorRepository.atualizarAgenda(
                         dom1, seg1, ter1, qua1, qui1, sex1, sab1);
+                        
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(219, 114, 38, 1)),

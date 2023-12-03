@@ -128,7 +128,7 @@ class _ItemSolicTState extends State<ItemSolicT> {
   }
 
   Future<void> _loadImage() async {
-    Uint8List data = await tutorRopository.getImageDataTutor(servico.idCuidador);
+    Uint8List data = await tutorRopository.getImageDataTutor(this.servico.idCuidador);
     print("imagem carregou");
     setState(() {
       _imageData = data;

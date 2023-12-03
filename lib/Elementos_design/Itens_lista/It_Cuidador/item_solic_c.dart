@@ -44,7 +44,6 @@ class _ItemSolicCState extends State<ItemSolicC> {
   @override
   void initState() {
     super.initState();
-    print(this.servico.idDono);
     _loadImage();
     loadTipoServ();
   }
@@ -140,22 +139,31 @@ class _ItemSolicCState extends State<ItemSolicC> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(_tipoServicoNome(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Text(_tipoServicoNome(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ),
                     
-                    Text(servico.donoNome,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Text(servico.donoNome,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ),
 
-                    Text(servico.dataIni != null ?
-                    DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
-                    : 'Data inválida',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Text("Início: ${servico.dataIni != null ?
+                      DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                      : 'Data inválida'}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ),
                   ],
                 ),
               )

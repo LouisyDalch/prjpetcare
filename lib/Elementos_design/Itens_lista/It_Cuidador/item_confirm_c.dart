@@ -149,31 +149,48 @@ class _ItemConfirmCState extends State<ItemConfirmC> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(_tipoServicoNome(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                       Text(servico.donoNome,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                      Text(servico.nomePet,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(_tipoServicoNome(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                       Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                         child: Text(servico.donoNome,
+                                             style: const TextStyle(
+                          fontWeight: FontWeight.bold
+                                             ),),
+                       ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(servico.nomePet,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
                       Padding(
                           padding: EdgeInsets.all(
                               MediaQuery.of(context).size.height * 0.004)),
-                       Text('Data de término: ${servico.dataIni != null ?
-                      DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
-                      : 'Data inválida'}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
-                      const Text('Data/hra fin',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),),
+                       Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                         child: Text('Início: ${servico.dataIni != null ?
+                                             DateFormat('dd/MM/yyyy').format(servico.dataIni!) 
+                                             : 'Data inválida'}',
+                                             style: const TextStyle(
+                          fontWeight: FontWeight.bold
+                                             ),),
+                       ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text('Término: ${servico.dataFin != null ?
+                                               DateFormat('dd/MM/yyyy').format(servico.dataFin!) 
+                                               : 'Data inválida'}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ),
                     ],
                   ),
                 )

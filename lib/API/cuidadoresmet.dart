@@ -366,6 +366,67 @@ class CuidadoresAPI {
     }
   }
 
+  Future<ServiceResult> atualizarDadosCuid(String? token,
+    String email, String cell, String cidade, String bairro, String uf,
+    String cep, String complemento,String rua, int numero, double valor) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Cuidadores/Servicos/EditarCuidador.aspx?email=$email&cell=$cell&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&rua=$rua&numero=$numero&valor=$valor"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> atualizarAgenda(String? token,
+    int dom, int seg, int ter, int qua, int qui, int sex, int sab) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Cuidadores/Servicos/AlterarAgenda.aspx?dom=$dom&seg=$seg&ter=$ter&qua=$qua&qui=$qui&sex=$sex&sab=$sab"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ListResult> puxarDias(String? token) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse("http://10.244.171.33/Cuidadores/Servicos/PuxarDias.aspx"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
   
 }
 

@@ -82,6 +82,26 @@ class CuidadorRepository {
     return cuidadoresAPI.puxarTipoServ(token, idTipoServ);
   }
 
+  Future<ServiceResult> atualizarDadosCuid (
+    String email, String cell, String cidade, String bairro, String uf,
+    String cep, String complemento, String rua, int numero, double valor
+  )async{
+    return cuidadoresAPI.atualizarDadosCuid(
+      token, email, cell, cidade, bairro, uf, cep, complemento, rua, numero, valor);
+  }
+
+  Future<ServiceResult> atualizarAgenda (
+   int dom, int seg, int ter, int qua, int qui, int sex, int sab
+  )async{
+    return cuidadoresAPI.atualizarAgenda(
+      token, dom, seg, ter, qua, qui, sex, sab);
+  }
+
+  Future<ListResult> puxarDias(
+  ) async {
+    return cuidadoresAPI.puxarDias(token);
+  }
+
 }
 
 class objImgCuidador {
@@ -105,6 +125,27 @@ class TipoServ {
     required this.petSitter,
     required this.passeio,
     required this.adestra
+  });
+}
+
+class Dias {
+  int idAgenda;
+  int dom;
+  int seg;
+  int ter;
+  int qua;
+  int qui;
+  int sex;
+  int sab;
+  Dias({
+    required this.idAgenda,
+    required this.dom,
+    required this.seg,
+    required this.ter,
+    required this.qua,
+    required this.qui,
+    required this.sex,
+    required this.sab
   });
 }
 

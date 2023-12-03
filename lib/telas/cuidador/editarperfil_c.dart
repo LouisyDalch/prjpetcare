@@ -3,28 +3,121 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:prjpetcare/API/cuidadoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
 class EditarPerfilC extends StatefulWidget {
-  const EditarPerfilC({super.key});
+ 
+  const EditarPerfilC(
+      {super.key});
 
   @override
-  State<EditarPerfilC> createState() => _EditarPerfilCState();
+  State<EditarPerfilC> createState() => _EditarPerfilCState(
+      cuidadorRepository: CuidadorRepository(),);
 }
 
 class _EditarPerfilCState extends State<EditarPerfilC> {
+  
+  CuidadorRepository cuidadorRepository;
   String novoEmail = "";
   String confEmail = "";
   String celular = "";
   String complemento = ""; //endereço
-  String numCasa = "";
+  int numCasa = 0;
   String bairro = "";
   String cidade = "";
+  String rua = "";
   String cep = "";
   String uf = "";
+
+  double valor = 0;
+
+  List<InfoCuid> lst=[];
+  List<EndCuid> lst2=[];
+
+  Future<ListResult> getInfoCuid() async {
+    return await cuidadorRepository.puxarInfosCuid();
+  }
+
+  Future<ListResult> getEndCuid() async {
+    return await cuidadorRepository.puxarEndCuidador();
+  }
+
+  void loadInfos() async {
+    ListResult infos = await getInfoCuid();
+    setState(() {
+      for (var element in infos.resultados) {
+        lst = [];
+         lst.add(InfoCuid(
+            idCuidador: element['id_cuidador'],
+            nome: element["nome"],
+            email: element["email"],
+            dataNasce: DateTime.tryParse(element["datanasce"]),
+            telefone: element["telefone"],
+            cpf: element["cpf"],
+            genero: element["genero"],
+            senha: element["senha"],
+            especializacao: element["especializacao"],
+            tempoExper: element["tempoexper"],
+            valor: element["valor"],
+            idEnd: element["id_end"],
+            idTipoServ: element["id_tipoServ"],
+            idTipoPet: element["id_TipoPet"],
+            idAgenda: element["id_Agenda"]));
+      }
+      InfoCuid a = lst[0];
+      novoEmail = a.email;
+      celular = a.telefone;
+      valor = a.valor;
+    });
+    
+   
+  }
+
+  void loadEndereco() async {
+    ListResult end = await getEndCuid();
+    setState(() {
+      for (var element in end.resultados) {
+        lst2 = [];
+         lst2.add(EndCuid(
+            idEndereco: element["idEndereco"],
+            rua: element["rua"],
+            bairro: element["bairro"],
+            num: element["num"],
+            comple: element["comple"],
+            cep: element["cep"],
+            cidade: element["cidade"],
+            uf: element["uf"]
+            ));
+      }
+      EndCuid a = lst2[0];
+      rua = a.rua;
+      bairro = a.bairro;
+      cidade = a.cidade;
+      uf = a.uf;
+      cep = a.cep;
+      complemento = a.comple;
+      numCasa = a.num;
+    });
+    
+   
+  }
+
+  _EditarPerfilCState(
+      {
+      required this.cuidadorRepository,})
+      : super();
+
+  TextEditingController ufControl = TextEditingController();
+
+  //mascaras:
+  final maskNum = MaskTextInputFormatter(
+      mask: "(##) #####-####", filter: {"#": RegExp(r'[0-9]')});
+  final maskCep = MaskTextInputFormatter(
+      mask: "#####-###", filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +238,9 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              Text = novoEmail;
+                              if (Text != "" || Text != null) {
+                                novoEmail = Text;
+                              }
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
@@ -168,12 +263,39 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
-                              Text = confEmail;
+                             if (Text != "" || Text != null) {
+                                confEmail = Text;
+                              }
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
                                 hintText: "exemplo@gmail.com",
                                 labelText: "Confirmação de email",
+                                border: const OutlineInputBorder()),
+                          ),
+                        ],
+                      )),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      color: Colors.white,
+                      child: Form(
+                          child: Column(
+                        children: [
+                          TextFormField(
+                            onChanged: (Text) {
+                             if (Text != "" || Text != null) {
+                                valor = double.tryParse(Text)!;
+                              }
+                            },
+                            autocorrect: false,
+                            decoration: DesignEntradaTxt.decorarcaixa(
+                                hintText: "valor atual: $valor",
+                                labelText: "Valor por hora",
                                 border: const OutlineInputBorder()),
                           ),
                         ],
@@ -207,12 +329,16 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                           child: Column(
                         children: [
                           TextFormField(
+                            inputFormatters: [maskNum],
                             onChanged: (Text) {
-                              Text = celular; //lembrete: colocar máscara
+                               //lembrete: colocar máscara
+                                if (Text != "" || Text != null) {
+                                celular = Text;
+                              }
                             },
                             autocorrect: false,
                             decoration: DesignEntradaTxt.decorarcaixa(
-                                hintText: "(11) 12345-6789",
+                                hintText: "(11) 98765-1234",
                                 labelText: "Celular",
                                 border: const OutlineInputBorder()),
                             keyboardType: TextInputType.phone,
@@ -259,9 +385,12 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                   child: Column(
                                 children: [
                                   TextFormField(
-                                    onChanged: (Text) {
-                                      Text = cidade; //lembrete: colocar máscara
-                                    },
+                                     //lembrete: colocar máscara
+                                 onChanged: (Text) {
+                                    if (Text != "" || Text != null) {
+                                        cidade = Text;
+                                      }
+                                 },
                                     autocorrect: false,
                                     decoration: DesignEntradaTxt.decorarcaixa(
                                         hintText: "",
@@ -283,12 +412,40 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                 children: [
                                   TextFormField(
                                     onChanged: (Text) {
-                                      Text = bairro; //lembrete: colocar máscara
+                                      if (Text != "" || Text != null) {
+                                        bairro = Text;
+                                      } 
+                                      //lembrete: colocar máscara
                                     },
                                     autocorrect: false,
                                     decoration: DesignEntradaTxt.decorarcaixa(
                                         hintText: "",
                                         labelText: "Bairro",
+                                        border: const OutlineInputBorder()),
+                                  ),
+                                ],
+                              )),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.02,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              color: Colors.white,
+                              child: Form(
+                                  child: Column(
+                                children: [
+                                  TextFormField(
+                                    onChanged: (Text) {
+                                      if (Text != "" || Text != null) {
+                                        rua = Text;
+                                      } 
+                                    },
+                                    autocorrect: false,
+                                    decoration: DesignEntradaTxt.decorarcaixa(
+                                        hintText: "",
+                                        labelText: "Rua",
                                         border: const OutlineInputBorder()),
                                   ),
                                 ],
@@ -314,8 +471,10 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                     children: [
                                       TextFormField(
                                         onChanged: (Text) {
-                                          Text =
-                                              complemento; //lembrete: colocar máscara
+                                           if (Text != null) {
+                                            complemento = Text;
+                                          }
+                                         //lembrete: colocar máscara
                                         },
                                         autocorrect: false,
                                         decoration:
@@ -343,8 +502,10 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                     children: [
                                       TextFormField(
                                         onChanged: (Text) {
-                                          Text =
-                                              numCasa; //lembrete: colocar máscara
+                                           if (Text != "" || Text != null) {
+                                            numCasa = int.tryParse(Text)!;
+                                          }
+                                           //lembrete: colocar máscara
                                         },
                                         autocorrect: false,
                                         decoration:
@@ -380,7 +541,10 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                     children: [
                                       TextFormField(
                                         onChanged: (Text) {
-                                          Text = uf; //lembrete: colocar máscara
+                                          if (Text != "" || Text != null) {
+                                            String a = Text.toUpperCase();
+                                            uf = a;
+                                          } //lembrete: colocar máscara
                                         },
                                         autocorrect: false,
                                         decoration:
@@ -407,11 +571,15 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                       child: Column(
                                     children: [
                                       TextFormField(
+                                        inputFormatters: [maskCep],
                                         onChanged: (Text) {
-                                          Text =
-                                              cep; //lembrete: colocar máscara
+                                           //lembrete: colocar máscara
+                                           if (Text != "" || Text != null) {
+                                            cep = Text;
+                                          }
                                         },
                                         autocorrect: false,
+                                        maxLength: 2,
                                         decoration:
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",
@@ -434,7 +602,44 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   //programação
+                                  print(novoEmail);
+                                  print(celular);
+                                  print(cidade);
+                                  print(bairro);
+                                  print(uf);
+                                  print(cep);
+                                  print(complemento);
+                                  print(rua);
+                                  print(numCasa);
+                                  print(valor);
+                                  
+                                  Future<ServiceResult> cadastro =
+                                        cuidadorRepository.atualizarDadosCuid(
+                                            novoEmail,
+                                            celular,
+                                            cidade,
+                                            bairro,
+                                            uf,
+                                            cep,
+                                            complemento,
+                                            rua,
+                                            numCasa,
+                                            valor);
+
+                                  
+                                  var snackBar = const SnackBar(
+                                        content: Text(
+                                      "Atualização realizada.",
+                                      style: TextStyle(fontSize: 15),
+                                    ));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                    
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
                                 },
+
+                                
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                         const Color.fromRGBO(219, 114, 38, 1)),
@@ -472,6 +677,8 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
   void initState() {
     super.initState();
     loadImage();
+    loadInfos();
+    loadEndereco();
   }
 
   void loadImage() async {
@@ -499,11 +706,9 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
     }
   }
 
-  
-
   Widget opcoesImg() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.18,
       child: Column(
         children: [
           ListTile(

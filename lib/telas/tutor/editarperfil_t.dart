@@ -284,6 +284,7 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                           child: Column(
                         children: [
                           TextFormField(
+                            
                             onChanged: (Text) {
                               if (Text != "" || Text != null) {
                                 celular = Text;
@@ -492,7 +493,8 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                                       TextFormField(
                                         onChanged: (Text) {
                                           if (Text != "" || Text != null) {
-                                            uf = Text;
+                                            String a = Text.toUpperCase();
+                                            uf = a;
                                           } //lembrete: colocar máscara
                                         },
                                         autocorrect: false,
@@ -549,6 +551,7 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (email == confEmail) {
+                                    
                                     Future<ServiceResult> cadastro =
                                         tutorRopository.atualizarDadosTutor(
                                             email,
@@ -569,6 +572,7 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                     
+                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                   } else {
                                     var snackBar = const SnackBar(
