@@ -39,6 +39,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
   String uf = "";
   String cep = "";
   String complemento = "";
+  String rua ="";
   int numero;
 
   _Cadastro_TState(this.numero) {
@@ -428,6 +429,27 @@ class _Cadastro_TState extends State<Cadastro_T> {
                   Padding(
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.height * 0.015)),
+                   Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Form(
+                          child: TextFormField(
+                              onChanged: (Text) {
+                                setState(() {
+                                  rua = Text;
+                                });
+                              },
+                              autocorrect: false,
+                              decoration: DesignEntradaTxt.decorarcaixa(
+                                hintText: '',
+                                labelText: 'Rua',
+                                border: const OutlineInputBorder(),
+                              )),
+                        ),
+                      ),
+                  Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.height * 0.015)),
                   Row(
                     children: [
                       Container(
@@ -547,11 +569,20 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.04),
                       ),
-                      Text(
-                        "Termos",
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.04,
-                            fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) => TermoConsentimento())
+                                                  ));
+                        },
+                        child: Text(
+                          "Termos",
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width * 0.04,
+                              fontWeight: FontWeight.bold),
+                        ),
                       )
                     ],
                   ),
@@ -617,10 +648,12 @@ class _Cadastro_TState extends State<Cadastro_T> {
               cidade != "" &&
               bairro != "" &&
               uf != "" &&
-              cep != "") {
+              cep != ""&&
+              rua !="") {
             if (email1 == email2) {
               if (senha1 == senha2) {
-                final agr = DateTime.now();
+                if(concordo == true){
+                  final agr = DateTime.now();
                 final agr18 = DateTime.utc(agr.year - 18, agr.month, agr.day);
                 if (data.isBefore(agr18)) {
                   if (concordo == true) {
@@ -637,7 +670,9 @@ class _Cadastro_TState extends State<Cadastro_T> {
                         uf,
                         cep,
                         complemento,
-                        numero);
+                        numero,
+                        rua);
+                        Navigator.pop(context);
 
                     var snackBar = const SnackBar(
                         content: Text(
@@ -645,6 +680,15 @@ class _Cadastro_TState extends State<Cadastro_T> {
                       style: TextStyle(fontSize: 15),
                     ));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }else{
+                   var snackBar = const SnackBar(
+                        content: Text(
+                      "Você deve estar ciente dos termos para completar o cadastro",
+                      style: TextStyle(fontSize: 15),
+                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                
                   } else {
                     var snackBar = const SnackBar(
                         content: Text(
@@ -695,6 +739,157 @@ class _Cadastro_TState extends State<Cadastro_T> {
           'Finalizar Cadastro',
           style: TextStyle(fontSize: 19, color: Color.fromRGBO(7, 88, 20, 1)),
         ),
+      ),
+    );
+  }
+}
+
+class TermoConsentimento extends StatefulWidget {
+  const TermoConsentimento({super.key});
+
+  @override
+  State<TermoConsentimento> createState() => _TermoConsentimentoState();
+}
+
+class _TermoConsentimentoState extends State<TermoConsentimento> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SingleChildScrollView(
+            child: Column(children: [
+              Container(height: MediaQuery.of(context).size.height * 0.1,),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Text("Termo de Uso e Política de Privacidade do Aplicativo PetCare",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.of(context).size.width * 0.07
+                ),),
+              ),
+              Container(height: MediaQuery.of(context).size.height * 0.03,),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(children: [
+                  Text("PetCare é uma plataforma que conecta tutores e cuidadores de pets em todo o Brasil. Nosso compromisso é tornar a vida dos pais de pet mais fácil, proporcionando acesso simplificado a serviços como hospedagem e outros relacionados a pets.",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.05
+                  ),),
+                  Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("1. Privacidade dos Usuários",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    
+                  ),
+                  Text("A sua privacidade é de extrema importância para nós. Comprometemo-nos a respeitar a sua privacidade em relação a qualquer informação que possamos coletar enquanto você utiliza nosso aplicativo. Os dados aqui armazenados serão utilizados unicamente para fins de cadastramento e efetivação do uso de nossos serviços dentro do nosso aplicativo.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("2. Coleta de Informações",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  ),
+                  Text("Solicitamos informações pessoais apenas quando realmente necessárias para fornecer informações sobre um serviço ou produto. Fazemos isso de maneira justa e legal, sempre com o seu conhecimento e consentimento. As informações são armazenadas com o fim de tornar o acesso mais intuitivo ao nosso aplicativo.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                   Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("3. Compartilhamento de Informações",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  ),
+                  Text("Nos comprometemos a não compartilhar publicamente informações de identificação pessoal, a menos que seja exigido por lei ou mediante o seu consentimento expresso",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("4. Links para Sites Externos",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  ),
+                  Text("Nosso aplicativo pode conter links para sites externos que não são operados por nós. Esteja ciente de que não temos controle sobre o conteúdo e as práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                   Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("5. Lei Geral de Proteção de Dados Pessoais (LGPD)",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  ),
+                  Text("Todas as ações relacionadas ao Tratamento de Dados Pessoais e ao Titular de Dados Pessoais seguirão os princípios norteadores estabelecidos na Lei Geral de Proteção de Dados Pessoais – LGPD (Lei n° 13.709/2018). A PetCare assume a responsabilidade pelo tratamento de todos os dados pessoais coletados, em conformidade com as disposições da LGPD.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  Container(height: MediaQuery.of(context).size.height * 0.02,),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text("5. Contato",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                  ),
+                   Text("Se você tiver dúvidas ou preocupações relacionadas à sua privacidade ou a este termo de uso e política de privacidade, entre em contato conosco através do seguinte endereço de e-mail: equipepetcare@gmail.com.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    Container(height: MediaQuery.of(context).size.height * 0.03,),
+                    Text("Ao utilizar o aplicativo PetCare, você concorda com os termos e as práticas descritas neste documento. Se você não concorda com estes termos, por favor, não continue utilizando nossos serviços",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    Container(height: MediaQuery.of(context).size.height * 0.01,),
+                    Text("Este termo de uso e política de privacidade está sujeito a alterações. Quaisquer atualizações serão publicadas nesta página para que você esteja sempre informado sobre como suas informações estão sendo coletadas e utilizadas.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    Text("Agradecemos por escolher o PetCare para suas necessidades relacionadas a pets. Estamos aqui para tornar a experiência de cuidar do seu pet mais fácil e agradável.",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05
+                    ),),
+                    Container(height: MediaQuery.of(context).size.height * 0.05,),
+                    SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(7, 88, 20, 1),
+                      ),
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(
+                            fontFamily: 'LilitaOne',
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            color: const Color.fromRGBO(255, 255, 255, 1)),
+                      ),
+                    ),
+                  ),
+                  Container(height: MediaQuery.of(context).size.height * 0.05,),
+                ]),
+              )
+            ],),
+          ),
+        ],
       ),
     );
   }

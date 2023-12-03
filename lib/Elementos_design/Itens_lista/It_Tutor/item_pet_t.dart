@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
+
+import '../../../API/tutoresmet.dart';
 //p programar
 class ItemPet_T extends StatefulWidget {
   final PetTutor pet;
@@ -75,8 +77,19 @@ class _ItemPet_TState extends State<ItemPet_T> {
                     ),
                   ),
                   Container(width: MediaQuery.of(context).size.width * 0.04,),
-                  Text(pet.nome, style: 
-                  TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),)
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    child: Text(pet.nome, style: 
+                    TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
+                  ),
+                  Container(width: MediaQuery.of(context).size.width * 0.04,),
+                  GestureDetector(
+                    onTap: () {
+                      showAlertDialog(context);
+                    },
+                    child: Icon(Icons.delete,
+                    color: Color.fromARGB(255, 151, 42, 34),),
+                  )
                 ],
               ),
               Container(height: MediaQuery.of(context).size.width * 0.03,),
@@ -89,6 +102,46 @@ class _ItemPet_TState extends State<ItemPet_T> {
           ),
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Title'),
+          content: Text("Você quer realmente deletar ${pet.nome}?"),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Future<ServiceResult> delete =
+                                        tutorRopository.deletarPet(
+                                           pet.idPet
+                                            );
+                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/meuspet_t');
+
+                var snackBar = const SnackBar(
+                    content: Text(
+                  "Pet deletado.",
+                  style: TextStyle(fontSize: 15),
+                ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+               
+              },
+              child: Text('Sim'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Não'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -161,7 +161,7 @@ class _ItemFinalTState extends State<ItemFinalT> {
       onTap: () =>  Navigator.push(
             context, 
             MaterialPageRoute(builder: (
-              (context) => VisualServFinal_T()))),
+              (context) => VisualServFinal_T(servico: servico,tipoServico: _tipoServicoNome(),)))),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, top: 10),
         child: Container(

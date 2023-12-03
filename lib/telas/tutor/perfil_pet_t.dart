@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/telas/tutor/editar_perfil_pet_t.dart';
 
 import '../../API/tutoresmet.dart';
 import '../../Repositorios/tutor_repos.dart';
@@ -187,7 +188,16 @@ class _PerfilPet_TState extends State<PerfilPet_T> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.02,
                         ),
-                        const Icon(Icons.border_color_outlined),
+                        GestureDetector(
+                          
+                          onTap: (){
+                            PetTutor a = lstPets[0];
+                            Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) => EditarPerfPet_T(pet: a,tipoPet: tipoAnimal(tipoPet),)
+                                                  )));},
+                          child: const Icon(Icons.border_color_outlined))
                       ],
                     ),
                     Container(

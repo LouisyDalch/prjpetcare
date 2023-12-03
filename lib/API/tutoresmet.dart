@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:sql_conn/sql_conn.dart';
-//p programar
+//eeeee
 class TutorAPI{
 
   Future<LoginResult> loginTutor(String usuario,String senha) async {
@@ -35,24 +35,24 @@ class TutorAPI{
     return response.bodyBytes;
   }
 
-  Future<ServiceResult> cadastroTutor(
-    String nome,String email,String datanasce, String cell, String cpf,
+  
+
+  Future<ServiceResult> cadastroTutor(String nome,String email,String datanasce, String cell, String cpf,
     String genero, String senha, String cidade, String bairro, String uf,
-    String cep, String complemento, int numero) async {
-    final response = await http.get(Uri.parse(
-      "http://10.244.171.33/CadastrarTutor.aspx?nome=$nome&email=$email&datanasce=$datanasce&cell=$cell&cpf=$cpf&genero=$genero&senha=$senha&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&numero=$numero"));
+    String cep, String complemento, int numero, String rua) async {
 
+   
 
-    if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/CadastrarTutor.aspx?nome=$nome&email=$email&datanasce=$datanasce&cell=$cell&cpf=$cpf&genero=$genero&senha=$senha&cidade=$cidade&bairro=$bairro&uf=$uf&cep=$cep&complemento=$complemento&numero=$numero&rua=$rua"));
+
+    
+    
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
     print(response.body);
-    return ServiceResult(success: true);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to login');
-  }
+    return ServiceResult.fromJson(jsonDecode(response.body));
   }
 
   Future<ListResult> puxarCuidHosp(String? token) async {
@@ -561,6 +561,59 @@ class TutorAPI{
 
     var request = http.MultipartRequest("POST",
         Uri.parse( "http://10.244.171.33/Tutor/Servicos/DeletarServico.aspx?id=$idServ"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> cadastrarFeedback(String? token,
+  String coment, String data, int aval, int idCuid) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Tutor/Servicos/CadastrarFeedback.aspx?coment=$coment&data=$data&aval=$aval&idCuid=$idCuid"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> deletarPet(String? token, int idPet) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Tutor/Servicos/DeletarPet.aspx?id=$idPet"));
+
+    
+        request.headers.addAll({"Authorization": token});
+
+         http.StreamedResponse stream = await request.send();
+    var response = await http.Response.fromStream(stream);
+    print(response.body);
+    return ServiceResult.fromJson(jsonDecode(response.body));
+  }
+
+  Future<ServiceResult> editarPet(String? token, int idPet, String peso, String porte,
+  String vac, String descr) async {
+   if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    var request = http.MultipartRequest("POST",
+        Uri.parse( "http://10.244.171.33/Tutor/Servicos/EditarPet.aspx?idPet=$idPet&peso=$peso&porte=$porte&vac=$vac&descr=$descr"));
 
     
         request.headers.addAll({"Authorization": token});

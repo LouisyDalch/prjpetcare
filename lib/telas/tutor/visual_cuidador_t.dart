@@ -1,17 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:intl/intl.dart';
+
 import 'package:prjpetcare/API/tutoresmet.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_feedback_cuid_t.dart';
-import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_final_c.dart';
-import 'package:prjpetcare/Elementos_design/Itens_lista/It_Cuidador/item_pet_c.dart';
-import 'package:prjpetcare/Elementos_design/Itens_lista/It_Tutor/item_pet_t.dart';
-import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 import 'package:prjpetcare/Repositorios/tutor_repos.dart';
 import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 
@@ -38,7 +32,6 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
   TutorRopository tutorRopository;
 
   int idCuid;
-  bool abra = false;
 
   Uint8List? _imageData;
 
@@ -86,7 +79,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
     required this.btnSolic}): super();
 
   Future<ListResult> getInfoCuid() async {
-    return await tutorRopository.puxarCuidHosp();
+    return await tutorRopository.puxarInfoCuidUM(idCuid);
   }
 
   Future<ListResult> getEndCuid() async {

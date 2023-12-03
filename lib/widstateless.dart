@@ -110,9 +110,7 @@ class WidStateless extends StatelessWidget{
       '/meuhist_t':(context) => const MeuHist_T(), //terminar esse aq
 
 
-      //Funções --------------------------------------------------------
-
-      '/editar_perfil_pet_t':(context) => const EditarPerfPet_T(),
+      //Funções ------------------------------------------------
       '/adicionar_pet_t':(context) => const AdicionarPet_T(),
 
 
@@ -123,7 +121,6 @@ class WidStateless extends StatelessWidget{
       '/visualizacao_servsolic_c':(context) => const VisualServSolic(),
       '/visualizacao_servfinal_c':(context) => const VisualServFinal(),
 
-      '/visualizacao_servfinal_t':(context) => const VisualServFinal_T(),
 
       //Serviços selecionados by tutor -------------------------------------
       '/mostrar_hosp_t':(context) => const MostrarServHosp_T(),

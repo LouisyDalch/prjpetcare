@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:prjpetcare/API/tutoresmet.dart';
-//p programar
+//eeeeee
 class TutorRopository{
   static TutorAPI tutorAPI = TutorAPI();
   static String? token;
@@ -17,10 +17,10 @@ class TutorRopository{
   Future<ServiceResult> cadTutor (
     String nome,String email,String datanasce, String cell, String cpf,
     String genero, String senha, String cidade, String bairro, String uf,
-    String cep, String complemento, int numero
+    String cep, String complemento, int numero, String rua
   )async{
     return tutorAPI.cadastroTutor(
-      nome, email, datanasce, cell, cpf, genero, senha, cidade, bairro, uf, cep, complemento, numero);
+      nome, email, datanasce, cell, cpf, genero, senha, cidade, bairro, uf, cep, complemento, numero,rua);
   }
 
   Future<ListResult> puxarCuidHosp() async {
@@ -145,6 +145,27 @@ class TutorRopository{
   )async{
     return tutorAPI.cancelarServico(
       token, idServico);
+  }
+
+  Future<ServiceResult> cadastrarFeedback(
+    String coment, String data, int aval, int idCuid
+  )async{
+    return tutorAPI.cadastrarFeedback(
+      token, coment,data,aval,idCuid);
+  }
+
+  Future<ServiceResult> deletarPet(
+    int idPet
+  )async{
+    return tutorAPI.deletarPet(
+      token, idPet);
+  }
+
+  Future<ServiceResult> editarPet(
+    int idPet, String peso, String porte, String vac, String descr
+  )async{
+    return tutorAPI.editarPet(
+      token, idPet, peso, porte, vac, descr);
   }
 
 

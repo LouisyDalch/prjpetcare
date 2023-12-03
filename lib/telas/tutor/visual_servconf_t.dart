@@ -480,7 +480,7 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
                         Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              "Término: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataFin!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm').format(servico.dataIni!) : 'Data inválida'}",
+                              "Término: ${servico.dataFin != null ? DateFormat('dd/MM/yyyy').format(servico.dataFin!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm').format(servico.dataFin!) : 'Data inválida'}",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,
@@ -553,7 +553,7 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Title'),
+          title: Text('Cancelar?'),
           content: Text("Você quer realmente cancelar o serviço?"),
           actions: [
             TextButton(
