@@ -430,7 +430,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.height * 0.015)),
                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.82,
                         decoration: const BoxDecoration(color: Colors.white),
                         child: Form(
                           child: TextFormField(
@@ -627,9 +627,11 @@ class _Cadastro_TState extends State<Cadastro_T> {
         lastDate: DateTime.now());
     if (pickedDate != null && pickedDate != data) {
       setState(() {
+
         var format = DateFormat("dd/MM/yyyy");
         datta = format.format(pickedDate);
         data = pickedDate;
+        print(data);
       });
     }
   }
@@ -654,8 +656,9 @@ class _Cadastro_TState extends State<Cadastro_T> {
               if (senha1 == senha2) {
                 if(concordo == true){
                   final agr = DateTime.now();
+                  print(data);
                 final agr18 = DateTime.utc(agr.year - 18, agr.month, agr.day);
-                if (data.isBefore(agr18)) {
+                if (data.compareTo(agr18) < 0) {
                   if (concordo == true) {
                     Future<ServiceResult> cadastro = tutorRopository.cadTutor(
                         nome,
@@ -700,7 +703,7 @@ class _Cadastro_TState extends State<Cadastro_T> {
                 } else {
                   var snackBar = const SnackBar(
                       content: Text(
-                    "Você deve ter pelo menos 18 anos para realizar o cadastro.",
+                    "Declare que leu os termos",
                     style: TextStyle(fontSize: 15),
                   ));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);

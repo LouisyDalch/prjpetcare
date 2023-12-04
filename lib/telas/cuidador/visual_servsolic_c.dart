@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:prjpetcare/telas/cuidador/visual_pet_c.dart';
+import 'package:prjpetcare/telas/cuidador/visual_tutor_c.dart';
 
 import '../../API/cuidadoresmet.dart';
 
@@ -305,8 +307,14 @@ class _VisualServSolicState extends State<VisualServSolic> {
                                     width: MediaQuery.of(context).size.width *
                                         0.47,
                                     child: GestureDetector(
-                                      onTap: () => Navigator.of(context)
-                                          .pushNamed('/visualizacao_tutor_c'),
+                                     onTap: () {
+                                          TutorByCuid a = lstTutor[0];
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      VisualTutor_C(servico: a,))));
+                                        },
                                       child: Text(
                                         "Saber mais",
                                         style: TextStyle(
@@ -380,8 +388,14 @@ class _VisualServSolicState extends State<VisualServSolic> {
                                         0.47,
                                     child: Text(_calcularIdade(dataNasce1))),
                                 GestureDetector(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed('/visualizacao_pet_c'),
+                                  onTap: () {
+                                      petCuid a = lst[0];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  VisualizacaoPet_T(pet: a,))));
+                                    },
                                   child: Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
@@ -429,7 +443,7 @@ class _VisualServSolicState extends State<VisualServSolic> {
                         Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              "Início: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataIni != null ? DateFormat('hh:mm').format(servico.dataIni!) : 'Data inválida'}",
+                              "Início: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataIni != null ? DateFormat('hh:mm a').format(servico.dataIni!) : 'Data inválida'}",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,
@@ -440,7 +454,7 @@ class _VisualServSolicState extends State<VisualServSolic> {
                         Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              "Término: ${servico.dataFin != null ? DateFormat('dd/MM/yyyy').format(servico.dataFin!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm').format(servico.dataFin!) : 'Data inválida'}",
+                              "Término: ${servico.dataFin != null ? DateFormat('dd/MM/yyyy').format(servico.dataFin!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm a').format(servico.dataFin!) : 'Data inválida'}",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,

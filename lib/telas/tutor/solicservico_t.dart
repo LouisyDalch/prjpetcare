@@ -31,6 +31,8 @@ class _SolicServicoState extends State<SolicServico> {
   double valor;
   TutorRopository tutorRopository;
 
+  
+
   List<PetTutor> lstPets = [];
 
   Future<ListResult> getPetsDoTutor() async {
@@ -88,6 +90,7 @@ class _SolicServicoState extends State<SolicServico> {
       }
 
           _portSelect = lstPets[0].nome;
+          idPet = lstPets[0].idPet;
      
     });
   }
@@ -396,7 +399,7 @@ class _SolicServicoState extends State<SolicServico> {
                               horaServFim.minute);
           
                           int a = dataInicioBD.compareTo(dataFimBD);
-                          var formatter = new DateFormat("dd/MM/yyyy hh:mm:ss");
+                          var formatter = new DateFormat("dd/MM/yyyy hh:mm:ss a");
                           String inicioFormat = formatter.format(dataInicioBD);
                           String fimFormat = formatter.format(dataFimBD);
           
@@ -413,11 +416,14 @@ class _SolicServicoState extends State<SolicServico> {
                             } else {
                               print(horaServFim);
                               print(horaServInicio);
+                              print(idPet);
+                              
+                              
           
                                Future<ServiceResult> cadastro =
                                         tutorRopository.cadastrarServHosp(
                                             inicioFormat,
-                                            inicioFormat,
+                                            fimFormat,
                                             valTotal,
                                             0,
                                             idCuid,
@@ -588,9 +594,10 @@ class _SolicServicoState extends State<SolicServico> {
     DateTime fim = DateTime(
       dataFim.year, dataFim.month, dataFim.day,horaServFim.hour,horaServFim.minute);
 
-    var preco = valor / 60;
-    int min = fim.difference(inicio).inMinutes;
-    var total = preco * min * 1.05;
+    var preco = valor;
+    int min = fim.difference(inicio).inHours;
+    
+    var total = preco * min ;
     if(total < 0){
       total = - total;
       

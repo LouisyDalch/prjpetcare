@@ -138,7 +138,7 @@ class WidEntrarTutorState extends State<WidEntrarTutor> {
                                   fontSize: MediaQuery.of(context).size.height *
                                       0.02),
                               decoration: InputDecoration(
-                                  labelText: 'Email ou usuário',
+                                  labelText: 'Email',
                                   labelStyle: TextStyle(
                                       fontSize:
                                           MediaQuery.of(context).size.height *

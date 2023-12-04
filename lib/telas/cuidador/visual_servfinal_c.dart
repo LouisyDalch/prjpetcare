@@ -380,11 +380,12 @@ class _VisualServFinalState extends State<VisualServFinal> {
                                       child: Text(_calcularIdade(dataNasce1))),
                                   GestureDetector(
                                     onTap: () {
+                                      petCuid a = lst[0];
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: ((context) =>
-                                                  VisualizacaoPet_T())));
+                                                  VisualizacaoPet_T(pet: a,))));
                                     },
                                     child: Container(
                                         width:

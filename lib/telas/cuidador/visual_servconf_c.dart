@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
+import 'package:prjpetcare/telas/cuidador/visual_pet_c.dart';
+import 'package:prjpetcare/telas/cuidador/visual_tutor_c.dart';
 //a
 import '../../API/cuidadoresmet.dart';
 
@@ -302,8 +304,14 @@ class _VisualServConfState extends State<VisualServConf> {
                                     width: MediaQuery.of(context).size.width *
                                         0.47,
                                     child: GestureDetector(
-                                      onTap: () => Navigator.of(context)
-                                          .pushNamed('/visualizacao_tutor_c'),
+                                      onTap: () {
+                                          TutorByCuid a = lstTutor[0];
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      VisualTutor_C(servico: a,))));
+                                        },
                                       child: Text(
                                         "Saber mais",
                                         style: TextStyle(
@@ -378,8 +386,14 @@ class _VisualServConfState extends State<VisualServConf> {
                                     child:
                                         Text("${_calcularIdade(dataNasce1)}")),
                                 GestureDetector(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed('/visualizacao_pet_c'),
+                                  onTap: () {
+                                      petCuid a = lst[0];
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  VisualizacaoPet_T(pet: a,))));
+                                    },
                                   child: Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,

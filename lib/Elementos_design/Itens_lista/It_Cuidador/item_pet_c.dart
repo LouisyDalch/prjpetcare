@@ -5,13 +5,15 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:prjpetcare/Repositorios/cuidador_repos.dart';
 
+import '../../../telas/cuidador/visual_pet_c.dart';
+
 class ItemPet_C extends StatefulWidget {
   final petCuid pet;
-  const ItemPet_C({super.key,
-  required this.pet});
+  const ItemPet_C({super.key, required this.pet});
 
   @override
-  State<ItemPet_C> createState() => _ItemPet_CState(pet: pet, cuidadorRepository: CuidadorRepository());
+  State<ItemPet_C> createState() =>
+      _ItemPet_CState(pet: pet, cuidadorRepository: CuidadorRepository());
 }
 
 class _ItemPet_CState extends State<ItemPet_C> {
@@ -19,7 +21,7 @@ class _ItemPet_CState extends State<ItemPet_C> {
   CuidadorRepository cuidadorRepository;
   Uint8List? _imageDataPet;
 
-   @override
+  @override
   void initState() {
     super.initState();
     _loadImagePet();
@@ -28,7 +30,7 @@ class _ItemPet_CState extends State<ItemPet_C> {
   _ItemPet_CState({
     required this.pet,
     required this.cuidadorRepository,
-  }):super();
+  }) : super();
 
   Future<void> _loadImagePet() async {
     Uint8List data = await cuidadorRepository.getImagePet(pet.idDono);
@@ -40,7 +42,7 @@ class _ItemPet_CState extends State<ItemPet_C> {
     }
   }
 
-   String _calcularIdade(DateTime dataNasceu) {
+  String _calcularIdade(DateTime dataNasceu) {
     DateTime verifica =
         DateTime(DateTime.now().year, dataNasceu.month, dataNasceu.day);
     DateTime hoje = DateTime.now();
@@ -75,36 +77,50 @@ class _ItemPet_CState extends State<ItemPet_C> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-    child: Container(
-       height: MediaQuery.of(context).size.height * 0.12,
-        width: MediaQuery.of(context).size.width * 0.1,
-        color: Color.fromARGB(255, 147, 147, 147),
-        child: Row(children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.width * 0.25,
-            decoration: BoxDecoration(
-              shape:BoxShape.circle,
-            color: Colors.brown,
-            image: _imageDataPet != null
-                                      ? DecorationImage(
-                                          image: MemoryImage(_imageDataPet!),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => VisualizacaoPet_T(
+                      pet: pet,
+                    ))));
+      },
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.12,
+          width: MediaQuery.of(context).size.width * 0.1,
+          color: Color.fromARGB(255, 147, 147, 147),
+          child: Row(children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.25,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.brown,
+                image: _imageDataPet != null
+                    ? DecorationImage(
+                        image: MemoryImage(_imageDataPet!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
             ),
-            ),
-            Column(children: [
-              Container(height: MediaQuery.of(context).size.height * 0.035),
-              Text(pet.nome,style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.055
-              ),),
-              Text(_calcularIdade(pet.dataNasce!))
-            ],)
-        ]),
-    ),
+            Column(
+              children: [
+                Container(height: MediaQuery.of(context).size.height * 0.035),
+                Text(
+                  pet.nome,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.055),
+                ),
+                Text(_calcularIdade(pet.dataNasce!))
+              ],
+            )
+          ]),
+        ),
+      ),
     );
   }
 }
