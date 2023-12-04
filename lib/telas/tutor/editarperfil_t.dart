@@ -63,6 +63,7 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
       }
       TutorByCuid t = lstTutor[0];
       email = t.email;
+      confEmail = t.email;
       celular = t.cell;
     });
   }

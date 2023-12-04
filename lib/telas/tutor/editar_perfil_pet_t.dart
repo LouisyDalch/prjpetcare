@@ -95,38 +95,57 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                                     width: MediaQuery.of(context).size.width *
                                         0.05,
                                   ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.25,
-                                    height: MediaQuery.of(context).size.height *
+                                  CircleAvatar(
+                                    radius: MediaQuery.of(context).size.width *
                                         0.13,
-                                    decoration: BoxDecoration(
-                                        color: Colors.cyanAccent,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    backgroundColor:
+                                        Color.fromARGB(255, 62, 170, 172),
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromARGB(255, 96, 219, 168),
+                                      backgroundImage: imageBytes != null
+                                          ? MemoryImage(imageBytes!)
+                                          : null,
+                                      radius:
+                                          MediaQuery.of(context).size.width *
+                                              0.11,
+                                    ),
                                   ),
                                   Container(
                                     width:
                                         MediaQuery.of(context).size.width * 0.1,
                                   ),
-                                  GestureDetector(
-                                    onTap: () => print("aaa"),
-                                    child: Text(
-                                      "Adicionar Foto",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.06,
-                                          fontWeight: FontWeight.bold),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.06,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: ((context) =>
+                                                opcoesImg()));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 62, 170, 172),
+                                      ),
+                                      child: Text(
+                                        'Adicionar Foto',
+                                        style: TextStyle(
+                                            fontFamily: 'LilitaOne',
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
+                                      ),
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
-                            ],
-                          ),
-                        ],
-                      )
                     ]),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
@@ -429,10 +448,10 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                   ],
                 ),
               ],
-            ),
-          ),
+            )
+              ])
         ],
       ),
-    );
+    ));
   }
 }

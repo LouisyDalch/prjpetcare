@@ -628,6 +628,7 @@ class _VisualServConfState extends State<VisualServConf> {
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, '/logadotutor');
                     }
                   : null,
               child: Text('Sim'),

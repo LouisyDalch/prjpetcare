@@ -65,31 +65,7 @@ class MenuHorCuidador extends StatelessWidget {
                   },
                   icon: Image.asset('defora/imagens/home.png',)),
             ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: IconButton(
-                  onPressed: () {
-                    //programação
-                  },
-                  icon: Image.asset('defora/imagens/carrinho.png')),
-            ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: IconButton(
-                  onPressed: () {
-                    //programação
-                  },
-                  icon: Image.asset('defora/imagens/chats.png')),
-            ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
+           Container(width: MediaQuery.of(context).size.width * 0.27),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
               child: IconButton(
@@ -128,31 +104,7 @@ class MenuHorTutor extends StatelessWidget {
                   },
                   icon: Image.asset('defora/imagens/home.png',)),
             ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: IconButton(
-                  onPressed: () {
-                    //programação
-                  },
-                  icon: Image.asset('defora/imagens/carrinho.png')),
-            ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: IconButton(
-                  onPressed: () {
-                    //programação
-                  },
-                  icon: Image.asset('defora/imagens/chats.png')),
-            ),
-            Padding(
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01)),
+            Container(width: MediaQuery.of(context).size.width * 0.27),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
               child: IconButton(

@@ -46,7 +46,7 @@ class _PerfilTutorState extends State<PerfilTutor> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.95,
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.44,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: const DecorationImage(
@@ -226,18 +226,33 @@ class _PerfilTutorState extends State<PerfilTutor> {
                       : null,
                         ),
                       ),
-                      Text("$rua - $bairro, $cidade - $uf",
+                      Container(
+                  height: MediaQuery.of(context).size.height * 0.015,
+                ),
+                      Container(
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.width *0.015),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                        child: Column(
+                          children: [
+                            Text("$rua - $bairro, $cidade - $uf",
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold,
                         
-                      ),
+                      ),textAlign: TextAlign.center,
                      ),
                       Text(email,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.055,
                         fontWeight: FontWeight.bold
                       ),),
+                          ],
+                        ),
+                      ),
+                      
                     ],
                   ),
                 ),

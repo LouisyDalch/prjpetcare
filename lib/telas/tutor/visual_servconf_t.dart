@@ -509,9 +509,10 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
                           width: MediaQuery.of(context).size.width * 0.3,
                           height: MediaQuery.of(context).size.height * 0.06,
                           child: ElevatedButton(
-                            onPressed: btnCancel() != false? () async {
+                            onPressed: () async {
+                              
                               showAlertDialog(context);
-                            }: null,
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color.fromARGB(255, 157, 0, 0),
                             ),
@@ -558,6 +559,7 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
           actions: [
             TextButton(
               onPressed: () async {
+                print("aaaaaa");
                 ServiceResult result =
                     await tutorRopository.cancelarServico(servico.idServ);
 
@@ -570,6 +572,7 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
 
                 Navigator.pop(context);
 
+                Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
