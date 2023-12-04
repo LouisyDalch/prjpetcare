@@ -288,6 +288,7 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                         children: [
                           TextFormField(
                             onChanged: (Text) {
+                              
                              if (Text != "" || Text != null) {
                                 valor = double.tryParse(Text)!;
                               }

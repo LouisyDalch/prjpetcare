@@ -108,7 +108,9 @@ class _LogadoTutorState extends State<LogadoTutor> {
           color: const Color.fromRGBO(94, 144, 64, 1),
           borderRadius: BorderRadius.circular(20)),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed('/mostrar_creche_t'),
+        onTap: () { 
+          print("creche");
+          Navigator.of(context).pushNamed('/mostrar_creche_t');},
         child: Row(children: [
           Image.asset('defora/imagens/passarinho.png'),
           Padding(

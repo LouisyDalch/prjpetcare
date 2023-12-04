@@ -27,6 +27,10 @@ class TutorRopository{
     return tutorAPI.puxarCuidHosp(token);
   }
 
+  Future<ListResult> puxarCuidCreche() async {
+    return tutorAPI.puxarCuidCreche(token);
+  }
+
   Future<Uint8List> getImageDataTutor(int idCuid) async {
         return tutorAPI.getImageDataCuid(token, idCuid);
   }
@@ -117,6 +121,13 @@ class TutorRopository{
     String inicio, String fim, double valor, int estado, int idCuid, int idPet
   )async{
     return tutorAPI.cadastrarServHosp(
+      token, inicio,fim,valor,estado,idCuid,idPet);
+  }
+
+  Future<ServiceResult> cadastrarServCreche(
+    String inicio, String fim, double valor, int estado, int idCuid, int idPet
+  )async{
+    return tutorAPI.cadastrarServCreche(
       token, inicio,fim,valor,estado,idCuid,idPet);
   }
 

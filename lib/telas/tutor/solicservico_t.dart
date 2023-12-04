@@ -399,7 +399,7 @@ class _SolicServicoState extends State<SolicServico> {
                               horaServFim.minute);
           
                           int a = dataInicioBD.compareTo(dataFimBD);
-                          var formatter = new DateFormat("dd/MM/yyyy hh:mm:ss a");
+                          var formatter = new DateFormat("yyyy/MM/dd hh:mm:ss a");
                           String inicioFormat = formatter.format(dataInicioBD);
                           String fimFormat = formatter.format(dataFimBD);
           
@@ -416,11 +416,12 @@ class _SolicServicoState extends State<SolicServico> {
                             } else {
                               print(horaServFim);
                               print(horaServInicio);
+                              print(inicioFormat);
+                              print(fimFormat);
                               print(idPet);
-                              
-                              
-          
-                               Future<ServiceResult> cadastro =
+
+                              if(tipoServ == "Hospedagem"){
+                                Future<ServiceResult> cadastro =
                                         tutorRopository.cadastrarServHosp(
                                             inicioFormat,
                                             fimFormat,
@@ -429,6 +430,21 @@ class _SolicServicoState extends State<SolicServico> {
                                             idCuid,
                                             idPet
                                             );
+                              }else if(tipoServ == "Creche"){
+                                 Future<ServiceResult> cadastro =
+                                        tutorRopository.cadastrarServCreche(
+                                            inicioFormat,
+                                            fimFormat,
+                                            valTotal,
+                                            0,
+                                            idCuid,
+                                            idPet
+                                            );
+                              }
+                              
+                              
+          
+                               
                                 var snackBar = const SnackBar(
                                   content: Text(
                                 "Serviço solicitado!",

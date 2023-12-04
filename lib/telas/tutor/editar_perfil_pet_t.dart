@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +49,7 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
   ];
   String? _vacSelect = "";
 
-  
+  var imagemParaMandarProBanco = null;
   
   double peso = 0;
   
@@ -143,10 +146,11 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                                                 Color.fromARGB(255, 0, 0, 0)),
                                       ),
                                     ),
-                                  )
-                                ],
-                              ),
-                    ]),
+                          )]),
+                                ],),
+                        
+                          ]),
+                        ]),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
@@ -449,9 +453,85 @@ class _EditarPerfPet_TState extends State<EditarPerfPet_T> {
                 ),
               ],
             )
-              ])
+    )]),
+       
+    );
+  }
+
+  final imagemPicker = ImagePicker();
+  Uint8List? imageBytes;
+  TutorRopository repository = TutorRopository();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagemPicker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      if (this.mounted) {
+        var file = File(pickedFile.path);
+        imagemParaMandarProBanco = await file.readAsBytes();
+
+         ServiceResult result = await repository.CadastrarImgPet(imagemParaMandarProBanco,pet.nome);
+
+        // print(result.success);
+
+         setState(() {
+         imageBytes = imagemParaMandarProBanco;
+        });
+       }
+      }
+    }
+
+  Widget opcoesImg() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.25,
+      child: Column(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_library,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Galeria',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () async {
+              Navigator.of(context).pop();
+              pick(ImageSource.gallery);
+              //foto = utility.base64String(await imgFile.readAsBytes());
+            },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey[200],
+              child: Center(
+                child: Icon(
+                  Icons.photo_camera_back_rounded,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ),
+            title: Text(
+              'Câmera',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            onTap: () async {
+              Navigator.of(context).pop();
+              pick(ImageSource.camera);
+            },
+          ),
         ],
       ),
-    ));
+    );
   }
 }

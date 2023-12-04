@@ -12,16 +12,18 @@ import 'package:prjpetcare/telas/tutor/solicservico_t.dart';
 class VisualCuidador_T extends StatefulWidget {
   final int idCuid;
   final bool btnSolic;
+  final String tipoServ;
   const VisualCuidador_T({super.key, required this.idCuid,
-  required this.btnSolic});
+  required this.btnSolic, required this.tipoServ});
 
   @override
   State<VisualCuidador_T> createState() => _VisualCuidador_TState(
-      idCuid: idCuid, tutorRopository: TutorRopository(),btnSolic: btnSolic);
+      idCuid: idCuid, tutorRopository: TutorRopository(),btnSolic: btnSolic, tipoServ: tipoServ);
 }
 
 class _VisualCuidador_TState extends State<VisualCuidador_T> {
   bool btnSolic;
+  String tipoServ;
   List<InfoCuidP> lstCuid = [];
   List<EndTutor> lstEnd = [];
   List<TipoServT> lstTipoS = [];
@@ -76,7 +78,8 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
   _VisualCuidador_TState({
     required this.idCuid, 
     required this.tutorRopository,
-    required this.btnSolic}): super();
+    required this.btnSolic,
+    required this.tipoServ}): super();
 
   Future<ListResult> getInfoCuid() async {
     return await tutorRopository.puxarInfoCuidUM(idCuid);
@@ -377,7 +380,7 @@ class _VisualCuidador_TState extends State<VisualCuidador_T> {
                                             SolicServico(
                                               idCuid: idCuid,
                                               nome: nomeCuid,
-                                              tipoServ: "Hospedagem",
+                                              tipoServ: tipoServ,
                                               valor: valorBD,
                                               )
                                             )

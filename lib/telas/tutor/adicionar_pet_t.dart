@@ -148,12 +148,9 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                                       ),
                                     ),
                                   )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+                                ],),
+                            ],),
+                        ],)
                     ]),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.03,

@@ -88,6 +88,8 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
       bairro = a.bairro;
       cidade = a.cidade;
       uf = a.uf;
+      numCasa = a.num;
+      cep = a.cep;
     });
   }
 
@@ -552,7 +554,7 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (email == confEmail) {
-                                    
+                                    print(cidade);
                                     Future<ServiceResult> cadastro =
                                         tutorRopository.atualizarDadosTutor(
                                             email,
@@ -573,7 +575,6 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                     
-                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                   } else {
                                     var snackBar = const SnackBar(

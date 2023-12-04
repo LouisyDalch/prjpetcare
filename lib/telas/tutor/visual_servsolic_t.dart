@@ -340,7 +340,8 @@ class _VisualServSolic_TState extends State<VisualServSolic_T> {
                                               builder: ((context) =>
                                                   VisualCuidador_T(
                                                       idCuid: servico
-                                                          .idCuidador, btnSolic: false,)))),
+                                                          .idCuidador, btnSolic: false,
+                                                          tipoServ: "Sem")))),
                                       child: Text(
                                         "Saber mais",
                                         style: TextStyle(
@@ -466,7 +467,7 @@ class _VisualServSolic_TState extends State<VisualServSolic_T> {
                         Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              "Início: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataIni != null ? DateFormat('hh:mm').format(servico.dataIni!) : 'Data inválida'}",
+                              "Início: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataIni != null ? DateFormat('hh:mm a').format(servico.dataIni!) : 'Data inválida'}",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,
@@ -477,7 +478,7 @@ class _VisualServSolic_TState extends State<VisualServSolic_T> {
                         Container(
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              "Término: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm').format(servico.dataFin!) : 'Data inválida'}",
+                              "Término: ${servico.dataIni != null ? DateFormat('dd/MM/yyyy').format(servico.dataIni!) : 'Data inválida'} às ${servico.dataFin != null ? DateFormat('hh:mm a').format(servico.dataFin!) : 'Data inválida'}",
                               style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.05,

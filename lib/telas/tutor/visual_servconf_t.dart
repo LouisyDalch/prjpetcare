@@ -343,7 +343,8 @@ class _VisualServConf_TState extends State<VisualServConf_T> {
                                               builder: ((context) =>
                                                   VisualCuidador_T(
                                                       idCuid: servico
-                                                          .idCuidador, btnSolic: false,)))),
+                                                          .idCuidador, btnSolic: false,
+                                                          tipoServ: "Sem",)))),
                                       child: Text(
                                         "Saber mais",
                                         style: TextStyle(
