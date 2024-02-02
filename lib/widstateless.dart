@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prjpetcare/telas/cuidador/alterarsenha_c.dart';
+import 'package:prjpetcare/telas/cuidador/cadastro_c.dart';
 import 'package:prjpetcare/telas/cuidador/criarconta_c.dart';
 import 'package:prjpetcare/telas/cuidador/editar_agenda_c.dart';
 import 'package:prjpetcare/telas/cuidador/editarperfil_c.dart';
@@ -34,6 +35,8 @@ import 'package:prjpetcare/telas/tutor/mostrar_servcreche_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servhosp_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servpasseio_t.dart';
 import 'package:prjpetcare/telas/tutor/mostrar_servsitter_t.dart';
+import 'package:prjpetcare/telas/tutor/pagamento.dart';
+import 'package:prjpetcare/telas/tutor/pago.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/perfil_t.dart';
 import 'package:prjpetcare/telas/tutor/serv_confirm_t.dart';
@@ -57,7 +60,7 @@ class WidStateless extends StatelessWidget{
       
       theme: ThemeData(primarySwatch: Colors.grey),
       home: const WidInicio(),
-      initialRoute: 'inicio',
+      initialRoute: "/ultimo",
       routes: {
       '/inicio': (context) => const WidInicio(),
 
@@ -65,6 +68,8 @@ class WidStateless extends StatelessWidget{
 
       '/entrarcuidador': (context) => const WidEntrarCuidador(),
       '/entrartutor':(context) => const WidEntrarTutor(),
+
+      '/ultimo': (context) => const FoiPago(),
 
       //crie sua conta! --------------------------------------
       '/criarcontacuidador':(context) => const CriarConta(),
@@ -79,6 +84,8 @@ class WidStateless extends StatelessWidget{
 
       '/logadotutor':(context) => const LogadoTutor(),
       '/logadocuidador':(context) => const LogadoCuidador(),
+
+      '/cadastroC':(context) => const Cadastro_C(),
 
       //esqueceu senha ------------------------------------------------
 
@@ -123,6 +130,8 @@ class WidStateless extends StatelessWidget{
       '/mostrar_creche_t':(context) => const MostrarServCreche_T(),
       '/mostrar_sitter_t':(context) => const MostrarServPetSitter_T(),
       '/mostrar_adestra_t':(context) => const MostrarServAdestra_T(),
+
+
     }
     );
     

@@ -64,6 +64,11 @@ class CuidadorRepository {
     return cuidadoresAPI.puxarPetCuid(token, idPet);
   }
 
+  Future<ListResult> puxarPetsTutor(String idPet) async {
+    return cuidadoresAPI.puxarPetsTutor(token, idPet);
+  }
+  
+
   Future<ListResult> puxarTutorCuid(String idTutor) async {
     return cuidadoresAPI.puxarDadosTutorCuid(token, idTutor);
   }

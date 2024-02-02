@@ -580,7 +580,6 @@ class _EditarPerfilCState extends State<EditarPerfilC> {
                                           }
                                         },
                                         autocorrect: false,
-                                        maxLength: 2,
                                         decoration:
                                             DesignEntradaTxt.decorarcaixa(
                                                 hintText: "",

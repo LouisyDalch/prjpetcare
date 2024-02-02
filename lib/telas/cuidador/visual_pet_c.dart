@@ -31,7 +31,7 @@ class _VisualizacaoPet_TState extends State<VisualizacaoPet_T> {
   Uint8List? _imageDataPet;
 
   Future<void> _loadImagePet() async {
-    Uint8List data = await cuidadorRepository.getImagePet(pet.idDono);
+    Uint8List data = await cuidadorRepository.getImagePet(pet.idPet);
     print(data.length);
     if (mounted) {
       setState(() {

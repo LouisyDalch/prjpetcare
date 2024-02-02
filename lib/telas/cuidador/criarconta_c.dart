@@ -96,6 +96,7 @@ class _CriarContaState extends State<CriarConta> {
                         child: ElevatedButton(
                           onPressed: () {
                             //programação
+                            Navigator.pushNamed(context, "/cadastroC");
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:

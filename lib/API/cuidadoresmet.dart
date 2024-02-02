@@ -245,6 +245,8 @@ class CuidadoresAPI {
     }
   }
 
+  
+
   Future<ListResult> puxarPetCuid(String? token, String idPet) async {
     if (token == null) throw Exception('Failed to login');
 
@@ -302,6 +304,31 @@ class CuidadoresAPI {
     final response = await http.get(
       Uri.parse(
           "http://10.244.171.33/Cuidadores/Servicos/PuxarDadosTutorCuid.aspx?idTutor=$idTutor"),
+      headers: <String, String>{
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return ListResult.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('deu merda, chama o gabs');
+    }
+  }
+
+  Future<ListResult> puxarPetsTutor(String? token, String idTutor) async {
+    if (token == null) throw Exception('Failed to login');
+
+    print(token);
+
+    final response = await http.get(
+      Uri.parse(
+          "http://10.244.171.33/Cuidadores/Servicos/PuxarPetsTutor.aspx?idTutor=$idTutor"),
       headers: <String, String>{
         'Authorization': token,
       },

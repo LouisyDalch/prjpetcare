@@ -91,7 +91,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
   }
 
   Future<ListResult> getPet() async {
-    return await cuidadorRepository.puxarPetCuid(servico.idTutor.toString());
+    return await cuidadorRepository.puxarPetsTutor(servico.idTutor.toString());
   }
 
   Future<ListResult> getEndTutor() async {
@@ -142,6 +142,7 @@ class _VisualTutor_CState extends State<VisualTutor_C> {
               idTipoPet: element["idTipoPet"]),
         );
       }
+      print(lst);
     });
   }
 

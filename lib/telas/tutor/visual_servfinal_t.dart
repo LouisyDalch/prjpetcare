@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -7,11 +9,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:prjpetcare/Elementos_design/background.dart';
 import 'package:prjpetcare/Elementos_design/design.dart';
+import 'package:prjpetcare/LinksConection/url_links.dart';
+import 'package:prjpetcare/telas/tutor/pagamento.dart';
 import 'package:prjpetcare/telas/tutor/perfil_pet_t.dart';
 import 'package:prjpetcare/telas/tutor/visual_cuidador_t.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../API/tutoresmet.dart';
 import '../../Repositorios/tutor_repos.dart';
+
 
 class VisualServFinal_T extends StatefulWidget {
   final ServicoSolic servico;
@@ -26,11 +33,16 @@ class VisualServFinal_T extends StatefulWidget {
       tutorRopository: TutorRopository());
 }
 
+
+
 class _VisualServFinal_TState extends State<VisualServFinal_T> {
   ServicoSolic servico;
   String tipoServico;
   TutorRopository tutorRopository;
   int _rating = 0;
+
+  
+  
 
   List<InfoCuidP> lstCuid = [];
   List<PetTutor> lstPets = [];
@@ -258,7 +270,7 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
               SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget> [
                     Container(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
@@ -329,11 +341,18 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.47,
-                                      child: Text(
-                                          "${_calcularIdade(dataNasceu)} anos")),
+                                  GestureDetector(
+                                    onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  WebView()))),
+                                    child: Container(
+                                        width: MediaQuery.of(context).size.width *
+                                            0.47,
+                                        child: Text(
+                                            "${_calcularIdade(dataNasceu)} anos")),
+                                  ),
                                   Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.47,
@@ -518,6 +537,35 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
                                         MediaQuery.of(context).size.width *
                                             0.05),
                               )),
+                          
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                           SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => PagamentoTutor(serv: servico))));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 1, 127, 14),
+                              ),
+                              child: Text(
+                                'Pagar Cuidador',
+                                style: TextStyle(
+                                    fontFamily: 'LilitaOne',
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.05,
+                                    color: Color.fromARGB(255, 231, 231, 231)),
+                              ),
+                            ),
+                          ),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
@@ -543,6 +591,8 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
                               ),
                             ),
                           ),
+
+
                           Container(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
@@ -550,21 +600,16 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                    ),
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          MenuHorTutor()
+                    
                   ],
                 ),
               ),
             ],
           ),
-          Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.88,
-              ),
-              MenuHorTutor()
-            ],
-          )
+         
         ],
       ),
     );
@@ -578,108 +623,112 @@ class _VisualServFinal_TState extends State<VisualServFinal_T> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Envie sua avaliação!"),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RatingBar.builder(
-                  initialRating: rating,
-                  direction: Axis.horizontal,
-                  itemCount: 5,
-                  itemSize: MediaQuery.of(context).size.width * 0.1,
-                  itemBuilder: (context, index) {
-                    switch (index) {
-                      case 0:
-                        return Icon(
-                          Icons.sentiment_very_dissatisfied,
-                          color: Colors.red,
-                        );
-                      case 1:
-                        return Icon(Icons.sentiment_dissatisfied,
-                            color: Colors.redAccent);
-                      case 2:
-                        return Icon(Icons.sentiment_neutral,
-                            color: Colors.orange);
-                      case 3:
-                        return Icon(Icons.sentiment_satisfied,
-                            color: Colors.lightGreen);
-                      case 4:
-                        return Icon(Icons.sentiment_very_satisfied,
-                            color: Colors.green);
-                      default:
-                        return Text("123");
-                    }
-                  },
-                  onRatingUpdate: (ratingg) {
-                    // Este callback é chamado quando o usuário atualiza a avaliação.
-                    setState(() {
-                      rating = ratingg;
-                    });
-                    aval = rating.toInt();
-                    // Aqui você pode realizar ações com a nova avaliação, por exemplo, enviar para um servidor.
-                  },
-                ),
-              ],
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.13,
-              width: MediaQuery.of(context).size.width * 0.85,
-              color: Colors.white,
-              child: Form(
-                  child: Column(
+            title: Text("Envie sua avaliação!"),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextFormField(
-                    maxLines: 3,
-                    onChanged: (Text) {
-                      setState(() {
-                        coment = Text;
-                      });
+                  RatingBar.builder(
+                    initialRating: rating,
+                    direction: Axis.horizontal,
+                    itemCount: 5,
+                    itemSize: MediaQuery.of(context).size.width * 0.1,
+                    itemBuilder: (context, index) {
+                      switch (index) {
+                        case 0:
+                          return Icon(
+                            Icons.sentiment_very_dissatisfied,
+                            color: Colors.red,
+                          );
+                        case 1:
+                          return Icon(Icons.sentiment_dissatisfied,
+                              color: Colors.redAccent);
+                        case 2:
+                          return Icon(Icons.sentiment_neutral,
+                              color: Colors.orange);
+                        case 3:
+                          return Icon(Icons.sentiment_satisfied,
+                              color: Colors.lightGreen);
+                        case 4:
+                          return Icon(Icons.sentiment_very_satisfied,
+                              color: Colors.green);
+                        default:
+                          return Text("123");
+                      }
                     },
-                    autocorrect: false,
-                    decoration: DesignEntradaTxt.decorarcaixa(
-                        hintText: "",
-                        labelText: "Digite seu Feedback!",
-                        border: const OutlineInputBorder()),
+                    onRatingUpdate: (ratingg) {
+                      // Este callback é chamado quando o usuário atualiza a avaliação.
+                      setState(() {
+                        rating = ratingg;
+                      });
+                      aval = rating.toInt();
+                      // Aqui você pode realizar ações com a nova avaliação, por exemplo, enviar para um servidor.
+                    },
                   ),
                 ],
-              )),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    var formatter = DateFormat("dd/MM/yyyy");
-                    String data = formatter.format(DateTime.now());
-                    Future<ServiceResult> cadastro =
-                        tutorRopository.cadastrarFeedback(
-                            coment, data, aval, servico.idCuidador);
-                    var snackBar = const SnackBar(
-                        content: Text(
-                      "Feedback enviado com sucesso!",
-                      style: TextStyle(fontSize: 15),
-                    ));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Enviar'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Cancelar'),
-                ),
-              ],
-            ),
-          ],
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.width * 0.85,
+                color: Colors.white,
+                child: Form(
+                    child: Column(
+                  children: [
+                    TextFormField(
+                      maxLines: 3,
+                      onChanged: (Text) {
+                        setState(() {
+                          coment = Text;
+                        });
+                      },
+                      autocorrect: false,
+                      decoration: DesignEntradaTxt.decorarcaixa(
+                          hintText: "",
+                          labelText: "Digite seu Feedback!",
+                          border: const OutlineInputBorder()),
+                    ),
+                  ],
+                )),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      var formatter = DateFormat("dd/MM/yyyy");
+                      String data = formatter.format(DateTime.now());
+                      Future<ServiceResult> cadastro =
+                          tutorRopository.cadastrarFeedback(
+                              coment, data, aval, servico.idCuidador);
+                      var snackBar = const SnackBar(
+                          content: Text(
+                        "Feedback enviado com sucesso!",
+                        style: TextStyle(fontSize: 15),
+                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text('Enviar'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancelar'),
+                  ),
+                ],
+              ),
+            ],
+          
         );
       },
     );
   }
+  
 }
+

@@ -652,9 +652,10 @@ class _EditarPerfil_TState extends State<EditarPerfil_T> {
     }
   }
 
-  Widget opcoesImg() {
+ 
+    Widget opcoesImg() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.18,
       child: Column(
         children: [
           ListTile(

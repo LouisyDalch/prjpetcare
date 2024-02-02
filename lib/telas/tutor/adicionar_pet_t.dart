@@ -497,7 +497,7 @@ class _AdicionarPet_TState extends State<AdicionarPet_T> {
                                   descr,
                                   idTipoPet);
                             ServiceResult result = await repository.CadastrarImgPet(imagemParaMandarProBanco,nome);
-
+                            Navigator.pop(context);
                    
                         },
                         style: ElevatedButton.styleFrom(

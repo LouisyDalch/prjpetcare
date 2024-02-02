@@ -33,7 +33,7 @@ class _ItemPet_CState extends State<ItemPet_C> {
   }) : super();
 
   Future<void> _loadImagePet() async {
-    Uint8List data = await cuidadorRepository.getImagePet(pet.idDono);
+    Uint8List data = await cuidadorRepository.getImagePet(pet.idPet);
     print(data.length);
     if (mounted) {
       setState(() {
